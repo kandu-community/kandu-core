@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.forms.models import modelform_factory
 from django.core.urlresolvers import reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-import inspect
 
 import forms.models
+from forms.utils import get_form_models
 
 class ModelFromUrlMixin(object):
 	'''
@@ -24,17 +24,14 @@ class SuccessRedirectMixin(object):
 
 class FormList(ListView):
 	template_name = 'web/form_list.html'
-	paginate_by = 20
+	# paginate_by = 20
 
-	model = forms.models.TestForm
+	def get_queryset(self):
+		user_forms = []
+		for form_name, form_model in get_form_models():
+			user_forms += form_model.objects.filter(user=self.request.user) 
 
-	# def get_queryset(self):
-	# 	user_forms = [
-	# 		form_class.objects.filter(user=self.request.user) for form_class
-	# 		in inspect.getmembers(forms.models, inspect.isclass)
-	# 	]
-
-	# 	return user_forms
+		return user_forms
 
 	def get_context_data(self, **kwargs):
 		'''
@@ -42,15 +39,15 @@ class FormList(ListView):
 		'''
 		context = super(FormList, self).get_context_data(**kwargs)
 
-		from forms.mixins import FormModel
-		context['form_models'] = inspect.getmembers(
-			forms.models, 
-			lambda entity: inspect.isclass(entity) and issubclass(entity, FormModel) and not entity == FormModel
-		)
+		context['form_models'] = get_form_models()
 		return context
 
 class FormCreate(SuccessRedirectMixin, ModelFromUrlMixin, CreateView):
 	template_name = 'web/form_create.html'
+
+	def form_valid(self, form):
+		form.instance.user = self.request.user
+		return super(FormCreate, self).form_valid(form)
 
 class FormUpdate(SuccessRedirectMixin, ModelFromUrlMixin, UpdateView):
 	template_name = 'web/form_update.html'

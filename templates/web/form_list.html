@@ -6,8 +6,8 @@
 </div>
 <div class="row">
 	<div class="dropdown">
-		<button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
-			Fill a form
+		<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+			{% bootstrap_icon 'plus' %} Fill a form
 			<span class="caret"></span>
 		</button>
 		<ul class="dropdown-menu" role="menu">
@@ -27,10 +27,15 @@
 			<tr>
 				<td>
 					<a href="{% url 'web_update' model_name=filled_form.model_name pk=filled_form.pk %}">
-						{{ filed_form }}
+						{{ filled_form.verbose_name }}
 					</a>
 				</td>
 				<td>
+					<a href="{% url 'web_update' model_name=filled_form.model_name pk=filled_form.pk %}">
+						<button type="button" class="btn btn-default btn-lg">
+							{% bootstrap_icon 'pencil' %} Correct
+						</button>
+					</a>
 					<a href="{% url 'web_delete' model_name=filled_form.model_name pk=filled_form.pk %}">
 						<button type="button" class="btn btn-default btn-lg">
 							{% bootstrap_icon 'remove' %} Delete
@@ -38,8 +43,6 @@
 					</a>
 				</td>
 			</tr>
-			{% empty %}
-			You haven't filled any forms.
 			{% endfor %}
 		</tbody>
 	</table>

@@ -2,7 +2,7 @@
 {% load bootstrap3 %}
 {% block content %}
 <div class="row">
-	<h1>Fill a form</h1>
+	<h1>Fill a form <small>{{ object.verbose_name }}</small></h1>
 </div>
 <div class="row">
 	<form action="{% url 'web_create' model_name=view.kwargs.model_name %}" method="post" class="form">

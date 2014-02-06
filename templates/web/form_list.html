@@ -1,0 +1,47 @@
+{% extends 'web/base.html' %}
+{% load bootstrap3 %}
+{% block content %}
+<div class="row">
+	<h1>Forms, filled by you</h1>
+</div>
+<div class="row">
+	<div class="dropdown">
+		<button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
+			Fill a form
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+			{% for form_model in form_models %}
+			<li role="presentation"><a role="menuitem" href="{% url 'web_create' model_name=form_model.__class__.__name__ %}">{{ form_model.verbose_name }}</a></li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>
+<div class="row">
+	<table class="table table-striped">
+		<thead>
+			<th>Name</th>
+		</thead>
+		<tbody>
+			{% for filled_form in object_list %}
+			<tr>
+				<td>
+					<a href="{% url 'web_update' model_name=filled_form.__class__.__name__ pk=filled_form.pk %}">
+						{{ filed_form.verbose_name }}
+					</a>
+				</td>
+				<td>
+					<a href="{% url 'web_delete' model_name=filled_form.__class__.__name__ pk=filled_form.pk %}">
+						<button type="button" class="btn btn-default btn-lg">
+							<span class="glyphicon glyphicon-remove"></span> Delete
+						</button>
+					</a>
+				</td>
+			</tr>
+			{% empty %}
+			You haven't filled any forms.
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}

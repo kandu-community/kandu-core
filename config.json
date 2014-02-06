@@ -1,3 +1,17 @@
 {
-	
+	"SimpleForm":
+	{
+		"name": "text",
+		"place": "coordinates",
+		"male": "boolean",
+		"photo": "file",
+		"age": "number"
+	},
+	"CompleteForm":
+	{
+		"name": "text",
+		"place": "coordinates",
+		"photo": "file",
+		"age": "number"
+	}
 }

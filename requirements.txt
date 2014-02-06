@@ -1,2 +1,5 @@
 django==1.6
+MySQL-python
 djangorestframework
+django-bootstrap3
+south

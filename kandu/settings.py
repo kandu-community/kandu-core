@@ -37,6 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'bootstrap3',
+    'south',
     'forms',
     'web',
     'api'
@@ -84,3 +86,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+# STATIC_ROOT = ''
+
+TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')

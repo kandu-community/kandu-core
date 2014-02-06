@@ -1,0 +1,19 @@
+{% extends 'web/base.html' %}
+{% load bootstrap3 %}
+{% block content %}
+<div class="page-header">
+	<h1>Correct form <small>{{ object }}</small></h1>
+</div>
+<div class="row">
+	<form action="{% url 'web_update' model_name=object.model_name pk=object.pk %}" method="post" class="form">
+	{% csrf_token %} {% bootstrap_form form %} 
+
+	{% buttons %}
+		<button type="submit" class="btn btn-primary">
+		{% bootstrap_icon 'ok' %} Submit
+		</button>
+	{% endbuttons %}
+
+	</form>
+</div>
+{% endblock %}

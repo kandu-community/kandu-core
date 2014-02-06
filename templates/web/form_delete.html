@@ -1,0 +1,21 @@
+{% extends 'web/base.html' %}
+{% load bootstrap3 %}
+{% block content %}
+<div class="page-header">
+	<h1>Delete form <small>{{ object }}</small></h1>
+</div>
+<div class="row">
+	<form action="{% url 'web_delete' model_name=object.model_name pk=object.pk %}" method="post" class="form">
+	{% csrf_token %}
+
+	<p>Are you sure you want to delete "{{ object }}"?</p>
+
+	{% buttons %}
+		<button type="submit" class="btn btn-danger">
+		{% bootstrap_icon 'remove' %} Delete
+		</button>
+	{% endbuttons %}
+
+	</form>
+</div>
+{% endblock %}

@@ -15,7 +15,11 @@ class ModelFromUrlMixin(object):
 		return model.objects.all()
 
 class FormList(ModelFromUrlMixin, generics.ListCreateAPIView):
-	pass
+	def list(self, request, *args, **kwargs):
+		if kwargs.has_key(self.model_url_kwarg): #list of forms of the spectific kind
+			return super(FormList, self).list(request, *args, **kwargs)
+		else: #list of all forms
+			raise NotImplementedError
 
 class FormDetail(ModelFromUrlMixin, generics.RetrieveUpdateDestroyAPIView):
 	pass

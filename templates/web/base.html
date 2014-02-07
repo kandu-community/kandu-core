@@ -4,6 +4,20 @@
 {% bootstrap_css %} 
 <script src="{% bootstrap_jquery_url %}"></script>
 {% bootstrap_javascript %} 
+<nav class="navbar navbar-default" role="navigation">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="#">Kandu</a>
+		<ul class="nav navbar-nav">
+			{% if request.user.is_anonymous %}
+		        <li><a href="#">Not logged in.</a></li>
+		        <li><a href="{% url 'django.contrib.auth.views.login' %}">Log in</a></li>
+			{% else %}
+		        <li><a href="#">Logged in as {{ request.user.username }}.</a></li>
+		        <li><a href="{% url 'django.contrib.auth.views.logout' %}">Logout</a></li>
+			{% endif %}
+	    </ul>
+	</div>
+ </nav>
 <div class="container container-fluid">
 {% block content %}
 {% endblock %}

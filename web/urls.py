@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^(?P<model_name>\w+)/(?P<pk>\d+)/update/', FormUpdate.as_view(), name='web_update'),
     url(r'^(?P<model_name>\w+)/(?P<pk>\d+)/delete/', FormDelete.as_view(), name='web_delete'),
 
+    url(r'^registration/', UserRegistration.as_view(), name='web_user_registration'),
     (r'^login/', 'django.contrib.auth.views.login', {'template_name': 'web/login.html'}),
     (r'^logout/', 'django.contrib.auth.views.logout', {'next_page': '/web/'})
 )

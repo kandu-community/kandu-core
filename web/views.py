@@ -1,7 +1,6 @@
-from django.shortcuts import render
-from django.forms.models import modelform_factory
 from django.core.urlresolvers import reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.forms import UserCreationForm
 
 import forms.models
 from forms.utils import get_form_models
@@ -51,3 +50,7 @@ class FormUpdate(SuccessRedirectMixin, ModelFromUrlMixin, UpdateView):
 
 class FormDelete(SuccessRedirectMixin, ModelFromUrlMixin, DeleteView):
 	template_name = 'web/form_delete.html'
+
+class UserRegistration(SuccessRedirectMixin, CreateView):
+	template_name = 'web/user_registration.html'
+	form_class = UserCreationForm

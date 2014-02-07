@@ -1,5 +1,6 @@
-from rest_framework import viewsets, generics
+from rest_framework import permissions, generics
 
+from forms.misc import BaseFormModel
 import forms.models
 
 class ModelFromUrlMixin(object):
@@ -10,16 +11,22 @@ class ModelFromUrlMixin(object):
 
 	model_url_kwarg = 'model_name'
 
-	def get_queryset(self):
-		model = getattr(forms.models, self.kwargs[self.model_url_kwarg])
-		return model.objects.all()
+	def initial(self, request, *args, **kwargs):
+		try:
+			self.model = getattr(forms.models, self.kwargs[self.model_url_kwarg])
+		except KeyError:
+			pass
 
 class FormList(ModelFromUrlMixin, generics.ListCreateAPIView):
-	def list(self, request, *args, **kwargs):
-		if kwargs.has_key(self.model_url_kwarg): #list of forms of the spectific kind
-			return super(FormList, self).list(request, *args, **kwargs)
-		else: #list of all forms
-			raise NotImplementedError
+	model = BaseFormModel
+	format_kwarg = 'format'
+	permission_classes = (permissions.IsAuthenticated,)
+
+	def get_queryset(self):
+		if not self.model:
+			return BaseFormModel.objects.filter(user=self.request.user).select_subclasses()
+		else:
+			return super(FormList, self).get_queryset()
 
 class FormDetail(ModelFromUrlMixin, generics.RetrieveUpdateDestroyAPIView):
 	pass

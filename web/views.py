@@ -5,6 +5,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
 import forms.models
 from forms.utils import get_form_models
+from forms.misc import BaseFormModel
 
 class ModelFromUrlMixin(object):
 	'''
@@ -24,14 +25,10 @@ class SuccessRedirectMixin(object):
 
 class FormList(ListView):
 	template_name = 'web/form_list.html'
-	# paginate_by = 20
-
+	paginate_by = 20
+	
 	def get_queryset(self):
-		user_forms = []
-		for form_name, form_model in get_form_models():
-			user_forms += form_model.objects.filter(user=self.request.user) 
-
-		return user_forms
+		return BaseFormModel.objects.filter(user=self.request.user).select_subclasses()
 
 	def get_context_data(self, **kwargs):
 		'''

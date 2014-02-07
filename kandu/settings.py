@@ -37,11 +37,12 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'bootstrap3',
     'south',
     'forms',
     'web',
-    'api'
+    'api',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -84,6 +85,8 @@ USE_TZ = True
 LOGIN_URL = '/web/login/'
 LOGIN_REDIRECT_URL = '/web/'
 
+CONFIG_FILE = os.path.join(BASE_DIR, 'config.json')
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
@@ -103,3 +106,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
     "django.core.context_processors.request"
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}

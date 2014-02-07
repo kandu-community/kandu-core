@@ -59,7 +59,7 @@ class Command(BaseCommand):
 		models_filename = os.path.join(settings.BASE_DIR, 'forms', 'models.py')
 
 		with open(models_filename, 'w') as models_file:
-			models_file.write(config_to_models)
+			models_file.write(config_to_models(settings.CONFIG_FILE))
 
-		call_command('schemamigration', 'forms --auto')
+		call_command('schemamigration', 'forms', auto=True)
 		call_command('migrate', 'forms')

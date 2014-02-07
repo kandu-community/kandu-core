@@ -1,7 +1,9 @@
 from rest_framework import permissions, generics
+from rest_framework import exceptions
 
 from forms.misc import BaseFormModel
 import forms.models
+from permissions import IsOwner
 
 class ModelFromUrlMixin(object):
 	'''
@@ -12,6 +14,8 @@ class ModelFromUrlMixin(object):
 	model_url_kwarg = 'model_name'
 
 	def initial(self, request, *args, **kwargs):
+		super(ModelFromUrlMixin, self).initial(request, *args, **kwargs)
+
 		try:
 			self.model = getattr(forms.models, self.kwargs[self.model_url_kwarg])
 		except KeyError:
@@ -20,13 +24,14 @@ class ModelFromUrlMixin(object):
 class FormList(ModelFromUrlMixin, generics.ListCreateAPIView):
 	model = BaseFormModel
 	format_kwarg = 'format'
+	paginate_by = 20
 	permission_classes = (permissions.IsAuthenticated,)
 
 	def get_queryset(self):
-		if not self.model:
-			return BaseFormModel.objects.filter(user=self.request.user).select_subclasses()
+		if self.model != BaseFormModel: #model has been overriden by url argument
+			return self.model.objects.filter(user=self.request.user)
 		else:
-			return super(FormList, self).get_queryset()
+			return BaseFormModel.objects.filter(user=self.request.user).select_subclasses()
 
 class FormDetail(ModelFromUrlMixin, generics.RetrieveUpdateDestroyAPIView):
-	pass
+	permission_classes = (IsOwner,)

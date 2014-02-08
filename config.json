@@ -1,17 +1,39 @@
-{
-	"SimpleForm":
+[
 	{
-		"name": "text",
-		"place": "coordinates",
-		"male": "boolean",
-		"photo": "file",
-		"age": "number"
+		"name": "simple form",
+		"fields": [
+			{
+				"name": "name",
+				"type": "text",
+				"required": true
+			},
+			{
+				"name": "age",
+				"type": "number"
+			},
+			{
+				"name": "gender",
+				"type": "choice",
+				"choices": [
+					"male",
+					"female"
+				]
+			}
+		]
 	},
-	"CompleteForm":
 	{
-		"name": "text",
-		"place": "coordinates",
-		"photo": "file",
-		"age": "number"
+		"name": "second form",
+		"fields": [
+			{
+				"name": "name",
+				"type": "text",
+				"required": true
+			},
+			{
+				"name": "link",
+				"type": "foreign-key",
+				"to": "simple form"
+			}
+		]
 	}
-}
+]

@@ -7,6 +7,3 @@ class Command(BaseCommand):
 
 	def handle(self, *args, **options):
 		call_command('syncdb')
-
-		call_command('schemamigration', 'forms', initial=True)
-		call_command('migrate', 'forms', fake=True)

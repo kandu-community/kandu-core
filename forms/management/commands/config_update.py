@@ -24,8 +24,8 @@ def write_field(verbose_name, datatype, **extra_args):
 		'file': ('FileField', {'upload_to': 'files'}),
 		'choice': ('CharField', {'max_length': 200, 'choices': [ (generate_name(verbose), verbose) for verbose in extra_args.pop('choices', []) ]}),
 		'foreign-key': ('ForeignKey', {'to': "'%s'" % generate_name(extra_args.pop('to', ''))}),
+		'coordinates': ('CharField', {'max_length': 100})
 	}
-	#TODO: GPS-field
 	#TODO: multi-choice
 
 	try:

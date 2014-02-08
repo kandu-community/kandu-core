@@ -4,6 +4,7 @@ from rest_framework import exceptions
 from forms.misc import BaseFormModel
 import forms.models
 from permissions import IsOwner
+from serializers import BaseFormSerializer
 
 class ModelFromUrlMixin(object):
 	'''
@@ -31,6 +32,7 @@ class FormList(ModelFromUrlMixin, generics.ListCreateAPIView):
 		if self.model != BaseFormModel: #model has been overriden by url argument
 			return self.model.objects.filter(user=self.request.user)
 		else:
+			self.serializer_class = BaseFormSerializer
 			return BaseFormModel.objects.filter(user=self.request.user).select_subclasses()
 
 class FormDetail(ModelFromUrlMixin, generics.RetrieveUpdateDestroyAPIView):

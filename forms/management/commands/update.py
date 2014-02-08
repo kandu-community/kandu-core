@@ -1,3 +1,5 @@
+#coding:utf-8
+
 from django.core.management.base import BaseCommand, CommandError
 from django.core.management import call_command
 from django.conf import settings
@@ -12,17 +14,26 @@ def write_model(verbose_name):
 	return u"class {name}(Model):\n\tclass Meta:\n\t\tverbose_name = u'{verbose_name}'\n".format(name=generate_name(verbose_name), verbose_name=verbose_name)
 
 def write_field(verbose_name, datatype, **extra_args):
+	blank = not extra_args.get('required', False)
+
 	datatype_to_field = {
-		'text': u"CharField(u'{verbose_name}', max_length=500, default='')",
-		'number': u"integerField(u'{verbose_name}', default=0)",
-		'boolean': u"BooleanField(u'{verbose_name}', default=False)",
-		'file': u"FileField(u'{verbose_name}', upload_to='files')",
-		'choice': u"CharField(u'{verbose_name}', max_length=10, choices=(%s,))" % ','.join( u"('%s',u'%s')" % (generate_name(verbose_choice), verbose_choice) for verbose_choice in extra_args['choices'] )
+		'text': ('CharField', {'max_length': 300, 'blank': blank, 'default': ''}),
+		'number': ('IntegerField', {'null': blank, 'default': 0}),
+		'boolean': ('BooleanField', {'null': blank, 'default': False}),
+		'file': ('FileField', {'upload_to': 'files'}),
+		'choice': ('CharField', {'max_length': 5, 'choices': json.dumps( [ (str(number), verbose) for number, verbose in enumerate(extra_args['choices']) ] )}),
+		'foreign-key': ('ForeignKey', {'to': generate_name(extra_args['to'])}),
 	}
 	#TODO: GPS-field
 	#TODO: ForeignKey
 
-	return (u"\t{name} = " + datatype_to_field[datatype] + u"\n").format(name=generate_name(verbose_name), verbose_name=verbose_name, **extra_args)
+	field_class, field_args = datatype_to_field[datatype]
+	field_args.update(extra_args)
+	field_args['verbose_name'] = verbose_name
+
+	field_args_str = [ '{}={}'.format(arg, value) for arg, value in field_args.items() ]
+
+	return u'\t' + generate_name(verbose_name) + u' = ' + field_class + u'(' + u', '.join(field_args_str) + u')' + u'\n'
 
 def config_to_models(config_filename):
 	'''
@@ -31,23 +42,21 @@ def config_to_models(config_filename):
 	'''
 
 	with open(config_filename) as config_file:
-		config_object = json.load(config_file)
+		config_array = json.load(config_file)
 
 		output = u'''
 		#coding:utf-8
 		from django.db.models import *
 		'''
 
-		for form_name, fields in config_object.items():
-			output += write_model(form_name)
+		for form_object in config_array:
+			output += write_model(form_object['name'])
 
 			# write_field('user', 'foreign-key')
-			for field_name, field in fields.items():
-				if not isinstance(field, dict):
-					output += write_field(field_name, field)
-				else:
-					datatype = field.pop('type')
-					output += write_field(field_name, datatype, **field)
+			for field_object in form_object['fields']:
+				name = field_object.pop('name')
+				datatype = field_object.pop('type')
+				output += write_field(name, datatype, **field_object)
 
 		return output
 

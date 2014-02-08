@@ -1,0 +1,6 @@
+# Usage
+
+Initailly or after changing config, run:
+	python manage.py config_update
+	python manage.py schemamigration forms --auto
+	python manage.py migrate

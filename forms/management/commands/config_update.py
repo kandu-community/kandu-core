@@ -5,31 +5,35 @@ from django.core.management import call_command
 from django.conf import settings
 import json
 import os
+import re
 
 def generate_name(verbose_name):
 	#TODO: сделать реальное преобразование
-	return verbose_name
+	return verbose_name.replace(' ', '_')
 
 def write_model(verbose_name):
-	return u"class {name}(Model):\n\tclass Meta:\n\t\tverbose_name = u'{verbose_name}'\n".format(name=generate_name(verbose_name), verbose_name=verbose_name)
+	return u"class {name}(BaseFormModel):\n\tclass Meta:\n\t\tverbose_name = u'{verbose_name}'\n".format(name=generate_name(verbose_name), verbose_name=verbose_name)
 
 def write_field(verbose_name, datatype, **extra_args):
-	blank = not extra_args.get('required', False)
+	blank = not extra_args.pop('required', False)
 
 	datatype_to_field = {
-		'text': ('CharField', {'max_length': 300, 'blank': blank, 'default': ''}),
+		'text': ('CharField', {'max_length': 300, 'blank': blank, 'default': "''"}),
 		'number': ('IntegerField', {'null': blank, 'default': 0}),
 		'boolean': ('BooleanField', {'null': blank, 'default': False}),
 		'file': ('FileField', {'upload_to': 'files'}),
-		'choice': ('CharField', {'max_length': 5, 'choices': json.dumps( [ (str(number), verbose) for number, verbose in enumerate(extra_args['choices']) ] )}),
-		'foreign-key': ('ForeignKey', {'to': generate_name(extra_args['to'])}),
+		'choice': ('CharField', {'max_length': 200, 'choices': [ (generate_name(verbose), verbose) for verbose in extra_args.pop('choices', []) ]}),
+		'foreign-key': ('ForeignKey', {'to': "'%s'" % generate_name(extra_args.pop('to', ''))}),
 	}
 	#TODO: GPS-field
-	#TODO: ForeignKey
+	#TODO: multi-choice
 
-	field_class, field_args = datatype_to_field[datatype]
+	try:
+		field_class, field_args = datatype_to_field[datatype]
+	except KeyError:
+		raise ValueError("Unknown datatype in config: " + datatype)
 	field_args.update(extra_args)
-	field_args['verbose_name'] = verbose_name
+	field_args['verbose_name'] = u"u'%s'" % verbose_name
 
 	field_args_str = [ '{}={}'.format(arg, value) for arg, value in field_args.items() ]
 
@@ -45,9 +49,10 @@ def config_to_models(config_filename):
 		config_array = json.load(config_file)
 
 		output = u'''
-		#coding:utf-8
-		from django.db.models import *
-		'''
+#coding:utf-8
+from django.db.models import *
+from forms.misc import BaseFormModel
+'''
 
 		for form_object in config_array:
 			output += write_model(form_object['name'])
@@ -69,6 +74,3 @@ class Command(BaseCommand):
 
 		with open(models_filename, 'w') as models_file:
 			models_file.write(config_to_models(settings.CONFIG_FILE))
-
-		call_command('schemamigration', 'forms', auto=True)
-		call_command('migrate', 'forms')

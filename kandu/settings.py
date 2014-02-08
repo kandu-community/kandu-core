@@ -114,3 +114,14 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     )
 }
+
+import sys
+LOGGING = {
+    'handlers': {
+        'console':{
+            'level':'INFO',
+            'class':'logging.StreamHandler',
+            'stream': sys.stdout
+        },
+    }
+}

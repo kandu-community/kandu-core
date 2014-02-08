@@ -22,9 +22,9 @@ def write_field(verbose_name, datatype, **extra_args):
 		'number': ('IntegerField', {'null': blank, 'default': 0}),
 		'boolean': ('BooleanField', {'null': blank, 'default': False}),
 		'file': ('FileField', {'upload_to': 'files'}),
-		'choice': ('CharField', {'max_length': 200, 'choices': [ (generate_name(verbose), verbose) for verbose in extra_args.pop('choices', []) ]}),
+		'choice': ('CharField', {'max_length': 200, 'blank': blank, 'choices': [ (generate_name(verbose), verbose) for verbose in extra_args.pop('choices', []) ]}),
 		'foreign-key': ('ForeignKey', {'to': "'%s'" % generate_name(extra_args.pop('to', ''))}),
-		'coordinates': ('CharField', {'max_length': 100})
+		'coordinates': ('CoordinatesField', {'max_length': 100, 'blank': blank})
 	}
 	#TODO: multi-choice
 
@@ -51,6 +51,7 @@ def config_to_models(config_filename):
 		output = u'''
 #coding:utf-8
 from django.db.models import *
+from forms.fields import CoordinatesField
 from forms.misc import BaseFormModel
 '''
 

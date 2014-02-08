@@ -117,11 +117,19 @@ REST_FRAMEWORK = {
 
 import sys
 LOGGING = {
+    'version': 1,
     'handlers': {
         'console':{
             'level':'INFO',
             'class':'logging.StreamHandler',
             'stream': sys.stdout
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
         },
     }
 }

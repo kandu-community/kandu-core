@@ -62,12 +62,13 @@ WSGI_APPLICATION = 'kandu.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
+import dj_database_url
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.config()
 }
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -92,7 +93,7 @@ CONFIG_FILE = os.path.join(BASE_DIR, 'config.json')
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = ''
+STATIC_ROOT = 'staticfiles'
 
 TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
 

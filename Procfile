@@ -1,1 +1,1 @@
-web: gunicorn kendu.wsgi
+web: gunicorn kandu.wsgi

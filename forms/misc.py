@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from model_utils.managers import InheritanceManager
 
 class BaseFormModel(Model):
-	user = ForeignKey(User, editable=False)
+	user = ForeignKey(User)
 
 	objects = InheritanceManager()
 

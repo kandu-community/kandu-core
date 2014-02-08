@@ -18,7 +18,12 @@
 					"male",
 					"female"
 				]
+			},
+			{
+				"name": "place",
+				"type": "coordinates"
 			}
+
 		]
 	},
 	{

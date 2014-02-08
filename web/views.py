@@ -1,10 +1,12 @@
 from django.core.urlresolvers import reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm
+from django.forms.models import modelform_factory
 
 import forms.models
 from forms.utils import get_form_models
 from forms.misc import BaseFormModel
+from forms.fields import CoordinatesField
 
 class ModelFromUrlMixin(object):
 	'''
@@ -17,6 +19,16 @@ class ModelFromUrlMixin(object):
 	def get_queryset(self):
 		model = getattr(forms.models, self.kwargs[self.model_url_kwarg])
 		return model.objects.all()
+
+class ExcludeFieldsMixin(object):
+	'''
+	Generates form from models, exculuding the fields
+	needed to be excluded (eg. 'user', coordinates fields)
+	'''
+
+	def get_form_class(self):
+		exclude_fields = ['user'] + [ field.name for field in self.get_queryset().model._meta.fields if isinstance(field, CoordinatesField) ]
+		return modelform_factory(self.get_queryset().model, exclude=exclude_fields)
 
 class SuccessRedirectMixin(object):
 	def get_success_url(self):
@@ -38,14 +50,14 @@ class FormList(ListView):
 		context['form_models'] = get_form_models()
 		return context
 
-class FormCreate(SuccessRedirectMixin, ModelFromUrlMixin, CreateView):
+class FormCreate(ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, CreateView):
 	template_name = 'web/form_create.html'
 
 	def form_valid(self, form):
 		form.instance.user = self.request.user
 		return super(FormCreate, self).form_valid(form)
 
-class FormUpdate(SuccessRedirectMixin, ModelFromUrlMixin, UpdateView):
+class FormUpdate(ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, UpdateView):
 	template_name = 'web/form_update.html'
 
 class FormDelete(SuccessRedirectMixin, ModelFromUrlMixin, DeleteView):

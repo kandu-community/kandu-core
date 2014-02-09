@@ -8,15 +8,42 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'simple_form.place'
-        db.add_column(u'forms_simple_form', 'place',
-                      self.gf('django.db.models.fields.CharField')(default='', max_length=100, blank=True),
-                      keep_default=False)
+        # Adding model 'BaseFormModel'
+        db.create_table(u'forms_baseformmodel', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
+        ))
+        db.send_create_signal(u'forms', ['BaseFormModel'])
+
+        # Adding model 'simple_form'
+        db.create_table(u'forms_simple_form', (
+            (u'baseformmodel_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['forms.BaseFormModel'], unique=True, primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(default='', max_length=300)),
+            ('age', self.gf('django.db.models.fields.IntegerField')(default=0, null=True)),
+            ('gender', self.gf('django.db.models.fields.CharField')(max_length=200, blank=True)),
+            ('place', self.gf('forms.fields.CoordinatesField')(max_length=100, blank=True)),
+        ))
+        db.send_create_signal(u'forms', ['simple_form'])
+
+        # Adding model 'second_form'
+        db.create_table(u'forms_second_form', (
+            (u'baseformmodel_ptr', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['forms.BaseFormModel'], unique=True, primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(default='', max_length=300)),
+            ('some_file', self.gf('django.db.models.fields.files.FileField')(max_length=100, null=True)),
+            ('link', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['forms.simple_form'])),
+        ))
+        db.send_create_signal(u'forms', ['second_form'])
 
 
     def backwards(self, orm):
-        # Deleting field 'simple_form.place'
-        db.delete_column(u'forms_simple_form', 'place')
+        # Deleting model 'BaseFormModel'
+        db.delete_table(u'forms_baseformmodel')
+
+        # Deleting model 'simple_form'
+        db.delete_table(u'forms_simple_form')
+
+        # Deleting model 'second_form'
+        db.delete_table(u'forms_second_form')
 
 
     models = {
@@ -65,7 +92,8 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'second_form', '_ormbases': [u'forms.BaseFormModel']},
             u'baseformmodel_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['forms.BaseFormModel']", 'unique': 'True', 'primary_key': 'True'}),
             'link': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['forms.simple_form']"}),
-            'name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '300'})
+            'name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '300'}),
+            'some_file': ('django.db.models.fields.files.FileField', [], {'max_length': '100', 'null': 'True'})
         },
         u'forms.simple_form': {
             'Meta': {'object_name': 'simple_form', '_ormbases': [u'forms.BaseFormModel']},
@@ -73,7 +101,7 @@ class Migration(SchemaMigration):
             u'baseformmodel_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['forms.BaseFormModel']", 'unique': 'True', 'primary_key': 'True'}),
             'gender': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '300'}),
-            'place': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'})
+            'place': ('forms.fields.CoordinatesField', [], {'max_length': '100', 'blank': 'True'})
         }
     }
 

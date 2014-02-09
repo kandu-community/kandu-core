@@ -11,5 +11,7 @@ urlpatterns = patterns('',
 
     url(r'^registration/', UserRegistration.as_view(), name='web_user_registration'),
     (r'^login/', 'django.contrib.auth.views.login', {'template_name': 'web/login.html'}),
-    (r'^logout/', 'django.contrib.auth.views.logout', {'next_page': '/web/'})
+    (r'^logout/', 'django.contrib.auth.views.logout', {'next_page': '/web/'}),
+
+    url(r'^update-migrate/', 'web.views.update_and_migrate', name='web_update_and_migrate')
 )

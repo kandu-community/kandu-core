@@ -10,3 +10,5 @@ DATABASES = {
         'PASSWORD': 'password',                  # Not used with sqlite3.
     }
 }
+
+WSGI_APPLICATION = None

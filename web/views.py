@@ -77,6 +77,6 @@ def update_and_migrate(request):
 		call_command('schemamigration', 'forms', auto=True)
 	except SystemExit:
 		pass
-	call_command('migrate', 'forms')
+	call_command('migrate')
 
 	return HttpResponse('models.py and database were updated')

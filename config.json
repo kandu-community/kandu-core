@@ -35,6 +35,10 @@
 				"required": true
 			},
 			{
+				"name": "some file",
+				"type": "file"
+			},
+			{
 				"name": "link",
 				"type": "foreign-key",
 				"to": "simple form"

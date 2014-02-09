@@ -9,7 +9,7 @@ import re
 
 def generate_name(verbose_name):
 	#TODO: сделать реальное преобразование
-	return verbose_name.replace(' ', '_')
+	return verbose_name.lower().replace(' ', '_')
 
 def write_model(verbose_name):
 	return u"class {name}(BaseFormModel):\n\tclass Meta:\n\t\tverbose_name = u'{verbose_name}'\n".format(name=generate_name(verbose_name), verbose_name=verbose_name)
@@ -21,7 +21,7 @@ def write_field(verbose_name, datatype, **extra_args):
 		'text': ('CharField', {'max_length': 300, 'blank': blank, 'default': "''"}),
 		'number': ('IntegerField', {'null': blank, 'default': 0}),
 		'boolean': ('BooleanField', {'null': blank, 'default': False}),
-		'file': ('FileField', {'upload_to': 'files'}),
+		'file': ('FileField', {'upload_to': "'files'", 'null': blank}),
 		'choice': ('CharField', {'max_length': 200, 'blank': blank, 'choices': [ (generate_name(verbose), verbose) for verbose in extra_args.pop('choices', []) ]}),
 		'foreign-key': ('ForeignKey', {'to': "'%s'" % generate_name(extra_args.pop('to', ''))}),
 		'coordinates': ('CoordinatesField', {'max_length': 100, 'blank': blank})

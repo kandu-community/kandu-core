@@ -2,6 +2,9 @@ from django.core.urlresolvers import reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm
 from django.forms.models import modelform_factory
+from django.core.management import call_command
+from django.contrib.admin.views.decorators import staff_member_required
+from django.http import HttpResponse
 
 import forms.models
 from forms.utils import get_form_models
@@ -66,3 +69,14 @@ class FormDelete(SuccessRedirectMixin, ModelFromUrlMixin, DeleteView):
 class UserRegistration(SuccessRedirectMixin, CreateView):
 	template_name = 'web/user_registration.html'
 	form_class = UserCreationForm
+
+@staff_member_required
+def update_and_migrate(request):
+	call_command('config_update')
+	try:
+		call_command('schemamigration', 'forms', auto=True)
+	except SystemExit:
+		pass
+	call_command('migrate', 'forms')
+
+	return HttpResponse('models.py and database were updated')

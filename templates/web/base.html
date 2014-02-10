@@ -3,7 +3,7 @@
 <html lang="en">
 {% bootstrap_css %} 
 <script src="{% bootstrap_jquery_url %}"></script>
-{% bootstrap_javascript %} 
+{% bootstrap_javascript %}
 <nav class="navbar navbar-default" role="navigation">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="#">Kandu</a>
@@ -19,6 +19,13 @@
 	</div>
  </nav>
 <div class="container container-fluid">
+{% if messages %}
+<div class="row">
+{% for message in messages %}
+	<div class="alert alert-{{ message.tags }}">{{ message }}</div>
+{% endfor %}
+</div>
+{% endif %}
 {% block content %}
 {% endblock %}
 </div>

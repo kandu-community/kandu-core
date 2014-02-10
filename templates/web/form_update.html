@@ -5,7 +5,7 @@
 	<h1>Correct form <small>{{ object.verbose_name }}</small></h1>
 </div>
 <div class="row">
-	<form action="{% url 'web_update' model_name=object.model_name pk=object.pk %}" method="post" class="form">
+	<form action="{% url 'web_update' model_name=object.model_name pk=object.pk %}" method="post" enctype="multipart/form-data" class="form">
 	{% csrf_token %} {% bootstrap_form form %} 
 
 	{% buttons %}

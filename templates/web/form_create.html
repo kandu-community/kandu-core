@@ -5,7 +5,7 @@
 	<h1>Fill a form <small>{{ object.verbose_name }}</small></h1>
 </div>
 <div class="row">
-	<form action="{% url 'web_create' model_name=view.kwargs.model_name %}" method="post" class="form">
+	<form action="{% url 'web_create' model_name=view.kwargs.model_name %}" method="post" enctype="multipart/form-data" class="form">
 	{% csrf_token %} {% bootstrap_form form %} 
 
 	{% buttons %}

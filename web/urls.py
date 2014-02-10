@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import login_required
+# from django.contrib.admin.views.decorators import staff_member_required
 
 from views import *
 
@@ -13,5 +14,6 @@ urlpatterns = patterns('',
     (r'^login/', 'django.contrib.auth.views.login', {'template_name': 'web/login.html'}),
     (r'^logout/', 'django.contrib.auth.views.logout', {'next_page': '/web/'}),
 
-    url(r'^update-migrate/', 'web.views.update_and_migrate', name='web_update_and_migrate')
+    url(r'^update-migrate/$', ManageConfig.as_view(), name='web_config'),
+    url(r'^update-migrate/(?P<operation>\w+)/$', ManageConfig.as_view(), name='web_config')
 )

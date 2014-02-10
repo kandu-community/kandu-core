@@ -1,10 +1,13 @@
 from django.core.urlresolvers import reverse
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.forms.models import modelform_factory
+from django.forms import Form, FileField
 from django.core.management import call_command
-from django.contrib.admin.views.decorators import staff_member_required
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.contrib import messages
+from django.conf import settings
+import os
 
 import forms.models
 from forms.utils import get_form_models
@@ -70,13 +73,41 @@ class UserRegistration(SuccessRedirectMixin, CreateView):
 	template_name = 'web/user_registration.html'
 	form_class = UserCreationForm
 
-@staff_member_required
-def update_and_migrate(request):
-	call_command('config_update')
-	try:
-		call_command('schemamigration', 'forms', auto=True)
-	except SystemExit:
-		pass
-	call_command('migrate')
+class ManageConfig(FormView):
+	template_name = 'web/config_form.html'
 
-	return HttpResponse('models.py and database were updated')
+	def get(self, request, *args, **kwargs):
+		if kwargs.has_key('operation'):
+			return getattr(self, kwargs['operation'])()
+		else:
+			return super(ManageConfig, self).get(request, *args, **kwargs)
+
+	def get_form_class(self):
+		class UploadConfigForm(Form):
+			config_file = FileField()
+
+		return UploadConfigForm
+
+	def form_valid(self, form):
+		from forms.misc import config_to_models
+
+		models_filename = os.path.join(settings.BASE_DIR, 'forms', 'models.py')
+		with open(models_filename, 'w') as models_file:
+			models_file.write(config_to_models(form.cleaned_data['config_file']))
+
+		messages.success(self.request, "Config updated successfully")
+		return HttpResponseRedirect(reverse('web_config', kwargs={'operation': 'make_migration'}))
+
+	def make_migration(self):
+		try:
+			call_command('schemamigration', 'forms', auto=True)
+		except SystemExit:
+			pass
+		messages.success(self.request, "Migration made successfully")
+		return HttpResponseRedirect(reverse('web_config', kwargs={'operation': 'migrate'}))
+
+	def migrate(self):
+		call_command('migrate')
+
+		messages.success(self.request, "Migration applied successfully")
+		return HttpResponseRedirect(reverse('web_config'))

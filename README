@@ -1,6 +1,6 @@
 # Installation
 
-Clone this repo into your environment, install dependencies from requirements.txt. Configure the DATABASES setting and run `manage.py syncdb`.
+Clone this repo into your environment, install dependencies from requirements.txt (`pip install -r < requirements.txt`). Configure the DATABASES setting and run `manage.py syncdb`.
 
 In order to "file" fields to work, set MEDIA_ROOT according to your environment.
 

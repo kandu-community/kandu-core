@@ -10,14 +10,15 @@
 
 	{% buttons %}
 		<button type="submit" class="btn btn-primary">
-		{% bootstrap_icon 'update' %} Upload config
+		{% bootstrap_icon 'upload' %} Upload config
 		</button>
 	{% endbuttons %}
 
 	</form>
 </div>
 <div class="row">
-	<a href="{% url 'web_config' operation='make_migration' %}"><button class="btn">Make and apply migration</button></a>
+	<a href="{% url 'web_config' operation='restart_server' %}"><button class="btn">Restart server</button></a>
+	<a href="{% url 'web_config' operation='make_migration' %}"><button class="btn">{% bootstrap_icon 'refresh' %} Make and apply migration</button></a>
 	<!-- <a href="{% url 'web_config' operation='migrate' %}"><button class="btn">Migrate</button></a> -->
 </div>
 {% endblock %}

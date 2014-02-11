@@ -98,6 +98,10 @@ class ManageConfig(FormView):
 		messages.success(self.request, "Config updated successfully")
 		return HttpResponseRedirect(reverse('web_config'))
 
+	def restart_server(self):
+		from subprocess import call
+		call(['/home/inomma/webapps/kandu/apache2/bin/restart'])
+
 	def make_migration(self):
 		try:
 			call_command('schemamigration', 'forms', auto=True)

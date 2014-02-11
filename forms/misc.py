@@ -30,7 +30,7 @@ def write_field(verbose_name, datatype, **extra_args):
 	datatype_to_field = {
 		'text': ('CharField', {'max_length': 300, 'blank': blank, 'default': "''"}),
 		'number': ('IntegerField', {'null': blank, 'default': 0}),
-		'boolean': ('BooleanField', {'null': blank, 'default': False}),
+		'boolean': ('BooleanField', {'default': False}),
 		'file': ('FileField', {'upload_to': "'files'", 'null': blank}),
 		'choice': ('CharField', {'max_length': 200, 'blank': blank, 'choices': [ (generate_name(verbose), verbose) for verbose in extra_args.pop('choices', []) ]}),
 		'foreign-key': ('ForeignKey', {'to': "'%s'" % generate_name(extra_args.pop('to', ''))}),

@@ -96,7 +96,7 @@ class ManageConfig(FormView):
 			models_file.write(config_to_models(form.cleaned_data['config_file']))
 
 		messages.success(self.request, "Config updated successfully")
-		return HttpResponseRedirect(reverse('web_config', kwargs={'operation': 'make_migration'}))
+		return HttpResponseRedirect(reverse('web_config'))
 
 	def make_migration(self):
 		try:

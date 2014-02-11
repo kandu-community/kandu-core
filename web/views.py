@@ -103,6 +103,8 @@ class ManageConfig(FormView):
 		call(['touch', os.path.join(settings.BASE_DIR, 'kandu', 'wsgi.py')])
 
 	def make_migration(self):
+		self.restart_server()
+
 		try:
 			call_command('schemamigration', 'forms', auto=True)
 		except SystemExit:

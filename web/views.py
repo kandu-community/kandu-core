@@ -100,7 +100,7 @@ class ManageConfig(FormView):
 
 	def restart_server(self):
 		from subprocess import call
-		call(['/home/inomma/webapps/kandu/apache2/bin/restart'])
+		call(['touch', os.path.join(settings.BASE_DIR, 'kandu', 'wsgi.py')])
 
 	def make_migration(self):
 		try:

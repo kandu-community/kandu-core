@@ -4,4 +4,3 @@ djangorestframework
 django-bootstrap3
 south
 django-model-utils
-django-toolbelt

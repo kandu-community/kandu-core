@@ -94,8 +94,8 @@ CONFIG_FILE = os.path.join(BASE_DIR, 'config.json')
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/inomma/webapps/kandu_media/'
 MEDIA_ROOT = '/home/inomma/webapps/kandu_media/'
+STATIC_ROOT = '/home/inomma/webapps/kandu_static/'
 
 TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
 

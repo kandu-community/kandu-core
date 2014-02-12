@@ -4,6 +4,7 @@ from django.db.models import Model, ForeignKey
 from django.contrib.auth.models import User
 from model_utils.managers import InheritanceManager
 import json
+import re
 
 class BaseFormModel(Model):
 	user = ForeignKey(User)
@@ -18,8 +19,8 @@ class BaseFormModel(Model):
 		return cls._meta.verbose_name.title()
 
 def generate_name(verbose_name):
-	#TODO: сделать реальное преобразование
-	return verbose_name.lower().replace(' ', '_')
+	no_spaces = re.sub(r'\s', r'_', verbose_name)
+	return re.sub(r'[^_\w\d]', r'', no_spaces)
 
 def write_model(verbose_name):
 	return u"class {name}(BaseFormModel):\n\tclass Meta:\n\t\tverbose_name = u'{verbose_name}'\n".format(name=generate_name(verbose_name), verbose_name=verbose_name)

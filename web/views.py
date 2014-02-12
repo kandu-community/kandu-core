@@ -113,6 +113,8 @@ class ManageConfig(FormView):
 		return HttpResponseRedirect(reverse('web_config'))
 
 	def migrate(self):
+		self.restart_server()
+
 		call_command('migrate', noinput=True)
 
 		messages.success(self.request, "Migration applied successfully")

@@ -8,6 +8,10 @@
 				"required": true
 			},
 			{
+				"name": "second name",
+				"type": "text"
+			},
+			{
 				"name": "age",
 				"type": "number"
 			},
@@ -17,6 +21,15 @@
 				"choices": [
 					"male",
 					"female"
+				]
+			},
+			{
+				"name": "languages",
+				"type": "multi-choice",
+				"choices": [
+					"eng",
+					"rus",
+					"de"
 				]
 			},
 			{
@@ -41,8 +54,10 @@
 			{
 				"name": "link",
 				"type": "foreign-key",
-				"to": "simple form"
+				"to": "simple form",
+				"hidden": true
 			}
-		]
+		],
+		"user_group": "advanced"
 	}
 ]

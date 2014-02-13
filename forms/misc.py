@@ -27,8 +27,6 @@ def assign_default_group(sender, instance, created, **kwargs):
 		group.user_set.add(instance)
 		group.save()
 
-		#TODO: это не сохраняется
-
 def generate_name(verbose_name):
 	no_spaces = re.sub(r'\s', r'_', verbose_name)
 	return re.sub(r'[^_\w\d]', r'', no_spaces)
@@ -52,7 +50,7 @@ def write_field(verbose_name, datatype, **extra_args):
 		'text': ('CharField', {'max_length': 300, 'blank': blank, 'default': "''"}),
 		'number': ('IntegerField', {'null': blank, 'default': 0}),
 		'boolean': ('BooleanField', {'default': False}),
-		'file': ('FileField', {'upload_to': "'files'", 'null': blank}),
+		'file': ('FileField', {'upload_to': "'files'", 'blank': blank}),
 		'choice': ('CharField', {'max_length': 200, 'blank': blank, 'choices': choices}),
 		'multi-choice': ('MultiSelectField', {'max_length': 200, 'blank': blank, 'choices': choices}),
 		'foreign-key': ('ForeignKey', {'null': blank, 'to': "'%s'" % generate_name(extra_args.pop('to', ''))}),

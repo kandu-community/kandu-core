@@ -52,6 +52,7 @@ class FormList(ListView):
 	paginate_by = 20
 	
 	def get_queryset(self):
+		# allowed_models = [ model_name for model_name, model in get_form_models(for_user=self.request.user) ]
 		return BaseFormModel.objects.filter(user=self.request.user).select_subclasses()
 
 	def get_context_data(self, **kwargs):
@@ -60,10 +61,7 @@ class FormList(ListView):
 		'''
 		context = super(FormList, self).get_context_data(**kwargs)
 
-		context['form_models'] = [ 
-			(model_name, model) for model_name, model in get_form_models() 
-			if self.request.user.groups.filter(name=model.user_group_name).exists() 
-		]
+		context['form_models'] = get_form_models(for_user=self.request.user)
 		return context
 
 class FormCreate(ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, CreateView):

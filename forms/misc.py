@@ -20,6 +20,12 @@ class BaseFormModel(Model):
 	def verbose_name(cls):
 		return cls._meta.verbose_name.title()
 
+	def __unicode__(self):
+		try:
+			return u', '.join( unicode(getattr(self, field_name)) for field_name in self.label_fields if hasattr(self, field_name) )
+		except AttributeError:
+			return self.__class__.verbose_name()
+
 @receiver(signals.post_save, sender=User)
 def assign_default_group(sender, instance, created, **kwargs):
 	if created:
@@ -35,16 +41,15 @@ def write_group(group_verbose_name):
 	group, created = Group.objects.get_or_create(name=group_verbose_name)
 	return u"\tuser_group_name = u'%s'\n" % group_verbose_name
 
+def write_label_fields(fields):
+	return u"\tlabel_fields = %s\n" % map(generate_name, fields)
+
 def write_model(verbose_name):
 	return u"class {name}(BaseFormModel):\n\tclass Meta:\n\t\tverbose_name = u'{verbose_name}'\n".format(name=generate_name(verbose_name), verbose_name=verbose_name)
 
 def write_field(verbose_name, datatype, **extra_args):
 	blank = not extra_args.pop('required', False)
 	choices = [ (generate_name(verbose), verbose) for verbose in extra_args.pop('choices', []) ]
-
-	name_extra = ''
-	if datatype == 'foreign-key' and extra_args.pop('hidden', None):
-		name_extra = '_hidden'
 
 	datatype_to_field = {
 		'text': ('CharField', {'max_length': 300, 'blank': blank, 'default': "''"}),
@@ -66,7 +71,7 @@ def write_field(verbose_name, datatype, **extra_args):
 
 	field_args_str = [ '{}={}'.format(arg, value) for arg, value in field_args.items() ]
 
-	return u'\t' + generate_name(verbose_name) + name_extra + u' = ' + field_class + u'(' + u', '.join(field_args_str) + u')' + u'\n'
+	return u'\t' + generate_name(verbose_name) + u' = ' + field_class + u'(' + u', '.join(field_args_str) + u')' + u'\n'
 
 def config_to_models(config_file):
 	'''
@@ -87,6 +92,8 @@ from multiselectfield import MultiSelectField
 	for form_object in config_array:
 		output += write_model(form_object['name'])
 		output += write_group(form_object.get('user_group', 'basic'))
+		if form_object.get('fields_for_label'):
+			output += write_label_fields(form_object['fields_for_label'])
 
 		for field_object in form_object['fields']:
 			name = field_object.pop('name')

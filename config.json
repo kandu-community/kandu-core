@@ -1,6 +1,7 @@
 [
 	{
 		"name": "simple form",
+		"fields_for_label": ["name", "age"],
 		"fields": [
 			{
 				"name": "name",
@@ -57,6 +58,6 @@
 				"to": "simple form"
 			}
 		],
-		"user_group": "advanced"
+		"user_group": "basic"
 	}
 ]

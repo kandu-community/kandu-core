@@ -38,8 +38,7 @@ class ExcludeFieldsMixin(object):
 
 	def get_form_class(self):
 		exclude_fields = ['user'] + \
-		[ field.name for field in self.get_queryset().model._meta.fields if isinstance(field, CoordinatesField) ] + \
-		[ field.name for field in self.get_queryset().model._meta.fields if isinstance(field, ForeignKey) and field.name.endswith('_hidden') ]
+		[ field.name for field in self.get_queryset().model._meta.fields if isinstance(field, CoordinatesField) ]
 
 		return modelform_factory(self.get_queryset().model, exclude=exclude_fields)
 

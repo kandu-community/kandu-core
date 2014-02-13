@@ -20,15 +20,19 @@
 <div class="row">
 	<table class="table table-striped">
 		<thead>
-			<th>Name</th>
+			<th>Data</th>
+			<th>Type</th>
 		</thead>
 		<tbody>
 			{% for filled_form in object_list %}
 			<tr>
 				<td>
 					<a href="{% url 'web_update' model_name=filled_form.model_name pk=filled_form.pk %}">
-						{{ filled_form.verbose_name }}
+						{{ filled_form }}
 					</a>
+					<td>
+						{{ filled_form.verbose_name }}
+					</td>
 				</td>
 				<td>
 					<a href="{% url 'web_update' model_name=filled_form.model_name pk=filled_form.pk %}">

@@ -11,7 +11,7 @@ In order to "file" fields to work, set MEDIA_ROOT according to your environment.
 Upload JSON config file at `/web/update-migrate/` (`config.json` in the root of this repo is an example of such file). Then perform database migration:
 
 	python manage.py schemamigration forms --auto
-	python manage.py migrate
+	python manage.py migrate --merge --noinput
 
 # Notes
 

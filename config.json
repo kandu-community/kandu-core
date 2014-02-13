@@ -54,8 +54,7 @@
 			{
 				"name": "link",
 				"type": "foreign-key",
-				"to": "simple form",
-				"hidden": true
+				"to": "simple form"
 			}
 		],
 		"user_group": "advanced"

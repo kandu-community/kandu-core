@@ -103,6 +103,7 @@ class ManageConfig(FormView):
 		with open(models_filename, 'w') as models_file:
 			models_file.write(config_to_models(form.cleaned_data['config_file']))
 
+		self.restart_server()
 		messages.success(self.request, "Config updated successfully")
 		return HttpResponseRedirect(reverse('web_config'))
 
@@ -111,7 +112,7 @@ class ManageConfig(FormView):
 		call(['touch', os.path.join(settings.BASE_DIR, 'kandu', 'wsgi.py')])
 
 	def make_migration(self):
-		self.restart_server()
+		# self.restart_server()
 
 		try:
 			call_command('schemamigration', 'forms', auto=True)

@@ -52,7 +52,7 @@ def write_field(verbose_name, datatype, **extra_args):
 		'boolean': ('BooleanField', {'default': False}),
 		'file': ('FileField', {'upload_to': "'files'", 'blank': blank}),
 		'choice': ('CharField', {'max_length': 200, 'blank': blank, 'choices': choices}),
-		'multi-choice': ('MultiSelectField', {'max_length': 200, 'blank': blank, 'choices': choices}),
+		'multi-choice': ('MultiSelectField', {'max_length': 200, 'blank': blank, 'null': blank, 'choices': choices}),
 		'foreign-key': ('ForeignKey', {'null': blank, 'to': "'%s'" % generate_name(extra_args.pop('to', ''))}),
 		'coordinates': ('CoordinatesField', {'max_length': 100, 'blank': blank})
 	}

@@ -6,5 +6,8 @@ from misc import BaseFormModel
 def get_form_models():
 	return inspect.getmembers(
 		forms.models, 
-		lambda entity: inspect.isclass(entity) and issubclass(entity, BaseFormModel) and not entity == BaseFormModel
+		lambda entity: 
+			inspect.isclass(entity) and 
+			issubclass(entity, BaseFormModel) and 
+			not entity == BaseFormModel
 	)

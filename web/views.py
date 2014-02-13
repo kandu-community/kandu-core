@@ -1,8 +1,12 @@
+#coding:utf-8
+
 from django.core.urlresolvers import reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.forms.models import modelform_factory
 from django.forms import Form, FileField
+from django.contrib.auth.models import Group
+from django.db.models import ForeignKey
 from django.core.management import call_command
 from django.http import HttpResponseRedirect
 from django.contrib import messages
@@ -33,7 +37,10 @@ class ExcludeFieldsMixin(object):
 	'''
 
 	def get_form_class(self):
-		exclude_fields = ['user'] + [ field.name for field in self.get_queryset().model._meta.fields if isinstance(field, CoordinatesField) ]
+		exclude_fields = ['user'] + \
+		[ field.name for field in self.get_queryset().model._meta.fields if isinstance(field, CoordinatesField) ] + \
+		[ field.name for field in self.get_queryset().model._meta.fields if isinstance(field, ForeignKey) and field.name.endswith('_hidden') ]
+
 		return modelform_factory(self.get_queryset().model, exclude=exclude_fields)
 
 class SuccessRedirectMixin(object):
@@ -49,11 +56,14 @@ class FormList(ListView):
 
 	def get_context_data(self, **kwargs):
 		'''
-		Adds a list of defined form models to template context.
+		Adds a list of forms current user can fill into template context.
 		'''
 		context = super(FormList, self).get_context_data(**kwargs)
 
-		context['form_models'] = get_form_models()
+		context['form_models'] = [ 
+			(model_name, model) for model_name, model in get_form_models() 
+			if self.request.user.groups.filter(name=model.user_group_name).exists() 
+		]
 		return context
 
 class FormCreate(ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, CreateView):

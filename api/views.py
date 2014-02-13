@@ -1,3 +1,5 @@
+#coding:utf-8
+
 from rest_framework import permissions, generics
 from rest_framework import exceptions
 from rest_framework import serializers
@@ -48,8 +50,13 @@ class FormList(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.ListCreateAPIVie
 		if self.model != BaseFormModel: #model has been overriden by url argument
 			return self.model.objects.filter(user=self.request.user)
 		else:
-			self.serializer_class = BaseFormSerializer
 			return BaseFormModel.objects.filter(user=self.request.user).select_subclasses()
+
+	def get_serializer_class(self):
+		if self.model != BaseFormModel: #model has been overriden by url argument
+			return super(FormList, self).get_serializer_class()
+		else:
+			return BaseFormSerializer
 
 	def create(self, request, *args, **kwargs):
 		if self.model == BaseFormModel:

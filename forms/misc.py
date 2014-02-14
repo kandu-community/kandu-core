@@ -92,7 +92,7 @@ from multiselectfield import MultiSelectField
 	for form_object in config_array:
 		output += write_model(form_object['name'])
 		output += write_group(form_object.get('user_group', 'basic'))
-		if form_object.get('fields_for_label'):
+		if form_object.get('fields_for_label'): # TODO: вынести отдельно + visible_when
 			output += write_label_fields(form_object['fields_for_label'])
 
 		for field_object in form_object['fields']:

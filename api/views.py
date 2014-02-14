@@ -7,7 +7,7 @@ from rest_framework import serializers
 from forms.misc import BaseFormModel
 import forms.models
 from permissions import IsOwner
-from serializers import BaseFormSerializer
+from serializers import BaseFormSerializer, CustomModelSerializer
 
 class ModelFromUrlMixin(object):
 	'''
@@ -74,3 +74,4 @@ class FormDetail(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.RetrieveUpdate
 	'''
 
 	permission_classes = (IsOwner,)
+	# model_serializer_class = CustomModelSerializer

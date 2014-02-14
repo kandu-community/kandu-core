@@ -5,3 +5,4 @@ django-bootstrap3
 south
 django-model-utils
 django-multiselectfield
+django-jsonify

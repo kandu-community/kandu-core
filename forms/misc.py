@@ -44,6 +44,20 @@ def write_group(group_verbose_name):
 def write_label_fields(fields):
 	return u"\tlabel_fields = %s\n" % map(generate_name, fields)
 
+def write_visibility_dependencies(aggregate):
+	if len(aggregate.keys()) == 0:
+		return ''
+
+	aggregate_processed = {
+		generate_name(field_name) : {
+			generate_name(other_field) : other_value
+			for other_field, other_value in conditions.items()
+		}
+		for field_name, conditions in aggregate.items()
+	}
+
+	return u"\tvisibility_dependencies = %s\n" % aggregate_processed
+
 def write_model(verbose_name):
 	return u"class {name}(BaseFormModel):\n\tclass Meta:\n\t\tverbose_name = u'{verbose_name}'\n".format(name=generate_name(verbose_name), verbose_name=verbose_name)
 
@@ -92,13 +106,19 @@ from multiselectfield import MultiSelectField
 	for form_object in config_array:
 		output += write_model(form_object['name'])
 		output += write_group(form_object.get('user_group', 'basic'))
-		if form_object.get('fields_for_label'): # TODO: вынести отдельно + visible_when
+		if form_object.has_key('fields_for_label'):
 			output += write_label_fields(form_object['fields_for_label'])
 
+		visible_when = {}
 		for field_object in form_object['fields']:
 			name = field_object.pop('name')
 			datatype = field_object.pop('type')
 
+			if field_object.has_key('visible_when'):
+				visible_when[name] = field_object.pop('visible_when')
+
 			output += write_field(name, datatype, **field_object)
+
+		output += write_visibility_dependencies(visible_when)
 
 	return output

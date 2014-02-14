@@ -31,7 +31,10 @@
 					"eng",
 					"rus",
 					"de"
-				]
+				],
+				"visible_when": {
+					"gender": "male"
+				}
 			},
 			{
 				"name": "place",

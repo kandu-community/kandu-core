@@ -13,6 +13,14 @@
 				"type": "text"
 			},
 			{
+				"name": "test",
+				"type": "choice",
+				"choices": [
+					"one",
+					"two"
+				]
+			},
+			{
 				"name": "age",
 				"type": "number"
 			},

@@ -1,27 +1,38 @@
 from rest_framework import serializers
+from django.core.urlresolvers import reverse
 
 from forms.misc import BaseFormModel
 from forms.fields import CoordinatesField as forms_CoordinatesField
-from fields import CoordinateField
+from multiselectfield import MultiSelectField as model_MultiSelectField
+from fields import CoordinateField, MultiSelectField
 
 class BaseFormSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = BaseFormModel
 
-	form_class = serializers.SerializerMethodField('instance_model_name')
+	url = serializers.SerializerMethodField('instance_url')
 	description = serializers.SerializerMethodField('instance_unicode')
 
 	def instance_model_name(self, obj):
 		return obj.model_name()
 
 	def instance_unicode(self, obj):
-		return obj.__unicode__()
+		return obj.__unicode__().split(', ')
 
-class CustomFieldMapping(dict):
-	def __getitem__(self, key):
-		if issubclass(key, forms_CoordinatesField):
-			return CoordinateField
-		return super(CustomFieldMapping, self).__getitem__(key)
+	def instance_url(self, obj):
+		return reverse('api_detail', kwargs={'model_name': obj.model_name(), 'pk': obj.pk})
 
 class CustomModelSerializer(serializers.ModelSerializer):
-	field_mapping = CustomFieldMapping(serializers.ModelSerializer.field_mapping)
+	'''
+	Adds MultiSelectField to default mapping.
+	'''
+
+	def get_field(self, model_field):
+		if isinstance(model_field, model_MultiSelectField):
+			kwargs = {}
+			kwargs['choices'] = model_field.flatchoices
+			if model_field.null:
+				kwargs['empty'] = None
+			return MultiSelectField(**kwargs)
+		else:
+			return super(CustomModelSerializer, self).get_field(model_field)

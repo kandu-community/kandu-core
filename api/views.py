@@ -29,7 +29,7 @@ class ReadOnlyFieldsMixin(object):
 	read_only_fields = ('user',)
 
 	def get_serializer_class(self):
-		class DefaultSerializer(serializers.ModelSerializer):
+		class DefaultSerializer(self.model_serializer_class):
 			class Meta:
 				model = self.model
 				read_only_fields = self.read_only_fields
@@ -74,4 +74,4 @@ class FormDetail(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.RetrieveUpdate
 	'''
 
 	permission_classes = (IsOwner,)
-	# model_serializer_class = CustomModelSerializer
+	model_serializer_class = CustomModelSerializer

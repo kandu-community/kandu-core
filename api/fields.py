@@ -13,5 +13,5 @@ class MultiSelectField(fields.ChoiceField):
     def validate(self, value):
         arr_choices = [ short for short, full in self.choices ]
         for opt_select in value:
-            if (opt_select not in arr_choices):
-                raise exceptions.ValidationError(self.error_messages['invalid_choice'] % {"value": value})
+            if opt_select not in arr_choices:
+                raise exceptions.ValidationError(self.error_messages['invalid_choice'] % {"value": opt_select})

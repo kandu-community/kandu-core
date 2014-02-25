@@ -69,6 +69,6 @@
 				"to": "simple form"
 			}
 		],
-		"user_group": "basic"
+		"user_groups": ["advanced"]
 	}
 ]

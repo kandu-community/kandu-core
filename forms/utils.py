@@ -10,5 +10,5 @@ def get_form_models(for_user=None):
 			inspect.isclass(entity) and 
 			issubclass(entity, BaseFormModel) and 
 			not entity == BaseFormModel and
-			(not for_user or for_user.groups.filter(name=entity.user_group_name).exists())
+			(not for_user or for_user.groups.filter(name__in=entity.user_group_names).exists())
 	)

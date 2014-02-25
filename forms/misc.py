@@ -37,9 +37,14 @@ def generate_name(verbose_name):
 	no_spaces = re.sub(r'\s', r'_', verbose_name)
 	return re.sub(r'[^_\w\d]', r'', no_spaces)
 
-def write_group(group_verbose_name):
-	group, created = Group.objects.get_or_create(name=group_verbose_name)
-	return u"\tuser_group_name = u'%s'\n" % group_verbose_name
+def write_group(group_verbose_names):
+	# if isinstance(group_verbose_names, basestring): # it's a single name rather than list of names
+	# 	group_verbose_names = [group_verbose_names]
+
+	for group_name in group_verbose_names:
+		group, created = Group.objects.get_or_create(name=group_name)
+	
+	return u"\tuser_group_names = %s\n" % group_verbose_names
 
 def write_label_fields(fields):
 	return u"\tlabel_fields = %s\n" % map(generate_name, fields)
@@ -105,7 +110,7 @@ from multiselectfield import MultiSelectField
 
 	for form_object in config_array:
 		output += write_model(form_object['name'])
-		output += write_group(form_object.get('user_group', 'basic'))
+		output += write_group(form_object.get('user_groups', ['basic']))
 		if form_object.has_key('fields_for_label'):
 			output += write_label_fields(form_object['fields_for_label'])
 

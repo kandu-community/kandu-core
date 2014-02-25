@@ -4,7 +4,6 @@ from rest_framework import permissions, generics
 from rest_framework import exceptions
 from rest_framework.response import Response
 from rest_framework import serializers
-import json
 from django.core.urlresolvers import reverse
 
 from forms.misc import BaseFormModel
@@ -40,39 +39,36 @@ class ReadOnlyFieldsMixin(object):
 
 		return DefaultSerializer
 
-class FormList(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.ListCreateAPIView):
+class BaseFormList(generics.ListAPIView):
 	'''
-	List of forms submitted by the current user.
+	List of all forms submitted by the current user.
 	'''
 
 	model = BaseFormModel
+	paginate_by = 20
+	permission_classes = (permissions.IsAuthenticated,)
+	serializer_class = BaseFormSerializer
+
+	def filter_queryset(self, queryset):
+		if self.request.user.is_staff: # staff sees everything
+			return queryset.select_subclasses()
+		else:
+			return queryset.filter(user=self.request.user).select_subclasses()
+
+class FormList(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.ListCreateAPIView):
+	'''
+	Submissions of a particular form by the current user.
+	'''
+
 	format_kwarg = 'format'
 	paginate_by = 20
 	permission_classes = (permissions.IsAuthenticated,)
-
-	def get_queryset(self):
-		if self.model != BaseFormModel: # model has been overriden by url argument
-			return self.model.objects.all()
-		else:
-			return BaseFormModel.objects.select_subclasses()
 
 	def filter_queryset(self, queryset):
 		if self.request.user.is_staff: # staff sees everything
 			return queryset
 		else:
 			return queryset.filter(user=self.request.user)
-
-	def get_serializer_class(self):
-		if self.model != BaseFormModel:
-			return super(FormList, self).get_serializer_class()
-		else:
-			return BaseFormSerializer
-
-	def create(self, request, *args, **kwargs):
-		if self.model == BaseFormModel:
-			raise exceptions.MethodNotAllowed(self.request.method, detail='You shouldn\'t %s here, use more specific url for that.')
-		else:
-			return super(FormList, self).create(request, *args, **kwargs)
 
 	def pre_save(self, obj):
 		obj.user = self.request.user

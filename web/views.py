@@ -51,8 +51,10 @@ class FormList(ListView):
 	paginate_by = 20
 	
 	def get_queryset(self):
-		# allowed_models = [ model_name for model_name, model in get_form_models(for_user=self.request.user) ]
-		return BaseFormModel.objects.filter(user=self.request.user).select_subclasses()
+		if self.request.user.is_staff: # staff sees everything
+			return BaseFormModel.objects.select_subclasses()
+		else:
+			return BaseFormModel.objects.filter(user=self.request.user).select_subclasses()
 
 	def get_context_data(self, **kwargs):
 		'''

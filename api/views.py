@@ -42,7 +42,7 @@ class ReadOnlyFieldsMixin(object):
 
 class FormList(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.ListCreateAPIView):
 	'''
-	List of all forms filled by the current user.
+	List of forms submitted by the current user.
 	'''
 
 	model = BaseFormModel
@@ -51,13 +51,19 @@ class FormList(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.ListCreateAPIVie
 	permission_classes = (permissions.IsAuthenticated,)
 
 	def get_queryset(self):
-		if self.model != BaseFormModel: #model has been overriden by url argument
-			return self.model.objects.filter(user=self.request.user)
+		if self.model != BaseFormModel: # model has been overriden by url argument
+			return self.model.objects.all()
 		else:
-			return BaseFormModel.objects.filter(user=self.request.user).select_subclasses()
+			return BaseFormModel.objects.select_subclasses()
+
+	def filter_queryset(self, queryset):
+		if self.request.user.is_staff: # staff sees everything
+			return queryset
+		else:
+			return queryset.filter(user=self.request.user)
 
 	def get_serializer_class(self):
-		if self.model != BaseFormModel: #model has been overriden by url argument
+		if self.model != BaseFormModel:
 			return super(FormList, self).get_serializer_class()
 		else:
 			return BaseFormSerializer
@@ -74,7 +80,7 @@ class FormList(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.ListCreateAPIVie
 
 class FormDetail(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.RetrieveUpdateDestroyAPIView):
 	'''
-	A filled in form.
+	A submitted in form.
 	'''
 
 	permission_classes = (IsOwner,)

@@ -2,9 +2,13 @@
 
 from rest_framework import permissions, generics
 from rest_framework import exceptions
+from rest_framework.response import Response
 from rest_framework import serializers
+import json
+from django.core.urlresolvers import reverse
 
 from forms.misc import BaseFormModel
+from forms.utils import get_form_models
 import forms.models
 from permissions import IsOwner
 from serializers import BaseFormSerializer, CustomModelSerializer
@@ -75,3 +79,15 @@ class FormDetail(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.RetrieveUpdate
 
 	permission_classes = (IsOwner,)
 	model_serializer_class = CustomModelSerializer
+
+class AvailableForms(generics.GenericAPIView):
+	def get(self, request, *args, **kwargs):
+		forms_dicts = [
+				{
+					'name': form_name,
+					'verbose_name': form_class.verbose_name(),
+					'url': reverse('api_list', kwargs={'model_name':form_name})
+				}
+			for form_name, form_class in get_form_models(for_user=self.request.user) 
+		]
+		return Response(forms_dicts)

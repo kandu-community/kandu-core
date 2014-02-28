@@ -5,6 +5,8 @@ from rest_framework import exceptions
 from rest_framework.response import Response
 from rest_framework import serializers
 from django.core.urlresolvers import reverse
+from django.conf import settings
+from django.http import HttpResponse
 
 from forms.misc import BaseFormModel
 from forms.utils import get_form_models
@@ -93,3 +95,7 @@ class AvailableForms(generics.GenericAPIView):
 			for form_name, form_class in get_form_models(for_user=self.request.user) 
 		]
 		return Response(forms_dicts)
+
+class DownloadConfig(generics.GenericAPIView):
+	def get(self, request, *args, **kwargs):
+		return HttpResponse(open(settings.CONFIG_FILE), content_type='application/json')

@@ -100,9 +100,12 @@ class ManageConfig(FormView):
 	def form_valid(self, form):
 		from forms.misc import config_to_models
 
+		with open(settings.CONFIG_FILE, 'w') as config_file:
+			config_file.write(form.cleaned_data['config_file'].read())
+
 		models_filename = os.path.join(settings.BASE_DIR, 'forms', 'models.py')
 		with open(models_filename, 'w') as models_file:
-			models_file.write(config_to_models(form.cleaned_data['config_file']))
+			models_file.write(config_to_models(open(settings.CONFIG_FILE)))
 
 		self.restart_server()
 		messages.success(self.request, "Config updated successfully")

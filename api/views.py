@@ -81,7 +81,7 @@ class FormDetail(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.RetrieveUpdate
 	A submitted in form.
 	'''
 
-	permission_classes = (IsOwner,)
+	permission_classes = (IsOwnerOrStaff,)
 	model_serializer_class = CustomModelSerializer
 
 class AvailableForms(generics.GenericAPIView):

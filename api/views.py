@@ -11,7 +11,7 @@ from django.http import HttpResponse
 from forms.misc import BaseFormModel
 from forms.utils import get_form_models
 import forms.models
-from permissions import IsOwner
+from permissions import IsOwnerOrStaff
 from serializers import BaseFormSerializer, CustomModelSerializer
 
 class ModelFromUrlMixin(object):
@@ -65,6 +65,7 @@ class FormList(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.ListCreateAPIVie
 	format_kwarg = 'format'
 	paginate_by = 20
 	permission_classes = (permissions.IsAuthenticated,)
+	model_serializer_class = CustomModelSerializer
 
 	def filter_queryset(self, queryset):
 		if self.request.user.is_staff: # staff sees everything

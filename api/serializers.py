@@ -30,6 +30,22 @@ class CustomModelSerializer(serializers.ModelSerializer):
 	def get_field(self, model_field):
 		if isinstance(model_field, model_MultiSelectField):
 			kwargs = {}
+
+			if model_field.null or model_field.blank:
+				kwargs['required'] = False
+
+			if not model_field.editable:
+				kwargs['read_only'] = True
+
+			if model_field.has_default():
+				kwargs['default'] = model_field.get_default()
+
+			if model_field.verbose_name is not None:
+				kwargs['label'] = model_field.verbose_name
+
+			if model_field.help_text is not None:
+				kwargs['help_text'] = model_field.help_text
+
 			kwargs['choices'] = model_field.flatchoices
 			if model_field.null:
 				kwargs['empty'] = None

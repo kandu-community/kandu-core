@@ -11,6 +11,9 @@ class CoordinateField(fields.WritableField):
 
 class MultiSelectField(fields.ChoiceField):
     def validate(self, value):
+    	if not value:
+    		return
+
         arr_choices = [ short for short, full in self.choices ]
         for opt_select in value:
             if opt_select not in arr_choices:

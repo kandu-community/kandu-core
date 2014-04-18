@@ -7,4 +7,4 @@ south
 django-model-utils
 django-multiselectfield
 django-jsonify
-django-gmapi-new
+-e hg+https://bitbucket.org/dbinit/django-gmapi#egg=django-gmapi-new

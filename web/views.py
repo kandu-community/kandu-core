@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.forms.models import modelform_factory
-from django.forms import Form, FileField
+from django.forms import Form, FileField, Field, Form
 from django.contrib.auth.models import Group
 from django.db.models import ForeignKey
 from django.core.management import call_command
@@ -12,6 +12,8 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.conf import settings
 import os
+from gmapi import maps
+from gmapi.forms.widgets import GoogleMap
 
 import forms.models
 from forms.utils import get_form_models
@@ -63,12 +65,26 @@ class FormList(ListView):
 		context = super(FormList, self).get_context_data(**kwargs)
 
 		context['form_models'] = get_form_models(for_user=self.request.user)
-		context['map'] = self.get_map_form()
+		context['map'] = self.get_map()
 		return context
 
-	def get_map_form(self):
-		pass
-		# TODO: сделать
+	def get_map(self):
+		gmap = maps.Map()
+
+		for form_object in self.object_list:
+			if form_object.show_on_map:
+				try:
+					marker = maps.Marker(opts = {
+						'map': gmap,
+						'position': maps.LatLng(*form_object.place.split(',')),
+					})
+				except (TypeError, AttributeError):
+					continue
+
+		class MapForm(Form):
+			map = Field(widget=GoogleMap(attrs={'width':510, 'height':510}))
+
+		return MapForm(initial={'map': gmap})
 
 class FormCreate(ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, CreateView):
 	template_name = 'web/form_create.html'

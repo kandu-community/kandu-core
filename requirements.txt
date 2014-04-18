@@ -6,3 +6,4 @@ south
 django-model-utils
 django-multiselectfield
 django-jsonify
+django-gmapi-new

@@ -1,12 +1,16 @@
 #coding:utf-8
 
-from django.db.models import Model, ForeignKey
+from django.db.models import Model, ForeignKey, ImageField, BooleanField
 from django.contrib.auth.models import User, Group
 from django.dispatch import receiver
 from django.db.models import signals
 from model_utils.managers import InheritanceManager
 import json
 import re
+
+class Icon(Model):
+	icon_file = ImageField(upload_to='icons')
+	partner_icon = BooleanField(default=True)
 
 class BaseFormModel(Model):
 	user = ForeignKey(User)
@@ -50,7 +54,7 @@ def write_label_fields(fields):
 	return u"\tlabel_fields = %s\n" % map(generate_name, fields)
 
 def write_show_on_map(value=False):
-	return u"\show_on_map = %s\n" % ('True' if value else 'False')
+	return u"\tshow_on_map = %s\n" % ('True' if value else 'False')
 
 def write_visibility_dependencies(aggregate):
 	if len(aggregate.keys()) == 0:
@@ -110,7 +114,6 @@ from forms.fields import CoordinatesField
 from forms.misc import BaseFormModel
 from multiselectfield import MultiSelectField
 '''
-# TODO: Icon model сюда
 
 	for form_object in config_array:
 		output += write_model(form_object['name'])

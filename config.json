@@ -26,6 +26,11 @@
 				"type": "number"
 			},
 			{
+                                "name": "newtest",
+                                "type": "text"
+                        },
+
+			{
 				"name": "gender",
 				"type": "choice",
 				"choices": [
@@ -64,6 +69,11 @@
 				"name": "some file",
 				"type": "file"
 			},
+			{
+                                "name": "some other file",
+                                "type": "file"
+                        },
+
 			{
 				"name": "link",
 				"type": "foreign-key",

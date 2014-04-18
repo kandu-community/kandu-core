@@ -13,6 +13,8 @@ class BaseFormModel(Model):
 
 	objects = InheritanceManager()
 
+	show_on_map = False
+
 	def model_name(self):
 		return self.__class__.__name__
 

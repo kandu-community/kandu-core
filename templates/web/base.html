@@ -29,4 +29,17 @@
 {% block content %}
 {% endblock %}
 </div>
+<div class="footer navbar-fixed-bottom">
+	<div class="container">
+	<style type="text/css">
+		img.logo { height: 70px }
+	</style>
+		<div class="row">
+			<div class="col-md-1"><img class="logo" src="{{ logo.icon_file.url }}"></div>
+			{% for partner_logo in partners_logos %}
+				<div class="col-md-1"><img class="logo" src="{{ partner_logo.icon_file.url }}"></div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
 </html>

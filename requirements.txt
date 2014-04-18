@@ -1,4 +1,5 @@
 django==1.6
+Pillow
 MySQL-python
 djangorestframework
 django-bootstrap3

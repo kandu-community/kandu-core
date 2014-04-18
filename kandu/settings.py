@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'forms',
     'web',
     'api',
+    'icons'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -96,6 +97,7 @@ CONFIG_FILE = os.path.join(BASE_DIR, 'config.json')
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = '/home/inomma/webapps/kandu_media/'
 STATIC_ROOT = '/home/inomma/webapps/kandu_static/'
 

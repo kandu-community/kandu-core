@@ -8,10 +8,6 @@ from model_utils.managers import InheritanceManager
 import json
 import re
 
-class Icon(Model):
-	icon_file = ImageField(upload_to='icons')
-	partner_icon = BooleanField(default=True)
-
 class BaseFormModel(Model):
 	user = ForeignKey(User)
 

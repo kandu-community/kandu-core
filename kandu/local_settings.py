@@ -12,3 +12,5 @@ DATABASES = {
 }
 
 WSGI_APPLICATION = None
+
+MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'local_media', 'media')

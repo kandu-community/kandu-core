@@ -49,6 +49,9 @@ def write_group(group_verbose_names):
 def write_label_fields(fields):
 	return u"\tlabel_fields = %s\n" % map(generate_name, fields)
 
+def write_show_on_map(value=False):
+	return u"\show_on_map = %s\n" % ('True' if value else 'False')
+
 def write_visibility_dependencies(aggregate):
 	if len(aggregate.keys()) == 0:
 		return ''
@@ -107,12 +110,14 @@ from forms.fields import CoordinatesField
 from forms.misc import BaseFormModel
 from multiselectfield import MultiSelectField
 '''
+# TODO: Icon model сюда
 
 	for form_object in config_array:
 		output += write_model(form_object['name'])
 		output += write_group(form_object.get('user_groups', ['basic']))
 		if form_object.has_key('fields_for_label'):
 			output += write_label_fields(form_object['fields_for_label'])
+		output += write_show_on_map(form_object.get('show_on_map'))
 
 		visible_when = {}
 		for field_object in form_object['fields']:

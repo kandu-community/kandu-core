@@ -63,7 +63,12 @@ class FormList(ListView):
 		context = super(FormList, self).get_context_data(**kwargs)
 
 		context['form_models'] = get_form_models(for_user=self.request.user)
+		context['map'] = self.get_map_form()
 		return context
+
+	def get_map_form(self):
+		pass
+		# TODO: сделать
 
 class FormCreate(ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, CreateView):
 	template_name = 'web/form_create.html'

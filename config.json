@@ -2,6 +2,7 @@
 	{
 		"name": "simple form",
 		"fields_for_label": ["name", "age"],
+		"show_on_map": true,
 		"fields": [
 			{
 				"name": "name",

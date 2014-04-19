@@ -112,7 +112,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
     "django.core.context_processors.request",
-    "icons.context_processors.add_icons"
+    "icons.context_processors.icons",
+    "web.context_processors.form_models"
 )
 
 REST_FRAMEWORK = {
@@ -138,5 +139,11 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': False,
         },
+    }
+}
+
+BOOTSTRAP3 = {
+    'form_renderers': {
+        'default': 'bootstrap3.renderers.FormRenderer',
     }
 }

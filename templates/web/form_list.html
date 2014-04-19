@@ -1,59 +1,58 @@
 {% extends 'web/base.html' %}
 {% load bootstrap3 %}
 {% block content %}
-<div class="page-header">
-	<h1>Forms filled by you</h1>
-</div>
+<!-- <div class="row">
+	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h1 class="page-title">{{ model_name_model.verbose_name }}</h1>
+	</div>
+</div> -->
+
 <div class="row">
-	<div class="dropdown">
-		<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-			{% bootstrap_icon 'plus' %} Fill a form
-			<span class="caret"></span>
-		</button>
-		<ul class="dropdown-menu" role="menu">
-			{% for form_name, form_model in form_models %}
-			<li role="presentation"><a role="menuitem" href="{% url 'web_create' model_name=form_name %}">{{ form_model.verbose_name }}</a></li>
-			{% endfor %}
-		</ul>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+		<table class="table table-striped table-bordered">
+			<thead>
+				<th>Data</th>
+				<th>Type</th>
+				<th></th>
+			</thead>
+			<tbody>
+				{% for filled_form in object_list %}
+				<tr>
+					<td>
+						<a href="{% url 'web_update' model_name=filled_form.model_name pk=filled_form.pk %}">
+							{{ filled_form }}
+						</a>
+						<td>
+							{{ filled_form.verbose_name }}
+						</td>
+					</td>
+					<td>
+<!-- 						<a href="{% url 'web_update' model_name=filled_form.model_name pk=filled_form.pk %}">
+							<button type="button" class="btn btn-default btn-lg">
+								{% bootstrap_icon 'pencil' %} Correct
+							</button>
+						</a> -->
+						<a href="{% url 'web_delete' model_name=filled_form.model_name pk=filled_form.pk %}">
+							<button type="button" class="btn btn-default btn-lg">
+								{% bootstrap_icon 'remove' %} Delete
+							</button>
+						</a>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+		{{ map.map }}
+		{{ map.media.js }}
 	</div>
 </div>
 <div class="row">
-
-	<table class="table table-striped">
-		<thead>
-			<th>Data</th>
-			<th>Type</th>
-		</thead>
-		<tbody>
-			{% for filled_form in object_list %}
-			<tr>
-				<td>
-					<a href="{% url 'web_update' model_name=filled_form.model_name pk=filled_form.pk %}">
-						{{ filled_form }}
-					</a>
-					<td>
-						{{ filled_form.verbose_name }}
-					</td>
-				</td>
-				<td>
-					<a href="{% url 'web_update' model_name=filled_form.model_name pk=filled_form.pk %}">
-						<button type="button" class="btn btn-default btn-lg">
-							{% bootstrap_icon 'pencil' %} Correct
-						</button>
-					</a>
-					<a href="{% url 'web_delete' model_name=filled_form.model_name pk=filled_form.pk %}">
-						<button type="button" class="btn btn-default btn-lg">
-							{% bootstrap_icon 'remove' %} Delete
-						</button>
-					</a>
-				</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-<div class="row">
-	{{ map.map }}
-	{{ map.media.js }}
 </div>
-</div>
+{% endblock %}
+{% block breadcrumbs %}
+	<ol class="breadcrumb">
+		<li>Forms</li> {% if model_name_model %}<li>{{ model_name_model.verbose_name }}</li>{% endif %}
+	</ol>
 {% endblock %}

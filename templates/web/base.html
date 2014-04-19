@@ -1,45 +1,233 @@
-{% load bootstrap3 %}
+{% load staticfiles %}
 <!DOCTYPE html>
-<html lang="en">
-{% bootstrap_css %} 
-<script src="{% bootstrap_jquery_url %}"></script>
-{% bootstrap_javascript %}
-<nav class="navbar navbar-default" role="navigation">
-	<div class="container-fluid">
-		<a class="navbar-brand" href="#">Kandu</a>
-		<ul class="nav navbar-nav">
-			{% if request.user.is_anonymous %}
-		        <li><a href="#">Not logged in.</a></li>
-		        <li><a href="{% url 'django.contrib.auth.views.login' %}">Log in</a></li>
-			{% else %}
-		        <li><a href="#">Logged in as {{ request.user.username }}.</a></li>
-		        <li><a href="{% url 'django.contrib.auth.views.logout' %}">Logout</a></li>
-			{% endif %}
-	    </ul>
-	</div>
- </nav>
-<div class="container container-fluid">
-{% if messages %}
-<div class="row">
-{% for message in messages %}
-	<div class="alert alert-{{ message.tags }}">{{ message }}</div>
-{% endfor %}
-</div>
-{% endif %}
-{% block content %}
-{% endblock %}
-</div>
-<div class="footer navbar-fixed-bottom">
-	<div class="container">
-	<style type="text/css">
-		img.logo { height: 70px }
-	</style>
-		<div class="row">
-			<div class="col-md-1"><img class="logo" src="{{ logo.icon_file.url }}"></div>
-			{% for partner_logo in partners_logos %}
-				<div class="col-md-1"><img class="logo" src="{{ partner_logo.icon_file.url }}"></div>
-			{% endfor %}
-		</div>
-	</div>
-</div>
+<html lang="en-us">
+ 
+<head>
+    <meta charset="utf-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">-->
+ 
+    <title>Kandu</title>
+    <meta content="" name="description">
+    <meta content="" name="author">
+    <meta content=
+    "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    name="viewport"><!-- Basic Styles -->
+    <link href="/static/css/bootstrap.min.css" media="screen" rel="stylesheet" type=
+    "text/css">
+    <link href="/static/css/font-awesome.min.css" media="screen" rel="stylesheet" type=
+    "text/css">
+    <!-- SmartAdmin Styles : Please note (smartadmin-production.css) was created using LESS variables -->
+    <link href="/static/css/smartadmin-production.css" media="screen" rel="stylesheet"
+    type="text/css">
+    <link href="/static/css/smartadmin-skins.css" media="screen" rel="stylesheet" type=
+    "text/css">
+    <!-- Demo purpose only: goes with demo.js, you can delete this css when designing your own WebApp -->
+    <link href="/static/css/demo.css" media="screen" rel="stylesheet" type="text/css">
+    <!-- FAVICONS -->
+    <link href="/static/img/favicon/favicon.ico" rel="shortcut icon" type=
+    "image/x-icon">
+    <link href="/static/img/favicon/favicon.ico" rel="icon" type="image/x-icon">
+    <!-- GOOGLE FONT -->
+    <link href=
+    "http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700"
+    rel="stylesheet"><!-- Specifying a Webpage Icon for Web Clip 
+         Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->
+    <link href="/static/img/splash/sptouch-icon-iphone.png" rel="apple-touch-icon">
+    <link href="/static/img/splash/touch-icon-ipad.png" rel="apple-touch-icon" sizes=
+    "76x76">
+    <link href="/static/img/splash/touch-icon-iphone-retina.png" rel="apple-touch-icon"
+    sizes="120x120">
+    <link href="/static/img/splash/touch-icon-ipad-retina.png" rel="apple-touch-icon"
+    sizes="152x152">
+    <!-- iOS web-app metas : hides Safari UI Components and Changes Status Bar Appearance -->
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <!-- Startup image for web apps -->
+    <link href="/static/img/splash/ipad-landscape.png" media=
+    "screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)"
+    rel="apple-touch-startup-image">
+    <link href="/static/img/splash/ipad-portrait.png" media=
+    "screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)"
+    rel="apple-touch-startup-image">
+    <link href="/static/img/splash/iphone.png" media=
+    "screen and (max-device-width: 320px)" rel="apple-touch-startup-image">
+</head>
+ 
+<body class="">
+ 
+<header id="header">
+    <div id="logo-group">
+        <!-- PLACE YOUR LOGO HERE -->
+         <span id="logo"><img alt="logo" src="{{ logo.icon_file.url }}"></span> 
+        <!-- END LOGO PLACEHOLDER -->        
+ 
+    </div>
+    
+<!--     <div id="project-context">
+        <span class="label">Projects:</span> <span class=
+ 
+        "popover-trigger-element dropdown-toggle" data-toggle="dropdown"
+ 
+        id="project-selector">Recent projects</span> 
+ 
+        <ul class="dropdown-menu">
+            <li>...</li>
+        </ul>
+ 
+    </div> -->
+ 
+ 
+    <div class="pull-right">
+        <!-- collapse menu button -->
+ 
+        <div class="btn-header pull-right" id="hide-menu">
+            <span><a href="javascript:void(0);" title="Collapse Menu"><i class="fa fa-reorder"></i></a></span>
+        </div><!-- end collapse menu -->
+ 
+        <!-- logout button -->
+ 
+        <div class="btn-header transparent pull-right" id="logout">
+            <span><a data-logout-msg="You can improve your security further after logging out by closing this opened browser" href="{% url 'django.contrib.auth.views.logout' %}" title="Sign Out"><i class="fa fa-sign-out"></i></a></span>
+        </div><!-- end logout button -->
+ 
+<!--         <div class="btn-header transparent pull-right" id="search-mobile">
+            <span><a href="javascript:void(0)" title="Search"></a></span>
+        </div>
+ 
+        <form action="#ajax/search.html" class="header-search pull-right">
+            <input id="search-fld" name="param" placeholder="Find reports and more" type="text"> <a href="javascript:void(0);" id="cancel-search-js" title="Cancel Search"></a>
+ 
+        </form> -->
+ 
+    </div><!-- end pulled right: nav area -->
+</header><!-- END HEADER -->
+ 
+        <aside id="left-panel">
+            {% if user.is_authenticated %}
+            <!-- User info -->
+            <div class="login-info">
+                <span> <!-- User image size is adjusted inside CSS, it should stay as it --> 
+                    
+                    <a href="javascript:void(0);" id="show-shortcut">
+                        <!-- <img src="img/avatars/sunny.png" alt="me" class="online" />  -->
+                        <span>
+                            {{ user }}
+                        </span>
+                        <i class="fa fa-angle-down"></i>
+                    </a> 
+                    
+                </span>
+            </div>
+            {% endif %}
+            <nav>
+                <ul>
+                	{% block navigation %}
+                        <li id="index" {% if request.path == '/web/' %}class="active"{% endif %}>
+                           <a href="{% url 'web_list' %}"><i class="fa fa-lg fa-fw fa-home"></i> Forms</a>                            
+                        </li>
+                        {% for form_name, form_model in form_models %}
+                        <li id="{{ form_name }}" {% if form.instance.model_name == form_name %}class="active"{% endif %}>
+                            <a href="{% url 'web_create' model_name=form_name %}"><i class="fa fa-lg fa-fw fa-plus"></i> {{ form_model.verbose_name }}</a>
+                        </li>
+                        <li id="{{ form_name }}_edit" {% if model_name_model.model_name == form_name %}class="active"{% endif %}>
+                            <a href="{% url 'web_list' model_name=form_name %}"><i class="fa fa-lg fa-fw fa-edit"></i> Edit {{ form_model.verbose_name }}</a>
+                        </li>
+                        {% endfor %}
+                	{% endblock %}
+                </ul>
+            </nav>
+        </aside>
+ 
+        <!-- MAIN PANEL -->
+        <div id="main">     
+            <!-- RIBBON -->
+            <div id="ribbon">
+            	{% block breadcrumbs %}
+            	{% endblock %}
+            </div>
+            <div id="content">
+            	{% block content %}
+            	{% endblock %}
+            </div>
+        </div>
+ 
+    	{% block bottom_scripts %}
+        <script data-pace-options='{ "restartOnRequestAfter": true }' src="js/plugin/pace/pace.min.js"></script>
+
+        <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+        <script>
+            if (!window.jQuery) {
+                document.write('<script src="js/libs/jquery-2.0.2.min.js"><\/script>');
+            }
+        </script>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+        <script>
+            if (!window.jQuery.ui) {
+                document.write('<script src="js/libs/jquery-ui-1.10.3.min.js"><\/script>');
+            }
+        </script>
+
+        <!-- JS TOUCH : include this plugin for mobile drag / drop touch events
+        <script src="js/plugin/jquery-touch/jquery.ui.touch-punch.min.js"></script> -->
+
+        <!-- BOOTSTRAP JS -->
+        <script src="/static/js/bootstrap/bootstrap.min.js"></script>
+
+        <!-- CUSTOM NOTIFICATION -->
+        <script src="/static/js/notification/SmartNotification.min.js"></script>
+
+        <!-- JARVIS WIDGETS -->
+        <script src="/static/js/smartwidgets/jarvis.widget.min.js"></script>
+
+        <!-- EASY PIE CHARTS -->
+        <script src="/static/js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js"></script>
+
+        <!-- SPARKLINES -->
+        <script src="/static/js/plugin/sparkline/jquery.sparkline.min.js"></script>
+
+        <!-- JQUERY VALIDATE -->
+        <script src="/static/js/plugin/jquery-validate/jquery.validate.min.js"></script>
+
+        <!-- JQUERY MASKED INPUT -->
+        <script src="/static/js/plugin/masked-input/jquery.maskedinput.min.js"></script>
+
+        <!-- JQUERY SELECT2 INPUT -->
+        <script src="/static/js/plugin/select2/select2.min.js"></script>
+
+        <!-- JQUERY UI + Bootstrap Slider -->
+        <script src="/static/js/plugin/bootstrap-slider/bootstrap-slider.min.js"></script>
+
+        <!-- browser msie issue fix -->
+        <script src="/static/js/plugin/msie-fix/jquery.mb.browser.min.js"></script>
+
+        <!-- FastClick: For mobile devices -->
+        <script src="/static/js/plugin/fastclick/fastclick.js"></script>
+
+        <!--[if IE 7]>
+
+        <h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
+
+        <![endif]-->
+
+        <!-- MAIN APP JS FILE -->
+        <script src="/static/js/app.js"></script>
+
+        <!-- PAGE RELATED PLUGIN(S) 
+        <script src="..."></script>-->
+
+        <script type="text/javascript">
+        
+        // DO NOT REMOVE : GLOBAL FUNCTIONS!
+        
+        $(document).ready(function() {
+            
+            pageSetUp();
+        
+        })
+
+        </script>
+    	{% endblock %}
+    </body>
 </html>

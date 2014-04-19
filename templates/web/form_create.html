@@ -2,24 +2,49 @@
 {% load bootstrap3 %}
 {% load jsonify %}
 {% block content %}
-<div class="row">
-	<h1>Fill a form <small>{{ object.verbose_name }}</small></h1>
-</div>
-<div class="row">
-	{% if form.instance.visibility_dependencies %}
-	<script>
-		var visibility_dependencies = {{ form.instance.visibility_dependencies|jsonify }};
-	</script>
-	{% endif %}
-	<form action="{% url 'web_create' model_name=view.kwargs.model_name %}" method="post" enctype="multipart/form-data" class="form">
-	{% csrf_token %} {% bootstrap_form form %} 
 
-	{% buttons %}
-		<button type="submit" class="btn btn-primary">
-		{% bootstrap_icon 'ok' %} Submit
-		</button>
-	{% endbuttons %}
+<div class="row">
+	<div class="col-sm-12 col-md-12 col-lg-6">
+		<div class="jarviswidget">
+			<header>
+				<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+				<h2>Fill a form</h2>
+			</header>
+			<div>
+				<div class="widget-body">
+					{% if form.instance.visibility_dependencies %}
+					<script>
+						var visibility_dependencies = {{ form.instance.visibility_dependencies|jsonify }};
+					</script>
+					{% endif %}
 
-	</form>
+					<form action="{% url 'web_create' model_name=form.instance.model_name %}" method="post" enctype="multipart/form-data" class="form-horizontal">
+					{% csrf_token %} 
+
+					<fieldset>
+						<legend>{{ form.instance.verbose_name }}</legend>
+						{% bootstrap_form form label_class="col-md-2" field_class="col-md-10" %}
+					</fieldset>
+
+					<div class="form-actions">
+						<div class="row">
+							<div class="col-md-12">
+								<button type="submit" class="btn btn-primary">
+								{% bootstrap_icon 'ok' %} Submit
+								</button>
+							</div>
+						</div>
+					</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+{% endblock %}
+{% block breadcrumbs %}
+	<ol class="breadcrumb">
+		<li>Forms</li><li>{{ form.instance.verbose_name }}</li><li>Create</li>
+	</ol>
 {% endblock %}

@@ -1,21 +1,37 @@
 {% extends 'web/base.html' %}
 {% load bootstrap3 %}
 {% block content %}
-<div class="page-header">
-	<h1>Delete form</h1>
-</div>
 <div class="row">
-	<form action="{% url 'web_delete' model_name=object.model_name pk=object.pk %}" method="post" class="form">
-	{% csrf_token %}
+	<div class="col-sm-12 col-md-12 col-lg-6">
+		<div class="jarviswidget">
+			<header>
+				<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+				<h2>Delete form</h2>
+			</header>
+			<div>
+				<div class="widget-body">
+					<form action="{% url 'web_delete' model_name=object.model_name pk=object.pk %}" method="post" class="form">
+					{% csrf_token %} 
 
-	<p>Are you sure you want to delete "{{ object }}"?</p>
+					<fieldset>
+						<legend>{{ object.verbose_name }}</legend>
+						<p>Are you sure you want to delete "{{ object }}"?</p>
+					</fieldset>
 
-	{% buttons %}
-		<button type="submit" class="btn btn-danger">
-		{% bootstrap_icon 'remove' %} Delete
-		</button>
-	{% endbuttons %}
+					<div class="form-actions">
+						<div class="row">
+							<div class="col-md-12">
+								<button type="submit" class="btn btn-danger">
+								{% bootstrap_icon 'remove' %} Delete
+								</button>
+							</div>
+						</div>
+					</div>
 
-	</form>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 {% endblock %}

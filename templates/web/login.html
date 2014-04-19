@@ -1,24 +1,31 @@
 {% extends 'web/base.html' %}
 {% load bootstrap3 %}
 {% block content %}
-<div class="page-header">
+<!-- <div class="page-header">
 	<h1>Log in</h1>
+</div> -->
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+		If your don't have an account, <button class="btn"><a href="{% url 'web_user_registration' %}">Register</a></button>
+	</div>
 </div>
 <div class="row">
-	If your don't have an account, <button class="btn"><a href="{% url 'web_user_registration' %}">Register</a></button>
-</div>
-<div class="row">
-	<form action="{% url 'django.contrib.auth.views.login' %}" method="post" class="form">
-	{% csrf_token %} {% bootstrap_form form %} 
+	<div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+		<form action="{% url 'django.contrib.auth.views.login' %}" method="post" class="form">
+		{% csrf_token %} {% bootstrap_form form %}
 
-	{% buttons %}
-		<button type="submit" class="btn btn-primary">
-		Log in
-		</button>
-	{% endbuttons %}
+		{% buttons %}
+			<button type="submit" class="btn btn-primary">
+			Log in
+			</button>
+		{% endbuttons %}
 
-	</form>
+		</form>
+	</div>
 </div>
 {% endblock %}
-{% block navigation %}
+{% block breadcrumbs %}
+	<ol class="breadcrumb">
+		<li>Log in</li>
+	</ol>
 {% endblock %}

@@ -57,9 +57,15 @@
  
 <header id="header">
     <div id="logo-group">
-        <!-- PLACE YOUR LOGO HERE -->
-         <span id="logo"><img alt="logo" src="{{ logo.icon_file.url }}"></span> 
-        <!-- END LOGO PLACEHOLDER -->        
+        <style>
+        .logo-img { width: auto !important; height: 30px !important; }
+        </style>
+        <span id="logo">
+            <img alt="logotype" class="logo-img" src="{{ logo.icon_file.url }}">
+            {% for partner_logo in partners_logos %}
+                <img alt="logotype" class="logo-img" src="{{ partner_logo.icon_file.url }}">
+            {% endfor %}
+        </span> 
  
     </div>
     

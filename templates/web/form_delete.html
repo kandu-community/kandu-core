@@ -35,3 +35,8 @@
 	</div>
 </div>
 {% endblock %}
+{% block breadcrumbs %}
+	<ol class="breadcrumb">
+		<li>Forms</li><li>{{ form.instance.verbose_name }}</li><li>Delete</li>
+	</ol>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'web/base.html' %}
+{% load bootstrap3 %}
+{% block content %}
+<!-- <div class="row">
+	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+		<h1 class="page-title">{{ model_name_model.verbose_name }}</h1>
+	</div>
+</div> -->
+
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+		{{ map.map }}
+		{{ map.media.js }}
+	</div>
+</div>
+<div class="row">
+</div>
+{% endblock %}
+{% block breadcrumbs %}
+	<ol class="breadcrumb">
+		<li>Forms</li> <li>Map</li>
+	</ol>
+{% endblock %}

@@ -128,8 +128,8 @@
             <nav>
                 <ul>
                 	{% block navigation %}
-                        <li id="index" {% if request.path == '/web/' %}class="active"{% endif %}>
-                           <a href="{% url 'web_list' %}"><i class="fa fa-lg fa-fw fa-home"></i> Forms</a>                            
+                        <li id="index" {% if request.path == '/web/map/' %}class="active"{% endif %}>
+                           <a href="{% url 'web_map' %}"><i class="fa fa-lg fa-fw fa-home"></i> Map</a>                            
                         </li>
                         {% for form_name, form_model in form_models %}
                         <li id="{{ form_name }}" {% if form.instance.model_name == form_name %}class="active"{% endif %}>

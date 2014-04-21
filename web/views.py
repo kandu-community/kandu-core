@@ -48,21 +48,12 @@ class SuccessRedirectMixin(object):
 	def get_success_url(self):
 		return reverse('web_list')
 
-class BaseFormList(ListView):
-	template_name = 'web/form_list.html'
-	paginate_by = 20
-	
-	def get_queryset(self):
-		if self.request.user.is_staff: # staff sees everything
-			return BaseFormModel.objects.select_subclasses()
-		else:
-			return BaseFormModel.objects.filter(user=self.request.user).select_subclasses()
-
+class MapMixin(object):
 	def get_context_data(self, **kwargs):
 		'''
 		Adds a list of forms current user can fill into template context.
 		'''
-		context = super(BaseFormList, self).get_context_data(**kwargs)
+		context = super(MapMixin, self).get_context_data(**kwargs)
 
 		context['map'] = self.get_map()
 		return context
@@ -84,6 +75,19 @@ class BaseFormList(ListView):
 			map = Field(widget=GoogleMap(attrs={'width':510, 'height':510}))
 
 		return MapForm(initial={'map': gmap})
+
+class BaseFormList(ListView):
+	template_name = 'web/form_list.html'
+	paginate_by = 20
+	
+	def get_queryset(self):
+		if self.request.user.is_staff: # staff sees everything
+			return BaseFormModel.objects.select_subclasses()
+		else:
+			return BaseFormModel.objects.filter(user=self.request.user).select_subclasses()
+
+class MapView(MapMixin, BaseFormList):
+	template_name = 'web/map_view.html'
 
 class FormList(ModelFromUrlMixin, BaseFormList):
 	def get_queryset(self):

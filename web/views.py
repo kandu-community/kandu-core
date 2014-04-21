@@ -68,6 +68,16 @@ class MapMixin(object):
 						'map': gmap,
 						'position': maps.LatLng(*form_object.place.split(',')),
 					})
+
+					maps.event.addListener(marker, 'click', 'myobj.markerOver')
+					info = maps.InfoWindow({
+						'content': '<a href="{url}">{text}</a>'.format(
+							text = form_object.__unicode__(),
+							url = reverse('web_update', kwargs={'model_name': form_object.model_name(), 'pk': form_object.pk})
+						),
+						'disableAutoPan': True
+					})
+					info.open(gmap, marker)
 				except (TypeError, AttributeError):
 					continue
 

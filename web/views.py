@@ -82,7 +82,7 @@ class MapMixin(object):
 					continue
 
 		class MapForm(Form):
-			map = Field(widget=GoogleMap(attrs={'width':510, 'height':510}))
+			map = Field(widget=GoogleMap(attrs={'width':800, 'height':550}))
 
 		return MapForm(initial={'map': gmap})
 

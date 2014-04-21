@@ -14,6 +14,9 @@ class MultiSelectField(fields.ChoiceField):
         if value in validators.EMPTY_VALUES and self.required:
             raise exceptions.ValidationError(self.error_messages['required'])
 
+        if isinstance(value, basestring): #we got a json array in a form of string
+            value = value.split(',')
+
         arr_choices = [ short for short, full in self.choices ]
         for opt_select in value:
             if opt_select not in arr_choices:

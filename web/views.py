@@ -68,6 +68,8 @@ class MapMixin(object):
 						'map': gmap,
 						'position': maps.LatLng(*form_object.place.split(',')),
 					})
+				except (TypeError, AttributeError): #no coordinates field or it has invalid value
+					continue
 
 					maps.event.addListener(marker, 'click', 'myobj.markerOver')
 					info = maps.InfoWindow({
@@ -78,8 +80,6 @@ class MapMixin(object):
 						'disableAutoPan': True
 					})
 					info.open(gmap, marker)
-				except (TypeError, AttributeError):
-					continue
 
 		class MapForm(Form):
 			map = Field(widget=GoogleMap(attrs={'width':800, 'height':550}))

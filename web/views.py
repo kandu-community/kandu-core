@@ -41,7 +41,7 @@ class ExcludeFieldsMixin(object):
 	'''
 
 	def get_exclude_fields(self):
-		exclude_fields = ['user'] + \
+		exclude_fields = ['user', 'created_at'] + \
 		[ field.name for field in self.get_queryset().model._meta.fields if isinstance(field, CoordinatesField) ]
 
 		return exclude_fields
@@ -96,7 +96,7 @@ class AutocompleteFormMixin(object):
 			return autocomplete_light.modelform_factory(
 				self.get_queryset().model, 
 				autocomplete_fields=[ field.name for field in self.get_queryset().model._meta.fields if isinstance(field, models.ForeignKey) ],
-				autocomplete_exclude=getattr(self, 'get_exclude_fields', None)()
+				exclude=getattr(self, 'get_exclude_fields', None)()
 			)
 
 class BaseFormList(ListView):
@@ -105,9 +105,9 @@ class BaseFormList(ListView):
 	
 	def get_queryset(self):
 		if self.request.user.is_staff: # staff sees everything
-			return BaseFormModel.objects.select_subclasses()
+			return BaseFormModel.objects.order_by('-created_at').select_subclasses()
 		else:
-			return BaseFormModel.objects.filter(user=self.request.user).select_subclasses()
+			return BaseFormModel.objects.order_by('-created_at').filter(user=self.request.user).select_subclasses()
 
 class MapView(MapMixin, BaseFormList):
 	template_name = 'web/map_view.html'

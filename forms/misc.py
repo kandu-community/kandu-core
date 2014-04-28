@@ -1,6 +1,6 @@
 #coding:utf-8
 
-from django.db.models import Model, ForeignKey, ImageField, BooleanField
+from django.db.models import Model, ForeignKey, ImageField, DateTimeField
 from django.contrib.auth.models import User, Group
 from django.dispatch import receiver
 from django.db.models import signals
@@ -10,6 +10,7 @@ import re
 
 class BaseFormModel(Model):
 	user = ForeignKey(User)
+	created_at = DateTimeField(auto_now_add=True)
 
 	objects = InheritanceManager()
 

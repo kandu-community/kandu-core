@@ -93,7 +93,7 @@ class FormSearch(FormList):
 			if isinstance(field, models.CharField) 
 		]
 
-		q_objects = [ models.Q(**{ field_name + '__contains': search_query }) for field_name in search_fields ]
+		q_objects = [ models.Q(**{ field_name + '__icontains': search_query }) for field_name in search_fields ]
 
 		return parent_queryset.filter(reduce(operator.or_, q_objects))
 

@@ -101,7 +101,7 @@ class AutocompleteFormMixin(object):
 
 class BaseFormList(ListView):
 	template_name = 'web/form_list.html'
-	paginate_by = 20
+	paginate_by = 10
 	
 	def get_queryset(self):
 		if self.request.user.is_staff: # staff sees everything

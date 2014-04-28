@@ -8,10 +8,9 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.http import HttpResponse
 from django.db import models
-import operator
 
 from forms.misc import BaseFormModel
-from forms.utils import get_form_models
+from forms.utils import get_form_models, search_in_queryset
 import forms.models
 from permissions import IsOwnerOrStaff
 from serializers import BaseFormSerializer, CustomModelSerializer
@@ -88,15 +87,7 @@ class FormSearch(FormList):
 		except KeyError:
 			raise exceptions.ParseError('You have to supply "query" GET parameter')
 
-		search_fields = [ 
-			field.name for field in parent_queryset.model._meta.fields 
-			if isinstance(field, models.CharField) 
-		]
-
-		q_objects = [ models.Q(**{ field_name + '__icontains': search_query }) for field_name in search_fields ]
-
-		return parent_queryset.filter(reduce(operator.or_, q_objects))
-
+		return search_in_queryset(parent_queryset, search_query)
 
 class FormDetail(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.RetrieveUpdateDestroyAPIView):
 	'''

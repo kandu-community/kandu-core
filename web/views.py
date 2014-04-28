@@ -14,9 +14,11 @@ from django.conf import settings
 import os
 from gmapi import maps
 from gmapi.forms.widgets import GoogleMap
+import autocomplete_light
+from django.db import models
 
 import forms.models
-from forms.utils import get_form_models
+from forms.utils import get_form_models, get_search_fields
 from forms.misc import BaseFormModel
 from forms.fields import CoordinatesField
 
@@ -38,11 +40,11 @@ class ExcludeFieldsMixin(object):
 	needed to be excluded (eg. 'user', coordinates fields)
 	'''
 
-	def get_form_class(self):
+	def get_exclude_fields(self):
 		exclude_fields = ['user'] + \
 		[ field.name for field in self.get_queryset().model._meta.fields if isinstance(field, CoordinatesField) ]
 
-		return modelform_factory(self.get_queryset().model, exclude=exclude_fields)
+		return exclude_fields
 
 class SuccessRedirectMixin(object):
 	def get_success_url(self):
@@ -86,6 +88,17 @@ class MapMixin(object):
 
 		return MapForm(initial={'map': gmap})
 
+class AutocompleteFormMixin(object):
+	def get_form_class(self):
+		if self.form_class:
+			return self.form_class
+		else:
+			return autocomplete_light.modelform_factory(
+				self.get_queryset().model, 
+				autocomplete_fields=[ field.name for field in self.get_queryset().model._meta.fields if isinstance(field, models.ForeignKey) ],
+				autocomplete_exclude=getattr(self, 'get_exclude_fields', None)()
+			)
+
 class BaseFormList(ListView):
 	template_name = 'web/form_list.html'
 	paginate_by = 20
@@ -113,14 +126,14 @@ class FormList(ModelFromUrlMixin, BaseFormList):
 		context['model_name_model'] = self.object_list.model
 		return context
 
-class FormCreate(ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, CreateView):
+class FormCreate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, CreateView):
 	template_name = 'web/form_create.html'
 
 	def form_valid(self, form):
 		form.instance.user = self.request.user
 		return super(FormCreate, self).form_valid(form)
 
-class FormUpdate(ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, UpdateView):
+class FormUpdate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, UpdateView):
 	template_name = 'web/form_update.html'
 
 class FormDelete(SuccessRedirectMixin, ModelFromUrlMixin, DeleteView):

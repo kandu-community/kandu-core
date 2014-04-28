@@ -1,6 +1,7 @@
 from django.contrib import admin
+import autocomplete_light
 
-from utils import get_form_models
+from utils import get_form_models, get_search_fields
 
 for form_name, form_model in get_form_models():
 	try:
@@ -11,3 +12,5 @@ for form_name, form_model in get_form_models():
 		
 	except AttributeError:
 		admin.site.register(form_model)
+
+	autocomplete_light.register(form_model, search_fields=get_search_fields(form_model))

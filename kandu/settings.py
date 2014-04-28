@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'gmapi',
     'jsonify',
     'south',
+    'autocomplete_light',
     'forms',
     'web',
     'api',

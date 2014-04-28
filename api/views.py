@@ -7,6 +7,8 @@ from rest_framework import serializers
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.http import HttpResponse
+from django.db import models
+import operator
 
 from forms.misc import BaseFormModel
 from forms.utils import get_form_models
@@ -76,6 +78,25 @@ class FormList(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.ListCreateAPIVie
 	def pre_save(self, obj):
 		obj.user = self.request.user
 		super(FormList, self).pre_save(obj)
+
+class FormSearch(FormList):
+	def filter_queryset(self, queryset):
+		parent_queryset = super(FormSearch, self).filter_queryset(queryset)
+
+		try:
+			search_query = self.request.GET['query']
+		except KeyError:
+			raise exceptions.ParseError('You have to supply "query" GET parameter')
+
+		search_fields = [ 
+			field.name for field in parent_queryset.model._meta.fields 
+			if isinstance(field, models.CharField) 
+		]
+
+		q_objects = [ models.Q(**{ field_name + '__contains': search_query }) for field_name in search_fields ]
+
+		return parent_queryset.filter(reduce(operator.or_, q_objects))
+
 
 class FormDetail(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.RetrieveUpdateDestroyAPIView):
 	'''

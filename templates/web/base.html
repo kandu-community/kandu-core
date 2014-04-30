@@ -51,6 +51,12 @@
     rel="apple-touch-startup-image">
     <link href="/static/img/splash/iphone.png" media=
     "screen and (max-device-width: 320px)" rel="apple-touch-startup-image">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+        <script>
+            if (!window.jQuery) {
+                document.write('<script src="js/libs/jquery-2.0.2.min.js"><\/script>');
+            }
+        </script>
 </head>
  
 <body class="">
@@ -127,7 +133,7 @@
             {% endif %}
             <nav>
                 <ul>
-                	{% block navigation %}
+                    {% block navigation %}
                         <li id="index" {% if request.path == '/web/map/' %}class="active"{% endif %}>
                            <a href="{% url 'web_map' %}"><i class="fa fa-lg fa-fw fa-home"></i> Map</a>                            
                         </li>
@@ -139,7 +145,7 @@
                             <a href="{% url 'web_list' model_name=form_name %}"><i class="fa fa-lg fa-fw fa-edit"></i> Edit {{ form_model.verbose_name }}</a>
                         </li>
                         {% endfor %}
-                	{% endblock %}
+                    {% endblock %}
                 </ul>
             </nav>
         </aside>
@@ -148,23 +154,17 @@
         <div id="main">     
             <!-- RIBBON -->
             <div id="ribbon">
-            	{% block breadcrumbs %}
-            	{% endblock %}
+                {% block breadcrumbs %}
+                {% endblock %}
             </div>
             <div id="content">
-            	{% block content %}
-            	{% endblock %}
+                {% block content %}
+                {% endblock %}
             </div>
         </div>
  
-    	{% block bottom_scripts %}
+        {% block bottom_scripts %}
         <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-        <script>
-            if (!window.jQuery) {
-                document.write('<script src="js/libs/jquery-2.0.2.min.js"><\/script>');
-            }
-        </script>
         {% include 'autocomplete_light/static.html' %}
 
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>

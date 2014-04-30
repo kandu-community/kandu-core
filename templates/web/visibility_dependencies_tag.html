@@ -1,0 +1,33 @@
+<script>
+	var master_inputs = {{ dependencies_dict }};
+
+	function manage_input(master_input, slave_input_name, trigger_value) {
+		slave_input = $('div.form-group:has([name="'+slave_input_name+'"])');
+		
+		if (master_input.val() == trigger_value) {
+			slave_input.show(200);
+		} else {
+			slave_input.hide(200);
+		}
+	}
+
+	$( document ).ready(function() {
+		for (master_input in master_inputs) {
+			for (trigger_value in master_inputs[master_input]) {
+				for (slave_input_index in master_inputs[master_input][trigger_value]) {
+					slave_input_name = master_inputs[master_input][trigger_value][slave_input_index];
+					manage_input($('[name="'+master_input+'"]'), slave_input_name, trigger_value);
+				}
+			}
+
+			$('[name="'+master_input+'"]').change(function(){
+				for (trigger_value in master_inputs[master_input]) {
+					for (slave_input_index in master_inputs[master_input][trigger_value]) {
+						slave_input_name = master_inputs[master_input][trigger_value][slave_input_index];
+						manage_input($(this), slave_input_name, trigger_value);
+					}
+				}
+			});
+		}
+	});
+</script>

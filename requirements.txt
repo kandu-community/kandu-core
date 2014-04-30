@@ -6,6 +6,5 @@ django-bootstrap3
 south
 django-model-utils
 django-multiselectfield
-django-jsonify
 -e hg+https://bitbucket.org/dbinit/django-gmapi#egg=django-gmapi-new
 -e git+https://github.com/yourlabs/django-autocomplete-light@v2#egg=autocomplete_light

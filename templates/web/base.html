@@ -62,18 +62,37 @@
 <body class="">
  
 <header id="header">
-    <div id="logo-group">
+    <!-- <div id="logo-group"> -->
         <style>
-        .logo-img { width: auto !important; height: 30px !important; }
+        .logo-img { width: auto !important; height: 50px !important; }
+        #header { height: 70px !important; }
+        #left-panel { top: 70px !important; }
+        #logo { width: auto !important; }
+        .partner-logos { margin-right: 20px; }
         </style>
         <span id="logo">
             <img alt="logotype" class="logo-img" src="{{ logo.icon_file.url }}">
+        </span>
+        <div class="pull-right">
+            <!-- collapse menu button -->
+     
+            <div class="btn-header pull-right" id="hide-menu">
+                <span><a href="javascript:void(0);" title="Collapse Menu"><i class="fa fa-reorder"></i></a></span>
+            </div><!-- end collapse menu -->
+     
+            <!-- logout button -->
+     
+            <div class="btn-header transparent pull-right" id="logout">
+                <span><a data-logout-msg="You can improve your security further after logging out by closing this opened browser" href="{% url 'django.contrib.auth.views.logout' %}" title="Sign Out"><i class="fa fa-sign-out"></i></a></span>
+            </div><!-- end logout button -->
+        </div><!-- end pulled right: nav area -->
+        <span id="logo" class="pull-right partner-logos">
             {% for partner_logo in partners_logos %}
                 <img alt="logotype" class="logo-img" src="{{ partner_logo.icon_file.url }}">
             {% endfor %}
-        </span> 
+        </span>
  
-    </div>
+    <!-- </div> -->
     
 <!--     <div id="project-context">
         <span class="label">Projects:</span> <span class=
@@ -89,18 +108,7 @@
     </div> -->
  
  
-    <div class="pull-right">
-        <!-- collapse menu button -->
- 
-        <div class="btn-header pull-right" id="hide-menu">
-            <span><a href="javascript:void(0);" title="Collapse Menu"><i class="fa fa-reorder"></i></a></span>
-        </div><!-- end collapse menu -->
- 
-        <!-- logout button -->
- 
-        <div class="btn-header transparent pull-right" id="logout">
-            <span><a data-logout-msg="You can improve your security further after logging out by closing this opened browser" href="{% url 'django.contrib.auth.views.logout' %}" title="Sign Out"><i class="fa fa-sign-out"></i></a></span>
-        </div><!-- end logout button -->
+
  
 <!--         <div class="btn-header transparent pull-right" id="search-mobile">
             <span><a href="javascript:void(0)" title="Search"></a></span>
@@ -111,7 +119,6 @@
  
         </form> -->
  
-    </div><!-- end pulled right: nav area -->
 </header><!-- END HEADER -->
  
         <aside id="left-panel">

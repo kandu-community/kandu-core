@@ -1,6 +1,6 @@
 {% extends 'web/base.html' %}
 {% load bootstrap3 %}
-{% load jsonify %}
+{% load custom_tags %}
 {% block content %}
 
 <div class="row">
@@ -13,9 +13,7 @@
 			<div>
 				<div class="widget-body">
 					{% if form.instance.visibility_dependencies %}
-					<script>
-						var visibility_dependencies = {{ form.instance.visibility_dependencies|jsonify }};
-					</script>
+						{% visibility_dependencies_js form.instance.visibility_dependencies %}
 					{% endif %}
 
 					<form action="{% url 'web_update' model_name=object.model_name pk=object.pk %}" method="post" enctype="multipart/form-data" class="form-horizontal">

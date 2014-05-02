@@ -4,6 +4,6 @@ from models import Icon
 
 def icons(request):
 	return {
-		'logo': Icon.objects.filter(partner_icon=False).first(),
-		'partners_logos': Icon.objects.filter(partner_icon=True)
+		'logo': Icon.objects.filter(partner_icon=True).first(),
+		'other_logos': Icon.objects.filter(partner_icon=False)
 	}

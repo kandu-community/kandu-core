@@ -53,10 +53,10 @@
 	        <span id="logo">
 	            <img alt="logotype" class="logo-img" src="{{ logo.icon_file.url }}">
 	        </span> 
-            <span id="logo" class="partner-logos">
-            {% for partner_logo in partners_logos %}
-                <img alt="logotype" class="logo-img" src="{{ partner_logo.icon_file.url }}">
-            {% endfor %}
+	        <span id="logo" class="partner-logos">
+	            {% for other_logo in other_logos %}
+	                <img alt="logotype" class="logo-img" src="{{ other_logo.icon_file.url }}">
+	            {% endfor %}
 	        </span>
 	 
 	    <!-- </div> -->

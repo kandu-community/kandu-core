@@ -42,7 +42,16 @@ class ReadOnlyFieldsMixin(object):
 
 		return DefaultSerializer
 
-class BaseFormList(generics.ListAPIView):
+class StaffOmnividenceMixin(object):
+	def filter_queryset(self, queryset):
+		queryset = super(StaffOmnividenceMixin, self).filter_queryset(queryset)
+
+		if self.request.user.is_staff: # staff sees everything
+			return queryset
+		else:
+			return queryset.filter(user=self.request.user)
+
+class BaseFormList(StaffOmnividenceMixin, generics.ListAPIView):
 	'''
 	List of all forms submitted by the current user.
 	'''
@@ -53,12 +62,9 @@ class BaseFormList(generics.ListAPIView):
 	serializer_class = BaseFormSerializer
 
 	def filter_queryset(self, queryset):
-		if self.request.user.is_staff: # staff sees everything
-			return queryset.select_subclasses()
-		else:
-			return queryset.filter(user=self.request.user).select_subclasses()
+		return super(BaseFormList, self).filter_queryset(queryset).select_subclasses()
 
-class FormList(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.ListCreateAPIView):
+class FormList(ModelFromUrlMixin, ReadOnlyFieldsMixin, StaffOmnividenceMixin, generics.ListCreateAPIView):
 	'''
 	Submissions of a particular form by the current user.
 	'''
@@ -68,17 +74,14 @@ class FormList(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.ListCreateAPIVie
 	permission_classes = (permissions.IsAuthenticated,)
 	model_serializer_class = CustomModelSerializer
 
-	def filter_queryset(self, queryset):
-		if self.request.user.is_staff: # staff sees everything
-			return queryset
-		else:
-			return queryset.filter(user=self.request.user)
-
 	def pre_save(self, obj):
 		obj.user = self.request.user
 		super(FormList, self).pre_save(obj)
 
-class FormSearch(FormList):
+class FormSearch(ModelFromUrlMixin, StaffOmnividenceMixin, generics.ListAPIView):
+	paginate_by = 20
+	model_serializer_class = CustomModelSerializer
+
 	def filter_queryset(self, queryset):
 		parent_queryset = super(FormSearch, self).filter_queryset(queryset)
 

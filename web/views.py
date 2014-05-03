@@ -16,6 +16,9 @@ from gmapi import maps
 from gmapi.forms.widgets import GoogleMap
 import autocomplete_light
 from django.db import models
+from django.contrib.gis.geoip import GeoIP
+from django.contrib.gis.db.models import PointField
+from django.contrib.gis.measure import Distance
 
 import forms.models
 from forms.utils import get_form_models, get_search_fields
@@ -42,7 +45,7 @@ class ExcludeFieldsMixin(object):
 
 	def get_exclude_fields(self):
 		exclude_fields = ['user', 'created_at'] + \
-		[ field.name for field in self.get_queryset().model._meta.fields if isinstance(field, CoordinatesField) ]
+		[ field.name for field in self.get_queryset().model._meta.fields if isinstance(field, PointField) ]
 
 		return exclude_fields
 
@@ -66,9 +69,10 @@ class MapMixin(object):
 		for form_object in self.object_list:
 			if form_object.show_on_map:
 				try:
+					lng, lat = form_object.location_field.coords
 					marker = maps.Marker(opts = {
 						'map': gmap,
-						'position': maps.LatLng(*form_object.place.split(',')),
+						'position': maps.LatLng(lat, lng),
 					})
 
 					maps.event.addListener(marker, 'click', 'myobj.markerOver')
@@ -109,8 +113,25 @@ class BaseFormList(ListView):
 		else:
 			return BaseFormModel.objects.order_by('-created_at').filter(user=self.request.user).select_subclasses()
 
-class MapView(MapMixin, BaseFormList):
+class MapView(MapMixin, ListView):
 	template_name = 'web/map_view.html'
+	max_objects = 10
+
+	def get_queryset(self):
+		ip_address = self.request.META.get('REMOTE_ADDR', None)
+
+		gi = GeoIP(settings.STATIC_ROOT)
+		location = gi.lon_lat(ip_address)
+
+		object_list = []
+		for form_name, form_model in get_form_models(for_user=self.request.user):
+			if location: # first closest objects
+				object_list += list( form_model.objects.distance(location.wkt).order_by('distance')[:self.max_objects] )
+
+			else: # falling back to just first objects
+				object_list += list(form_model.objects.order_by('created_at')[:self.max_objects])
+
+		return object_list
 
 class FormList(ModelFromUrlMixin, BaseFormList):
 	def get_queryset(self):

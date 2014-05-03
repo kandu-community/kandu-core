@@ -8,6 +8,8 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.http import HttpResponse
 from django.db import models
+from django.contrib.gis.measure import Distance
+from django.contrib.gis.geos import Point
 
 from forms.misc import BaseFormModel
 from forms.utils import get_form_models, search_in_queryset
@@ -42,7 +44,16 @@ class ReadOnlyFieldsMixin(object):
 
 		return DefaultSerializer
 
-class BaseFormList(generics.ListAPIView):
+class StaffOmnividenceMixin(object):
+	def filter_queryset(self, queryset):
+		queryset = super(StaffOmnividenceMixin, self).filter_queryset(queryset)
+
+		if self.request.user.is_staff: # staff sees everything
+			return queryset
+		else:
+			return queryset.filter(user=self.request.user)
+
+class BaseFormList(StaffOmnividenceMixin, generics.ListAPIView):
 	'''
 	List of all forms submitted by the current user.
 	'''
@@ -53,12 +64,9 @@ class BaseFormList(generics.ListAPIView):
 	serializer_class = BaseFormSerializer
 
 	def filter_queryset(self, queryset):
-		if self.request.user.is_staff: # staff sees everything
-			return queryset.select_subclasses()
-		else:
-			return queryset.filter(user=self.request.user).select_subclasses()
+		return super(BaseFormList, self).filter_queryset(queryset).select_subclasses()
 
-class FormList(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.ListCreateAPIView):
+class FormList(ModelFromUrlMixin, ReadOnlyFieldsMixin, StaffOmnividenceMixin, generics.ListCreateAPIView):
 	'''
 	Submissions of a particular form by the current user.
 	'''
@@ -68,17 +76,14 @@ class FormList(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.ListCreateAPIVie
 	permission_classes = (permissions.IsAuthenticated,)
 	model_serializer_class = CustomModelSerializer
 
-	def filter_queryset(self, queryset):
-		if self.request.user.is_staff: # staff sees everything
-			return queryset
-		else:
-			return queryset.filter(user=self.request.user)
-
 	def pre_save(self, obj):
 		obj.user = self.request.user
 		super(FormList, self).pre_save(obj)
 
-class FormSearch(FormList):
+class FormSearch(ModelFromUrlMixin, StaffOmnividenceMixin, generics.ListAPIView):
+	paginate_by = 20
+	model_serializer_class = CustomModelSerializer
+
 	def filter_queryset(self, queryset):
 		parent_queryset = super(FormSearch, self).filter_queryset(queryset)
 
@@ -88,6 +93,22 @@ class FormSearch(FormList):
 			raise exceptions.ParseError('You have to supply "query" GET parameter')
 
 		return search_in_queryset(parent_queryset, search_query)
+
+class FormInRadius(ModelFromUrlMixin, StaffOmnividenceMixin, generics.ListAPIView):
+	paginate_by = 20
+	model_serializer_class = CustomModelSerializer
+
+	def filter_queryset(self, queryset):
+		parent_queryset = super(FormInRadius, self).filter_queryset(queryset)
+
+		try:
+			lat = float(self.request.GET['lat'])
+			lng = float(self.request.GET['long'])
+			radius = float(self.request.GET['radius'])
+		except KeyError:
+			raise exceptions.ParseError('You have to supply "lat", "long" and "radius" GET parameters')
+
+		return parent_queryset.filter(place__distance_lte=(Point(lng, lat), Distance(km=radius)))
 
 class FormDetail(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.RetrieveUpdateDestroyAPIView):
 	'''

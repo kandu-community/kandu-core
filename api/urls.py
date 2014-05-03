@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^getSubmissions/(?P<model_name>\w+)/$', views.FormList.as_view(), name='api_list'),
     url(r'^getSubmissions/(?P<model_name>\w+)/(?P<pk>\d+)/$', views.FormDetail.as_view(), name='api_detail'),
     url(r'^getSubmissions/(?P<model_name>\w+)/search/?$', views.FormSearch.as_view(), name='api_search'),
+    url(r'^getSubmissions/(?P<model_name>\w+)/inRadius/?$', views.FormInRadius.as_view(), name='api_in_radius'),
 
     url(r'^getIcons/$', icons.views.IconList.as_view(), name='api_icons'),
 

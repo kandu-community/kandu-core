@@ -149,3 +149,5 @@ BOOTSTRAP3 = {
         'default': 'bootstrap3.renderers.FormRenderer',
     }
 }
+
+GEOIP_LIBRARY_PATH = "/home/inomma/lib/libGeoIP.so"

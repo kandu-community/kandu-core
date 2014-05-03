@@ -7,10 +7,16 @@ class CoordinatesField(fields.CharField):
 	type_label = 'coordinates'
 
 	def to_native(self, obj):
+		if obj == None:
+			return None
+
 		longitude, lattitude = obj.coords
 		return (lattitude, longitude)
 
 	def from_native(self, data):
+		if data in validators.EMPTY_VALUES:
+			return None
+
 		if isinstance(data, basestring):
 			lattitude, longitude = map(float, data.split(','))
 		else:

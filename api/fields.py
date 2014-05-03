@@ -10,11 +10,13 @@ class CoordinateField(fields.WritableField):
 		return json.dumps(map(float, value.split(',')))
 
 class MultiSelectField(fields.ChoiceField):
+    type_label = 'multiple choice (multi-select)'
+
     def validate(self, value):
         if value in validators.EMPTY_VALUES and self.required:
             raise exceptions.ValidationError(self.error_messages['required'])
 
-        if isinstance(value, basestring): #we got a json array in a form of string
+        if isinstance(value, basestring): #we got a list in a form of string
             value = value.split(',')
 
         arr_choices = [ short for short, full in self.choices ]

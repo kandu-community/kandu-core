@@ -4,6 +4,7 @@ from django.db.models import Model, ForeignKey, ImageField, DateTimeField
 from django.contrib.auth.models import User, Group
 from django.dispatch import receiver
 from django.db.models import signals
+from django.contrib.gis.db.models import PointField
 from model_utils.managers import InheritanceManager
 import json
 import re
@@ -20,12 +21,17 @@ class BaseFormModel(Model):
 		return self.__class__.__name__
 
 	@classmethod
+	def location_field(cls):
+		field_name = next( field.name for field in cls._meta.fields if isinstance(field, PointField) ) 
+		return field_name
+
+	@classmethod
 	def verbose_name(cls):
 		return cls._meta.verbose_name.title()
 
 	def __unicode__(self):
 		try:
-			return u', '.join( unicode(getattr(self, field_name)) for field_name in self.label_fields if hasattr(self, field_name) )
+			return u', '.join( unicode(getattr(self, field_name)) for field_name in self.label_fields if hasattr(self, field_name) and getattr(self, field_name) != None )
 		except AttributeError:
 			return self.__class__.verbose_name()
 
@@ -70,7 +76,7 @@ def write_visibility_dependencies(aggregate):
 	return u"\tvisibility_dependencies = %s\n" % aggregate_processed
 
 def write_model(verbose_name):
-	return u"class {name}(BaseFormModel):\n\tclass Meta:\n\t\tverbose_name = u'{verbose_name}'\n".format(name=generate_name(verbose_name), verbose_name=verbose_name)
+	return u"class {name}(BaseFormModel):\n\tclass Meta:\n\t\tverbose_name = u'{verbose_name}'\n\tobjects = GeoManager()\n".format(name=generate_name(verbose_name), verbose_name=verbose_name)
 
 def write_field(verbose_name, datatype, **extra_args):
 	blank = not extra_args.pop('required', False)
@@ -78,14 +84,15 @@ def write_field(verbose_name, datatype, **extra_args):
 
 	datatype_to_field = {
 		'text': ('CharField', {'max_length': 300, 'blank': blank, 'default': "''"}),
-		'number': ('IntegerField', {'null': blank, 'default': 0}),
+		'number': ('IntegerField', {'null': blank, 'blank': blank, 'default': 0}),
 		'boolean': ('BooleanField', {'default': False}),
 		'file': ('FileField', {'upload_to': "'files'", 'blank': blank}),
 		'choice': ('CharField', {'max_length': 200, 'blank': blank, 'choices': choices}),
 		'multi-choice': ('MultiSelectField', {'max_length': 200, 'blank': blank, 'null': blank, 'choices': choices}),
 		'foreign-key': ('ForeignKey', {'null': True, 'blank': True, 'to': "'%s'" % generate_name(extra_args.pop('to', ''))}),
-		'coordinates': ('CoordinatesField', {'max_length': 100, 'blank': blank})
+		'coordinates': ('PointField', {'max_length': 100, 'blank': blank, 'null': blank, 'default': 'Point(0,0)'})
 	}
+
 
 	try:
 		field_class, field_args = datatype_to_field[datatype]
@@ -93,6 +100,9 @@ def write_field(verbose_name, datatype, **extra_args):
 		raise ValueError("Unknown datatype in config: " + datatype)
 	field_args.update(extra_args)
 	field_args['verbose_name'] = u"u'%s'" % verbose_name
+
+	if blank: # if not requred field, no need for default value
+		field_args.pop('default', None)
 
 	field_args_str = [ '{}={}'.format(arg, value) for arg, value in field_args.items() ]
 
@@ -109,9 +119,10 @@ def config_to_models(config_file):
 	output = u'''
 #coding:utf-8
 from django.db.models import *
-from forms.fields import CoordinatesField
+from django.contrib.gis.db.models import PointField, GeoManager
 from forms.misc import BaseFormModel
 from multiselectfield import MultiSelectField
+from django.contrib.gis.geos import Point
 '''
 
 	for form_object in config_array:

@@ -8,6 +8,8 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.http import HttpResponse
 from django.db import models
+from django.contrib.gis.measure import Distance
+from django.contrib.gis.geos import Point
 
 from forms.misc import BaseFormModel
 from forms.utils import get_form_models, search_in_queryset
@@ -91,6 +93,22 @@ class FormSearch(ModelFromUrlMixin, StaffOmnividenceMixin, generics.ListAPIView)
 			raise exceptions.ParseError('You have to supply "query" GET parameter')
 
 		return search_in_queryset(parent_queryset, search_query)
+
+class FormInRadius(ModelFromUrlMixin, StaffOmnividenceMixin, generics.ListAPIView):
+	paginate_by = 20
+	model_serializer_class = CustomModelSerializer
+
+	def filter_queryset(self, queryset):
+		parent_queryset = super(FormInRadius, self).filter_queryset(queryset)
+
+		try:
+			lat = float(self.request.GET['lat'])
+			lng = float(self.request.GET['long'])
+			radius = float(self.request.GET['radius'])
+		except KeyError:
+			raise exceptions.ParseError('You have to supply "lat", "long" and "radius" GET parameters')
+
+		return parent_queryset.filter( **{ parent_queryset.model.location_field() + '__distance_lte': (Point(lng, lat), Distance(km=radius)) } )
 
 class FormDetail(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.RetrieveUpdateDestroyAPIView):
 	'''

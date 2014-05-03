@@ -69,7 +69,7 @@ class MapMixin(object):
 		for form_object in self.object_list:
 			if form_object.show_on_map:
 				try:
-					lng, lat = form_object.location_field.coords
+					lng, lat = getattr(form_object, form_object.location_field()).coords
 					marker = maps.Marker(opts = {
 						'map': gmap,
 						'position': maps.LatLng(lat, lng),

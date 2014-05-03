@@ -108,7 +108,7 @@ class FormInRadius(ModelFromUrlMixin, StaffOmnividenceMixin, generics.ListAPIVie
 		except KeyError:
 			raise exceptions.ParseError('You have to supply "lat", "long" and "radius" GET parameters')
 
-		return parent_queryset.filter(place__distance_lte=(Point(lng, lat), Distance(km=radius)))
+		return parent_queryset.filter( **{ parent_queryset.model.location_field() + '__distance_lte': (Point(lng, lat), Distance(km=radius)) } )
 
 class FormDetail(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.RetrieveUpdateDestroyAPIView):
 	'''

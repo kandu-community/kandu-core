@@ -20,10 +20,10 @@ class BaseFormModel(Model):
 	def model_name(self):
 		return self.__class__.__name__
 
-	@property
-	def location_field(self):
-		field_name = next( field.name for field in self._meta.fields if isinstance(field, PointField) ) 
-		return getattr(self, field_name)
+	@classmethod
+	def location_field(cls):
+		field_name = next( field.name for field in cls._meta.fields if isinstance(field, PointField) ) 
+		return field_name
 
 	@classmethod
 	def verbose_name(cls):

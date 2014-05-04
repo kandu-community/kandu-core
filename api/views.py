@@ -90,11 +90,15 @@ class FormSearch(ModelFromUrlMixin, StaffOmnividenceMixin, generics.ListAPIView)
 		try:
 			search_query = self.request.GET['query']
 		except KeyError:
-			raise exceptions.ParseError('You have to supply "query" GET parameter')
+			raise exceptions.ParseError('You have to supply "query" GET parameter.')
 
 		return search_in_queryset(parent_queryset, search_query)
 
 class FormInRadius(ModelFromUrlMixin, StaffOmnividenceMixin, generics.ListAPIView):
+	'''
+	Submissions with coordinates in a given 'radius' of a given point ('lat' and 'long').
+	'''
+
 	paginate_by = 20
 	model_serializer_class = CustomModelSerializer
 
@@ -106,9 +110,12 @@ class FormInRadius(ModelFromUrlMixin, StaffOmnividenceMixin, generics.ListAPIVie
 			lng = float(self.request.GET['long'])
 			radius = float(self.request.GET['radius'])
 		except KeyError:
-			raise exceptions.ParseError('You have to supply "lat", "long" and "radius" GET parameters')
+			raise exceptions.ParseError('You have to supply "lat", "long" and "radius" GET parameters.')
 
-		return parent_queryset.filter( **{ parent_queryset.model.location_field() + '__distance_lte': (Point(lng, lat), Distance(km=radius)) } )
+		try:
+			return parent_queryset.filter( **{ parent_queryset.model.location_field() + '__distance_lte': (Point(lng, lat), Distance(km=radius)) } )
+		except AttributeError as error:
+			raise exceptions.ParseError(str(error))
 
 class FormDetail(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.RetrieveUpdateDestroyAPIView):
 	'''

@@ -22,7 +22,10 @@ class BaseFormModel(Model):
 
 	@classmethod
 	def location_field(cls):
-		field_name = next( field.name for field in cls._meta.fields if isinstance(field, PointField) ) 
+		try:
+			field_name = next( field.name for field in cls._meta.fields if isinstance(field, PointField) )
+		except StopIteration:
+			raise AttributeError('This form has no coordinates field')
 		return field_name
 
 	@classmethod

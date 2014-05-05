@@ -1,85 +1,242 @@
 [
-	{
-		"name": "simple form",
-		"fields_for_label": ["name", "age"],
-		"show_on_map": true,
-		"fields": [
-			{
-				"name": "name",
-				"type": "text",
-				"required": true
-			},
-			{
-				"name": "second name",
-				"type": "text"
-			},
-			{
-				"name": "test",
-				"type": "choice",
-				"choices": [
-					"one",
-					"two"
-				]
-			},
-			{
-				"name": "age",
-				"type": "number"
-			},
-			{
-                                "name": "newtest",
-                                "type": "text"
-                        },
-
-			{
-				"name": "gender",
-				"type": "choice",
-				"choices": [
-					"male",
-					"female"
-				]
-			},
-			{
-				"name": "languages",
-				"type": "multi-choice",
-				"choices": [
-					"eng",
-					"rus",
-					"de"
-				],
-				"visible_when": {
-					"gender": "male"
-				}
-			},
-			{
-				"name": "place",
-				"type": "coordinates"
-			}
-
-		]
-	},
-	{
-		"name": "second form",
-		"fields": [
-			{
-				"name": "name",
-				"type": "text",
-				"required": true
-			},
-			{
-				"name": "some file",
-				"type": "file"
-			},
-			{
-                                "name": "some other file",
-                                "type": "file"
-                        },
-
-			{
-				"name": "link",
-				"type": "foreign-key",
-				"to": "simple form"
-			}
-		],
-		"user_groups": ["advanced"]
-	}
+    {
+        "name": "Buy Seedlings",
+        "fields_for_label": [
+            "Type",
+            "Price"
+        ],
+        "fields": [
+            {
+                "name": "Type",
+                "type": "choice",
+                "required": true,
+                "choices": [
+                    "Ice Berg",
+                    "Butter Lett",
+                    "Butter Red",
+                    "Frilly Green",
+                    "Frilly Red"
+                ]
+            },
+            {
+                "name": "Price",
+                "required": true,
+                "type": "choice",
+                "choices": [
+                    "25c",
+                    "50c",
+                    "no charge"
+                ]
+            },
+            {
+                "name": "Quantity",
+                "required": true,
+                "type": "number"
+            }
+        ],
+        "user_groups": [
+            "advanced"
+        ]
+    },
+    {
+        "name": "New Member",
+        "fields_for_label": [
+        "Area"],
+        "fields": [
+            {
+                "name": "Ward Number",
+                "required": true,
+                "type": "text"
+            },
+            {
+                "name": "Area",
+                "required": true,
+                "type": "text"
+            },
+             {
+                "name": "First Name",
+                "required": true,
+                "type": "text"
+            },
+             {
+                "name": "Last Name",
+                "required": true,
+                "type": "text"
+            },
+             {
+                "name": "Other Name",
+                "required": true,
+                "type": "text"
+            },
+             {
+                "name": "SA ID Number",
+                "required": true,
+                "type": "text"
+            },
+            {
+                "name": "Gender",
+                "type": "choice",
+                "required": true,
+                "choices": [
+                    "Male",
+                    "Female"
+                ]
+            },
+            {
+                "name": "Phone Number",
+                "required": true,
+                "type": "number"
+            },
+            {
+                "name": "Skills",
+                "required": true,
+                "type": "multi-choice",
+                "choices": [
+                    "Welding",
+                    "Plumbing",
+                    "Building",
+                    "Electrics",
+                    "Paitings",
+                    "Mechanics",
+                    "None",
+                    "Other"
+                ]
+            },
+            {
+                "name": "Specify Other skills",
+                "type": "text"
+            },
+            {
+                "name": "Co-op member?",
+                "type": "choice",
+                "required": true,
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+             {
+                "name": "Co-op name",
+                "type": "text",
+        
+                "visible_when": {
+                    "Co-op member?": "Yes"
+                }
+            },
+            {
+                "name": "Level 1 Training?",
+                "type": "choice",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "name": "Level 2 Training?",
+                "type": "choice",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "name": "Level 3 Training?",
+                "type": "choice",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            }
+            
+            
+        ],
+        "user_groups": [
+            "advanced"
+        ]
+    },
+    {
+        "name": "simple form",
+        "fields_for_label": [
+            "name",
+            "age"
+        ],
+        "show_on_map": true,
+        "fields": [
+            {
+                "name": "name",
+                "type": "text",
+                "required": true
+            },
+            {
+                "name": "second name",
+                "type": "text"
+            },
+            {
+                "name": "test",
+                "type": "choice",
+                "choices": [
+                    "one",
+                    "two"
+                ]
+            },
+            {
+                "name": "age",
+                "type": "number"
+            },
+            {
+                "name": "newtest",
+                "type": "text"
+            },
+            {
+                "name": "gender",
+                "type": "choice",
+                "choices": [
+                    "male",
+                    "female"
+                ]
+            },
+            {
+                "name": "languages",
+                "type": "multi-choice",
+                "choices": [
+                    "eng",
+                    "rus",
+                    "de"
+                ],
+                "visible_when": {
+                    "gender": "male"
+                }
+            },
+            {
+                "name": "place",
+                "type": "coordinates"
+            }
+        ]
+    },
+    {
+        "name": "second form",
+        "fields": [
+            {
+                "name": "name",
+                "type": "text",
+                "required": true
+            },
+            {
+                "name": "some file",
+                "type": "file"
+            },
+            {
+                "name": "some other file",
+                "type": "file"
+            },
+            {
+                "name": "link",
+                "type": "foreign-key",
+                "to": "simple form"
+            }
+        ],
+        "user_groups": [
+            "advanced"
+        ]
+    }
 ]

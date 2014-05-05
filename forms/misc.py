@@ -6,6 +6,7 @@ from django.dispatch import receiver
 from django.db.models import signals
 from django.contrib.gis.db.models import PointField
 from model_utils.managers import InheritanceManager
+from django.contrib.gis.geos import Point
 import json
 import re
 
@@ -101,29 +102,32 @@ def write_field(verbose_name, datatype, **extra_args):
 	blank = not extra_args.pop('required', False)
 	choices = [ (generate_name(verbose), verbose) for verbose in extra_args.pop('choices', []) ]
 
+
 	datatype_to_field = {
-		'text': ('CharField', {'max_length': 300, 'blank': blank, 'default': "''"}),
+		'text': ('CharField', {'max_length': 300, 'blank': blank, 'default': ''}),
 		'number': ('IntegerField', {'null': blank, 'blank': blank, 'default': 0}),
 		'boolean': ('BooleanField', {'default': False}),
-		'file': ('FileField', {'upload_to': "'files'", 'blank': blank, 'null':blank, 'default':''}),
+		'file': ('FileField', {'upload_to': 'files', 'blank': blank, 'null':blank, 'default':''}),
 		'choice': ('CharField', {'max_length': 200, 'blank': blank, 'choices': choices}),
 		'multi-choice': ('MultiSelectField', {'max_length': 200, 'blank': blank, 'null': blank, 'choices': choices}),
-		'foreign-key': ('ForeignKey', {'null': True, 'blank': True, 'to': "'%s'" % generate_name(extra_args.pop('to', ''))}),
-		'coordinates': ('PointField', {'max_length': 100, 'blank': blank, 'null': blank, 'default': 'Point(0,0)'})
+		'foreign-key': ('ForeignKey', {'null': True, 'blank': True, 'to': generate_name(extra_args.pop('to', ''))}),
+		'coordinates': ('PointField', {'max_length': 100, 'blank': blank, 'null': blank, 'default': Point(0,0)})
 	}
 
+	if extra_args.has_key('hint'):
+		extra_args['help_text'] = extra_args.pop('hint')
 
 	try:
 		field_class, field_args = datatype_to_field[datatype]
 	except KeyError:
 		raise ValueError('Unknown datatype "%s" of field "%s"' % (datatype,verbose_name))
 	field_args.update(extra_args)
-	field_args['verbose_name'] = u"u'%s'" % verbose_name
+	# field_args['verbose_name'] = u"u'%s'" % verbose_name
 
 	if blank: # if not requred field, no need for default value
 		field_args.pop('default', None)
 
-	field_args_str = [ '{}={}'.format(arg, value) for arg, value in field_args.items() ]
+	field_args_str = [ '%s=%r' % (arg, value) for arg, value in field_args.items() ]
 
 	return u'\t' + generate_name(verbose_name) + u' = ' + field_class + u'(' + u', '.join(field_args_str) + u')' + u'\n'
 

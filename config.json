@@ -180,7 +180,8 @@
                 "choices": [
                     "one",
                     "two"
-                ]
+                ],
+                "hint": "choose any"
             },
             {
                 "name": "age",

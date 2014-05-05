@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import serializers
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.db import models
 from django.contrib.gis.measure import Distance
 from django.contrib.gis.geos import Point

@@ -171,7 +171,7 @@ class FormUpdate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin
 		if not self.get_queryset().model.is_editable:
 			return False
 		else:
-			return super(FormUpdate, self).has_permision()
+			return super(FormUpdate, self).has_permission()
 
 class FormDelete(SuccessRedirectMixin, ModelFromUrlMixin, CheckPermissionsMixin, DeleteView):
 	template_name = 'web/form_delete.html'

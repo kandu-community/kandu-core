@@ -19,9 +19,13 @@
 				{% for filled_form in object_list %}
 				<tr>
 					<td>
+						{% if filled_form.is_editable %}
 						<a href="{% url 'web_update' model_name=filled_form.model_name pk=filled_form.pk %}">
 							{{ filled_form }}
 						</a>
+						{% else %}
+							{{ filled_form }}
+						{% endif %}
 						<td>
 							{{ filled_form.verbose_name }}
 						</td>

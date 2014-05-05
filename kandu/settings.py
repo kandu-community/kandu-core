@@ -151,3 +151,4 @@ BOOTSTRAP3 = {
 }
 
 GEOIP_LIBRARY_PATH = "/home/inomma/lib/libGeoIP.so"
+GMAPI_JQUERY_URL = "None" # workaround for jQuery conflict

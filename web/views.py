@@ -54,11 +54,14 @@ class SuccessRedirectMixin(object):
 		return reverse('web_list')
 
 class CheckPermissionsMixin(object):
-	def dispatch(self, request, *args, **kwargs):
-		if self.get_queryset().model in [model for name, model in get_form_models(for_user=self.request.user)]:
-			return super(CheckPermissionsMixin, self).dispatch(request, *args, **kwargs)
+	def dispatch(self, *args, **kwargs):
+		if self.has_permission():
+			return super(CheckPermissionsMixin, self).dispatch(*args, **kwargs)
 		else:
-			return HttpResponseForbidden("You don't have permission to access this form.")
+			return HttpResponseForbidden("You don't have permission to perform this action.")
+
+	def has_permission(self):
+		return self.get_queryset().model in [model for name, model in get_form_models(for_user=self.request.user)]
 
 class MapMixin(object):
 	def get_context_data(self, **kwargs):
@@ -163,6 +166,12 @@ class FormCreate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin
 
 class FormUpdate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, CheckPermissionsMixin, UpdateView):
 	template_name = 'web/form_update.html'
+
+	def has_permission(self):
+		if not self.get_queryset().model.is_editable:
+			return False
+		else:
+			return super(FormUpdate, self).has_permision()
 
 class FormDelete(SuccessRedirectMixin, ModelFromUrlMixin, CheckPermissionsMixin, DeleteView):
 	template_name = 'web/form_delete.html'

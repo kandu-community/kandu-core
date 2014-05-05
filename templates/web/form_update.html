@@ -16,12 +16,24 @@
 						{% visibility_dependencies_js form.instance.visibility_dependencies %}
 					{% endif %}
 
-					<form action="{% url 'web_update' model_name=object.model_name pk=object.pk %}" method="post" enctype="multipart/form-data" class="form-horizontal">
+					<form action="{% url 'web_update' model_name=object.model_name pk=object.pk %}" method="post" enctype="multipart/form-data">
 					{% csrf_token %} 
 
-					<fieldset>
+					<fieldset class="form-horizontal">
 						<legend>{{ object.verbose_name }}</legend>
 						{% bootstrap_form form label_class="col-md-3" field_class="col-md-9" %}
+
+					</fieldset>
+					<fieldset class="form-inline">
+						{{ inlinetest.management_form }}
+						{% for inline_form in inlinetest %}			
+							<div class="row">
+								<div class="col-sm-12">
+								{% bootstrap_form inline_form layout="inline" %}
+								</div>
+							</div>
+						{% endfor %}
+						<!-- TODO: django-dynamic-formset -->
 					</fieldset>
 
 					<div class="form-actions">

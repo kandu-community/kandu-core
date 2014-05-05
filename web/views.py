@@ -19,6 +19,7 @@ from django.db import models
 from django.contrib.gis.geoip import GeoIP
 from django.contrib.gis.db.models import PointField
 from django.contrib.gis.measure import Distance
+from extra_views import InlineFormSet, CreateWithInlinesView, UpdateWithInlinesView
 
 import forms.models
 from forms.utils import get_form_models, get_search_fields
@@ -143,6 +144,23 @@ class MapView(MapMixin, ListView):
 
 		return object_list
 
+class InlineFormMixin(object):
+	def get_formset_class():
+		pass
+
+	def get_context_data(self, **kwargs):
+		from django.forms.models import inlineformset_factory
+		from forms.models import simple_form, second_form
+		InlineFormset = inlineformset_factory(simple_form, second_form, fk_name='link')
+		inline_formset = InlineFormset(instance=self.object)
+
+		context = super(InlineFormMixin, self).get_context_data(**kwargs)
+		context['inlinetest'] = inline_formset
+		return context
+
+	def post(self, request, *args, **kwargs):
+		pass # TODO: валидировать и прочее по-отдельности
+
 class FormList(ModelFromUrlMixin, CheckPermissionsMixin, BaseFormList):
 	def get_queryset(self):
 		queryset = super(FormList, self).get_queryset()
@@ -157,14 +175,14 @@ class FormList(ModelFromUrlMixin, CheckPermissionsMixin, BaseFormList):
 		context['object_list_model'] = self.object_list.model
 		return context
 
-class FormCreate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, CheckPermissionsMixin, CreateView):
+class FormCreate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, CheckPermissionsMixin, CreateWithInlinesView):
 	template_name = 'web/form_create.html'
 
 	def form_valid(self, form):
 		form.instance.user = self.request.user
 		return super(FormCreate, self).form_valid(form)
 
-class FormUpdate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, CheckPermissionsMixin, UpdateView):
+class FormUpdate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, CheckPermissionsMixin, UpdateWithInlinesView):
 	template_name = 'web/form_update.html'
 
 	def has_permission(self):

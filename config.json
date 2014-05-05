@@ -237,6 +237,7 @@
         ],
         "user_groups": [
             "advanced"
-        ]
+        ],
+        "is_editable": False,
     }
 ]

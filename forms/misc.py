@@ -16,6 +16,7 @@ class BaseFormModel(Model):
 	objects = InheritanceManager()
 
 	show_on_map = False
+	is_editable = False
 
 	def model_name(self):
 		return self.__class__.__name__
@@ -61,8 +62,19 @@ def write_group(group_verbose_names):
 def write_label_fields(fields):
 	return u"\tlabel_fields = %s\n" % map(generate_name, fields)
 
-def write_show_on_map(value=False):
-	return u"\tshow_on_map = %s\n" % ('True' if value else 'False')
+def write_boolean_fields(form_object):
+	output = ''
+
+	for field_name in ['show_on_map', 'is_editable']:
+		try:
+			output += u"\t%(name) = %(value)\n" % {
+				'value': 'True' if form_object[field_name] else 'False', 
+				'name': field_name
+			}
+		except KeyError:
+			continue
+
+	return output
 
 def write_visibility_dependencies(aggregate):
 	if len(aggregate.keys()) == 0:
@@ -133,7 +145,7 @@ from django.contrib.gis.geos import Point
 		output += write_group(form_object.get('user_groups', ['basic']))
 		if form_object.has_key('fields_for_label'):
 			output += write_label_fields(form_object['fields_for_label'])
-		output += write_show_on_map(form_object.get('show_on_map'))
+		output += write_boolean_fields(form_object)
 
 		visible_when = {}
 		for field_object in form_object['fields']:

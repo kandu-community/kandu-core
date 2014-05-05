@@ -3,7 +3,7 @@
 {% block content %}
 <!-- <div class="row">
 	<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-		<h1 class="page-title">{{ model_name_model.verbose_name }}</h1>
+		<h1 class="page-title">{{ object_list_model.verbose_name }}</h1>
 	</div>
 </div> -->
 
@@ -54,6 +54,6 @@
 {% endblock %}
 {% block breadcrumbs %}
 	<ol class="breadcrumb">
-		<li>Forms</li> {% if model_name_model %}<li>{{ model_name_model.verbose_name }}</li>{% endif %}
+		<li>Forms</li> {% if object_list_model %}<li>{{ object_list_model.verbose_name }}</li>{% endif %}
 	</ol>
 {% endblock %}

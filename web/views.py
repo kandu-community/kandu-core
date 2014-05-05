@@ -144,7 +144,7 @@ class FormList(ModelFromUrlMixin, BaseFormList):
 
 	def get_context_data(self, **kwargs):
 		context = super(FormList, self).get_context_data(**kwargs)
-		context['model_name_model'] = self.object_list.model
+		context['object_list_model'] = self.object_list.model
 		return context
 
 class FormCreate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, CreateView):

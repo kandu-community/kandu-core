@@ -1,7 +1,7 @@
 [
     {
         "name": "Buy Seedlings",
-        "category": "main",
+        "category": "examples",
         "fields_for_label": [
             "Type",
             "Price"
@@ -41,7 +41,7 @@
     },
     {
         "name": "New Member",
-        "category": "main",
+        "category": "examples",
         "fields_for_label": [
         "Area"],
         "fields": [

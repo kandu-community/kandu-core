@@ -14,7 +14,7 @@ from django.contrib.gis.geos import Point
 from forms.misc import BaseFormModel
 from forms.utils import get_form_models, search_in_queryset
 import forms.models
-from permissions import IsOwnerOrStaff
+from permissions import IsOwnerOrStaff, HasPermission
 from serializers import BaseFormSerializer, CustomModelSerializer
 
 class ModelFromUrlMixin(object):
@@ -26,12 +26,14 @@ class ModelFromUrlMixin(object):
 	model_url_kwarg = 'model_name'
 
 	def initial(self, request, *args, **kwargs):
-		super(ModelFromUrlMixin, self).initial(request, *args, **kwargs)
-
 		try:
 			self.model = getattr(forms.models, self.kwargs[self.model_url_kwarg])
 		except KeyError:
 			pass
+		except AttributeError:
+			raise exceptions.ParseError('No such form: %s' % self.kwargs[self.model_url_kwarg])
+
+		super(ModelFromUrlMixin, self).initial(request, *args, **kwargs)
 
 class ReadOnlyFieldsMixin(object):
 	read_only_fields = ('user',)
@@ -73,7 +75,7 @@ class FormList(ModelFromUrlMixin, ReadOnlyFieldsMixin, StaffOmnividenceMixin, ge
 
 	format_kwarg = 'format'
 	paginate_by = 20
-	permission_classes = (permissions.IsAuthenticated,)
+	permission_classes = (permissions.IsAuthenticated, HasPermission)
 	model_serializer_class = CustomModelSerializer
 
 	def pre_save(self, obj):
@@ -122,7 +124,7 @@ class FormDetail(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.RetrieveUpdate
 	A submitted in form.
 	'''
 
-	permission_classes = (IsOwnerOrStaff,)
+	permission_classes = (IsOwnerOrStaff, HasPermission)
 	model_serializer_class = CustomModelSerializer
 
 class AvailableForms(generics.GenericAPIView):

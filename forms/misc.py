@@ -51,9 +51,6 @@ def generate_name(verbose_name):
 	return re.sub(r'[^_\w\d]', r'', no_spaces)
 
 def write_group(group_verbose_names):
-	# if isinstance(group_verbose_names, basestring): # it's a single name rather than list of names
-	# 	group_verbose_names = [group_verbose_names]
-
 	for group_name in group_verbose_names:
 		group, created = Group.objects.get_or_create(name=group_name)
 	

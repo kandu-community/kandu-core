@@ -8,7 +8,7 @@ from django.forms import Form, FileField, Field, Form
 from django.contrib.auth.models import Group
 from django.db.models import ForeignKey
 from django.core.management import call_command
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.contrib import messages
 from django.conf import settings
 import os
@@ -52,6 +52,13 @@ class ExcludeFieldsMixin(object):
 class SuccessRedirectMixin(object):
 	def get_success_url(self):
 		return reverse('web_list')
+
+class CheckPermissionsMixin(object):
+	def dispatch(self, request, *args, **kwargs):
+		if self.get_queryset().model in [model for name, model in get_form_models(for_user=self.request.user)]:
+			return super(CheckPermissionsMixin, self).dispatch(request, *args, **kwargs)
+		else:
+			return HttpResponseForbidden("You don't have permission to access this form.")
 
 class MapMixin(object):
 	def get_context_data(self, **kwargs):
@@ -133,7 +140,7 @@ class MapView(MapMixin, ListView):
 
 		return object_list
 
-class FormList(ModelFromUrlMixin, BaseFormList):
+class FormList(ModelFromUrlMixin, CheckPermissionsMixin, BaseFormList):
 	def get_queryset(self):
 		queryset = super(FormList, self).get_queryset()
 
@@ -147,17 +154,17 @@ class FormList(ModelFromUrlMixin, BaseFormList):
 		context['object_list_model'] = self.object_list.model
 		return context
 
-class FormCreate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, CreateView):
+class FormCreate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, CheckPermissionsMixin, CreateView):
 	template_name = 'web/form_create.html'
 
 	def form_valid(self, form):
 		form.instance.user = self.request.user
 		return super(FormCreate, self).form_valid(form)
 
-class FormUpdate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, UpdateView):
+class FormUpdate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, CheckPermissionsMixin, UpdateView):
 	template_name = 'web/form_update.html'
 
-class FormDelete(SuccessRedirectMixin, ModelFromUrlMixin, DeleteView):
+class FormDelete(SuccessRedirectMixin, ModelFromUrlMixin, CheckPermissionsMixin, DeleteView):
 	template_name = 'web/form_delete.html'
 
 class UserRegistration(SuccessRedirectMixin, CreateView):

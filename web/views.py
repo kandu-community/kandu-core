@@ -186,11 +186,15 @@ class ManageConfig(FormView):
 			config_file.write(form.cleaned_data['config_file'].read())
 
 		models_filename = os.path.join(settings.BASE_DIR, 'forms', 'models.py')
-		with open(models_filename, 'w') as models_file:
-			models_file.write(config_to_models(open(settings.CONFIG_FILE)))
+		try:
+			models_str = config_to_models(open(settings.CONFIG_FILE))
+			with open(models_filename, 'w') as models_file:
+				models_file.write(models_str)
 
-		self.restart_server()
-		messages.success(self.request, "Config updated successfully")
+			self.restart_server()
+			messages.success(self.request, "Config updated successfully")
+		except ValueError as error:
+			messages.error(self.request, str(error))
 		return HttpResponseRedirect(reverse('web_config'))
 
 	def restart_server(self):

@@ -67,10 +67,10 @@ def write_boolean_fields(form_object):
 
 	for field_name in ['show_on_map', 'is_editable']:
 		try:
-			output += u"\t%(name) = %(value)\n" % {
+			output += u"\t{name} = {value}\n".format(**{
 				'value': 'True' if form_object[field_name] else 'False', 
 				'name': field_name
-			}
+			})
 		except KeyError:
 			continue
 
@@ -90,8 +90,15 @@ def write_visibility_dependencies(aggregate):
 
 	return u"\tvisibility_dependencies = %s\n" % aggregate_processed
 
-def write_model(verbose_name):
-	return u"class {name}(BaseFormModel):\n\tclass Meta:\n\t\tverbose_name = u'{verbose_name}'\n\tobjects = GeoManager()\n".format(name=generate_name(verbose_name), verbose_name=verbose_name)
+def write_model(verbose_name, form_object):
+	try:
+		return u"class {name}(BaseFormModel):\n\tclass Meta:\n\t\tverbose_name = u'{verbose_name}'\n\tobjects = GeoManager()\n\tcategory = u'{category}'\n".format(
+			name=generate_name(verbose_name), 
+			verbose_name=verbose_name,
+			category=form_object['category']
+		)
+	except KeyError:
+		raise ValueError('%s form doesn\'t specify "category", which is mandatory' % verbose_name)
 
 def write_field(verbose_name, datatype, **extra_args):
 	blank = not extra_args.pop('required', False)
@@ -101,7 +108,7 @@ def write_field(verbose_name, datatype, **extra_args):
 		'text': ('CharField', {'max_length': 300, 'blank': blank, 'default': "''"}),
 		'number': ('IntegerField', {'null': blank, 'blank': blank, 'default': 0}),
 		'boolean': ('BooleanField', {'default': False}),
-		'file': ('FileField', {'upload_to': "'files'", 'blank': blank}),
+		'file': ('FileField', {'upload_to': "'files'", 'blank': blank, 'null':blank, 'default':''}),
 		'choice': ('CharField', {'max_length': 200, 'blank': blank, 'choices': choices}),
 		'multi-choice': ('MultiSelectField', {'max_length': 200, 'blank': blank, 'null': blank, 'choices': choices}),
 		'foreign-key': ('ForeignKey', {'null': True, 'blank': True, 'to': "'%s'" % generate_name(extra_args.pop('to', ''))}),
@@ -112,7 +119,7 @@ def write_field(verbose_name, datatype, **extra_args):
 	try:
 		field_class, field_args = datatype_to_field[datatype]
 	except KeyError:
-		raise ValueError("Unknown datatype in config: " + datatype)
+		raise ValueError('Unknown datatype "%s" of field "%s"' % (datatype,verbose_name))
 	field_args.update(extra_args)
 	field_args['verbose_name'] = u"u'%s'" % verbose_name
 
@@ -141,7 +148,7 @@ from django.contrib.gis.geos import Point
 '''
 
 	for form_object in config_array:
-		output += write_model(form_object['name'])
+		output += write_model(form_object['name'], form_object)
 		output += write_group(form_object.get('user_groups', ['basic']))
 		if form_object.has_key('fields_for_label'):
 			output += write_label_fields(form_object['fields_for_label'])

@@ -1,6 +1,7 @@
 [
     {
         "name": "Buy Seedlings",
+        "category": "main",
         "fields_for_label": [
             "Type",
             "Price"
@@ -40,6 +41,7 @@
     },
     {
         "name": "New Member",
+        "category": "main",
         "fields_for_label": [
         "Area"],
         "fields": [
@@ -156,6 +158,7 @@
     },
     {
         "name": "simple form",
+        "category": "testing",
         "fields_for_label": [
             "name",
             "age"
@@ -211,10 +214,12 @@
                 "name": "place",
                 "type": "coordinates"
             }
-        ]
+        ],
+        "is_editable": true
     },
     {
         "name": "second form",
+        "category": "testing",
         "fields": [
             {
                 "name": "name",
@@ -236,8 +241,8 @@
             }
         ],
         "user_groups": [
-            "advanced"
-        ],
-        "is_editable": False,
+            "advanced",
+            "basic"
+        ]
     }
 ]

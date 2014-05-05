@@ -5,16 +5,23 @@
 	<h1>Manage config</h1>
 </div>
 <div class="row">
-	<form action="{% url 'web_config' %}" method="post" enctype="multipart/form-data" class="form">
-	{% csrf_token %} {% bootstrap_form form %} 
+	<div class="col-sm-12 col-md-12 col-lg-6">
+		{% bootstrap_messages %}
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-12 col-md-12 col-lg-6">
+		<form action="{% url 'web_config' %}" method="post" enctype="multipart/form-data" class="form">
+		{% csrf_token %} {% bootstrap_form form %} 
 
-	{% buttons %}
-		<button type="submit" class="btn btn-primary">
-		{% bootstrap_icon 'upload' %} Upload config
-		</button>
-	{% endbuttons %}
+		{% buttons %}
+			<button type="submit" class="btn btn-primary">
+			{% bootstrap_icon 'upload' %} Upload config
+			</button>
+		{% endbuttons %}
 
-	</form>
+		</form>
+	</div>
 </div>
 <div class="row">
 	<!-- <a href="{% url 'web_config' operation='restart_server' %}"><button class="btn">Restart server</button></a> -->

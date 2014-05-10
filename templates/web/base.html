@@ -181,9 +181,9 @@
         </div>
  
         {% block bottom_scripts %}
-        <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
         {% include 'autocomplete_light/static.html' %}
 
+        <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
         <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
         <script>
             if (!window.jQuery.ui) {

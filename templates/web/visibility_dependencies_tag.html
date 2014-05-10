@@ -11,6 +11,17 @@
 		}
 	}
 
+	function create_handler(master_input) { // needed to deal with closures
+		return function(){
+				for (trigger_value in master_inputs[master_input]) {
+					for (slave_input_index in master_inputs[master_input][trigger_value]) {
+						slave_input_name = master_inputs[master_input][trigger_value][slave_input_index];
+						manage_input($(this), slave_input_name, trigger_value);
+					}
+				}
+			}
+	}
+
 	$( document ).ready(function() {
 		for (master_input in master_inputs) {
 			for (trigger_value in master_inputs[master_input]) {
@@ -20,14 +31,7 @@
 				}
 			}
 
-			$('[name="'+master_input+'"]').change(function(){
-				for (trigger_value in master_inputs[master_input]) {
-					for (slave_input_index in master_inputs[master_input][trigger_value]) {
-						slave_input_name = master_inputs[master_input][trigger_value][slave_input_index];
-						manage_input($(this), slave_input_name, trigger_value);
-					}
-				}
-			});
+			$('[name="'+master_input+'"]').change(create_handler(master_input));
 		}
 	});
 </script>

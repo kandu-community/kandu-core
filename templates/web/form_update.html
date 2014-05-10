@@ -10,7 +10,7 @@
 		{% for inline in inlines %}
 		$('fieldset.form-inline .inline-tr').formset({
 			prefix: '{{ inline.prefix }}',
-			// deleteCssClass: 'delete-row btn btn-danger', # FIXME: breaks it
+			deleteCssClass: 'delete-row btn btn-danger',
 			addCssClass: 'add-row btn btn-primary'
 		});
 		{% endfor %}

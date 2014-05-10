@@ -1,8 +1,21 @@
 {% extends 'web/base.html' %}
 {% load bootstrap3 %}
 {% load custom_tags %}
+{% block extrahead %}
+<script src="/static/js/jquery.formset.min.js"></script>
+{% endblock %}
 {% block content %}
-
+<script type="text/javascript">
+   $(function() {
+		{% for inline in inlines %}
+		$('fieldset.form-inline .inline-tr').formset({
+			prefix: '{{ inline.prefix }}',
+			// deleteCssClass: 'delete-row btn btn-danger', # FIXME: breaks it
+			addCssClass: 'add-row btn btn-primary'
+		});
+		{% endfor %}
+   })
+</script>
 
 <form action="{% url 'web_update' model_name=object.model_name pk=object.pk %}" method="post" enctype="multipart/form-data">
 <div class="row">
@@ -41,6 +54,9 @@
 	</div>
 </div>
 {% for inline in inlines %}
+<style>
+.inline-tr { margin-bottom:20px }
+</style>
 <div class="row">
 	<div class="col-sm-12 col-md-12 col-lg-12">
 		<div class="jarviswidget">
@@ -52,11 +68,8 @@
 					<fieldset class="form-inline">
 						{{ inline.management_form }}
 						{% for inline_form in inline %}		
-							{% if not forloop.first %}<hr>{% endif %}	
-							<div class="row">
-								<div class="col-sm-12">
-								{% bootstrap_form inline_form layout="inline" set_required=False %}
-								</div>
+							<div class="inline-tr">
+							{% bootstrap_form inline_form layout="inline" set_required=False %}
 							</div>
 						{% endfor %}
 						<!-- TODO: django-dynamic-formset -->

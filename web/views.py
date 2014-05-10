@@ -8,9 +8,10 @@ from django.forms import Form, FileField, Field, Form
 from django.contrib.auth.models import Group
 from django.db.models import ForeignKey
 from django.core.management import call_command
-from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponseNotFound
+from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponseNotFound, HttpResponseRedirect
 from django.contrib import messages
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 import os
 from gmapi import maps
 from gmapi.forms.widgets import GoogleMap
@@ -50,10 +51,27 @@ class ModelFromUrlMixin(object):
 					model = inline_model
 					fk_name = next( field.name for field in inline_model._meta.fields if isinstance(field, ForeignKey) and field.rel.to == self.model and field.name != 'baseformmodel_ptr_id' )
 					exclude = ('user',)
+					extra = 0 # since we got dynamic "add another"
 
 				self.inlines.append(FormModelInline)
 
 		return super(ModelFromUrlMixin, self).dispatch(*args, **kwargs)
+
+class InlineDefaultValueMixin(object):
+	def forms_valid(self, form, inlines):
+		if not form.instance.user:
+			form.instance.user = self.request.user
+		self.object = form.save()
+
+		for formset in inlines:
+			for instance in formset.save(commit=False):
+				try:
+					instance.user
+				except ObjectDoesNotExist:
+					instance.user = self.request.user
+				instance.save()
+					
+		return HttpResponseRedirect(self.get_success_url())
 
 class ExcludeFieldsMixin(object):
 	'''
@@ -175,14 +193,10 @@ class FormList(ModelFromUrlMixin, CheckPermissionsMixin, BaseFormList):
 		context['object_list_model'] = self.object_list.model
 		return context
 
-class FormCreate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, CheckPermissionsMixin, CreateWithInlinesView):
+class FormCreate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, InlineDefaultValueMixin, ModelFromUrlMixin, CheckPermissionsMixin, CreateWithInlinesView):
 	template_name = 'web/form_create.html'
 
-	def form_valid(self, form):
-		form.instance.user = self.request.user
-		return super(FormCreate, self).form_valid(form)
-
-class FormUpdate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, CheckPermissionsMixin, UpdateWithInlinesView):
+class FormUpdate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, InlineDefaultValueMixin, ModelFromUrlMixin, CheckPermissionsMixin, UpdateWithInlinesView):
 	template_name = 'web/form_update.html'
 	inlines_also = True
 

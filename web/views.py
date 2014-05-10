@@ -8,7 +8,7 @@ from django.forms import Form, FileField, Field, Form
 from django.contrib.auth.models import Group
 from django.db.models import ForeignKey
 from django.core.management import call_command
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponseNotFound
 from django.contrib import messages
 from django.conf import settings
 import os
@@ -36,7 +36,10 @@ class ModelFromUrlMixin(object):
 	inlines_also = False
 
 	def dispatch(self, *args, **kwargs):
-		self.model = getattr(forms.models, self.kwargs[self.model_url_kwarg])
+		try:
+			self.model = getattr(forms.models, self.kwargs[self.model_url_kwarg])
+		except AttributeError:
+			return HttpResponseNotFound("No such form: %s" % self.kwargs[self.model_url_kwarg])
 
 		if self.inlines_also and self.model.inlines:
 			self.inlines = []

@@ -55,7 +55,7 @@
 							{% if not forloop.first %}<hr>{% endif %}	
 							<div class="row">
 								<div class="col-sm-12">
-								{% bootstrap_form inline_form layout="inline" %}
+								{% bootstrap_form inline_form layout="inline" set_required=False %}
 								</div>
 							</div>
 						{% endfor %}

@@ -144,11 +144,5 @@ LOGGING = {
     }
 }
 
-BOOTSTRAP3 = {
-    'form_renderers': {
-        'default': 'bootstrap3.renderers.FormRenderer',
-    }
-}
-
 GEOIP_LIBRARY_PATH = "/home/inomma/lib/libGeoIP.so"
 GMAPI_JQUERY_URL = "None" # workaround for jQuery conflict

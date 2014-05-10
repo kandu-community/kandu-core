@@ -33,10 +33,24 @@ class ModelFromUrlMixin(object):
 	'''
 
 	model_url_kwarg = 'model_name'
+	inlines_also = False
 
-	def get_queryset(self):
-		model = getattr(forms.models, self.kwargs[self.model_url_kwarg])
-		return model.objects.all()
+	def dispatch(self, *args, **kwargs):
+		self.model = getattr(forms.models, self.kwargs[self.model_url_kwarg])
+
+		if self.inlines_also and self.model.inlines:
+			self.inlines = []
+			for inline_model_name in self.model.inlines:
+				inline_model = getattr(forms.models, inline_model_name)
+
+				class FormModelInline(InlineFormSet):
+					model = inline_model
+					fk_name = next( field.name for field in inline_model._meta.fields if isinstance(field, ForeignKey) and field.rel.to == self.model and field.name != 'baseformmodel_ptr_id' )
+					exclude = ('user',)
+
+				self.inlines.append(FormModelInline)
+
+		return super(ModelFromUrlMixin, self).dispatch(*args, **kwargs)
 
 class ExcludeFieldsMixin(object):
 	'''
@@ -46,7 +60,7 @@ class ExcludeFieldsMixin(object):
 
 	def get_exclude_fields(self):
 		exclude_fields = ['user', 'created_at'] + \
-		[ field.name for field in self.get_queryset().model._meta.fields if isinstance(field, PointField) ]
+		[ field.name for field in self.model._meta.fields if isinstance(field, PointField) ]
 
 		return exclude_fields
 
@@ -62,7 +76,7 @@ class CheckPermissionsMixin(object):
 			return HttpResponseForbidden("You don't have permission to perform this action.")
 
 	def has_permission(self):
-		return self.get_queryset().model in [model for name, model in get_form_models(for_user=self.request.user)]
+		return self.model in [model for name, model in get_form_models(for_user=self.request.user)]
 
 class MapMixin(object):
 	def get_context_data(self, **kwargs):
@@ -109,8 +123,8 @@ class AutocompleteFormMixin(object):
 			return self.form_class
 		else:
 			return autocomplete_light.modelform_factory(
-				self.get_queryset().model, 
-				autocomplete_fields=[ field.name for field in self.get_queryset().model._meta.fields if isinstance(field, models.ForeignKey) ],
+				self.model, 
+				autocomplete_fields=[ field.name for field in self.model._meta.fields if isinstance(field, models.ForeignKey) ],
 				exclude=getattr(self, 'get_exclude_fields', None)()
 			)
 
@@ -144,23 +158,6 @@ class MapView(MapMixin, ListView):
 
 		return object_list
 
-class InlineFormMixin(object):
-	def get_formset_class():
-		pass
-
-	def get_context_data(self, **kwargs):
-		from django.forms.models import inlineformset_factory
-		from forms.models import simple_form, second_form
-		InlineFormset = inlineformset_factory(simple_form, second_form, fk_name='link')
-		inline_formset = InlineFormset(instance=self.object)
-
-		context = super(InlineFormMixin, self).get_context_data(**kwargs)
-		context['inlinetest'] = inline_formset
-		return context
-
-	def post(self, request, *args, **kwargs):
-		pass # TODO: валидировать и прочее по-отдельности
-
 class FormList(ModelFromUrlMixin, CheckPermissionsMixin, BaseFormList):
 	def get_queryset(self):
 		queryset = super(FormList, self).get_queryset()
@@ -184,9 +181,10 @@ class FormCreate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin
 
 class FormUpdate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, ModelFromUrlMixin, CheckPermissionsMixin, UpdateWithInlinesView):
 	template_name = 'web/form_update.html'
+	inlines_also = True
 
 	def has_permission(self):
-		if not self.get_queryset().model.is_editable:
+		if not self.model.is_editable:
 			return False
 		else:
 			return super(FormUpdate, self).has_permission()

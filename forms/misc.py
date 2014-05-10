@@ -18,6 +18,7 @@ class BaseFormModel(Model):
 
 	show_on_map = False
 	is_editable = False
+	inlines = None
 
 	def model_name(self):
 		return self.__class__.__name__

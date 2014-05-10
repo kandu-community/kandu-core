@@ -1,8 +1,23 @@
 {% extends 'web/base.html' %}
 {% load bootstrap3 %}
 {% load custom_tags %}
+{% block extrahead %}
+<script src="/static/js/jquery.formset.min.js"></script>
+{% endblock %}
 {% block content %}
+<script type="text/javascript">
+   $(function() {
+		{% for inline in inlines %}
+		$('fieldset.form-inline .inline-tr').formset({
+			prefix: '{{ inline.prefix }}',
+			deleteCssClass: 'delete-row btn btn-danger',
+			addCssClass: 'add-row btn btn-primary'
+		});
+		{% endfor %}
+   })
+</script>
 
+<form action="{% url 'web_create' model_name=view.kwargs.model_name %}" method="post" enctype="multipart/form-data">
 <div class="row">
 	<div class="col-sm-12 col-md-12 col-lg-6">
 		<div class="jarviswidget">
@@ -15,13 +30,12 @@
 					{% if form.instance.visibility_dependencies %}
 						{% visibility_dependencies_js form.instance.visibility_dependencies %}
 					{% endif %}
-
-					<form action="{% url 'web_create' model_name=form.instance.model_name %}" method="post" enctype="multipart/form-data" class="form-horizontal">
 					{% csrf_token %} 
 
-					<fieldset>
-						<legend>{{ form.instance.verbose_name }}</legend>
+					<fieldset class="form-horizontal">
+						<legend>{{ object.verbose_name }}</legend>
 						{% bootstrap_form form label_class="col-md-3" field_class="col-md-9" %}
+
 					</fieldset>
 
 					<div class="form-actions">
@@ -34,15 +48,42 @@
 						</div>
 					</div>
 
-					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+{% for inline in inlines %}
+<style>
+.inline-tr { margin-bottom:20px }
+</style>
+<div class="row">
+	<div class="col-sm-12 col-md-12 col-lg-12">
+		<div class="jarviswidget">
+			<header>
+				<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+				<h2>{{ inline.0.instance.verbose_name }}</h2>
+			</header>
+			<div class="widget-body">
+					<fieldset class="form-inline">
+						{{ inline.management_form }}
+						{% for inline_form in inline %}		
+							<div class="inline-tr">
+							{% bootstrap_form inline_form layout="inline" set_required=False %}
+							</div>
+						{% endfor %}
+						<!-- TODO: django-dynamic-formset -->
+					</fieldset>
+			
+			</div>
+		</div>
+	</div>
+</div>
+{% endfor %}
+</form>
 {% endblock %}
 {% block breadcrumbs %}
 	<ol class="breadcrumb">
-		<li>Forms</li><li>{{ form.instance.verbose_name }}</li><li>Create</li>
+		<li>Forms</li><li>{{ form.instance.verbose_name }}</li><li>Edit</li>
 	</ol>
 {% endblock %}

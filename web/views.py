@@ -51,7 +51,7 @@ class ModelFromUrlMixin(object):
 					model = inline_model
 					fk_name = next( field.name for field in inline_model._meta.fields if isinstance(field, ForeignKey) and field.rel.to == self.model and field.name != 'baseformmodel_ptr_id' )
 					exclude = ('user',)
-					extra = 0 # since we got dynamic "add another"
+					extra = 1 # since we got dynamic "add another"
 
 				self.inlines.append(FormModelInline)
 
@@ -59,15 +59,13 @@ class ModelFromUrlMixin(object):
 
 class InlineDefaultValueMixin(object):
 	def forms_valid(self, form, inlines):
-		if not form.instance.user:
+		if not form.instance.user_id:
 			form.instance.user = self.request.user
 		self.object = form.save()
 
 		for formset in inlines:
 			for instance in formset.save(commit=False):
-				try:
-					instance.user
-				except ObjectDoesNotExist:
+				if not instance.user_id:
 					instance.user = self.request.user
 				instance.save()
 					
@@ -195,6 +193,7 @@ class FormList(ModelFromUrlMixin, CheckPermissionsMixin, BaseFormList):
 
 class FormCreate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, InlineDefaultValueMixin, ModelFromUrlMixin, CheckPermissionsMixin, CreateWithInlinesView):
 	template_name = 'web/form_create.html'
+	inlines_also = True
 
 class FormUpdate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, InlineDefaultValueMixin, ModelFromUrlMixin, CheckPermissionsMixin, UpdateWithInlinesView):
 	template_name = 'web/form_update.html'

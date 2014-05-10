@@ -61,15 +61,12 @@ def write_group(group_verbose_names):
 def write_label_fields(fields):
 	return u"\tlabel_fields = %s\n" % map(generate_name, fields)
 
-def write_boolean_fields(form_object):
+def write_plain_fields(form_object):
 	output = ''
 
-	for field_name in ['show_on_map', 'is_editable']:
+	for field_name in ['show_on_map', 'is_editable', 'inlines']:
 		try:
-			output += u"\t{name} = {value}\n".format(**{
-				'value': 'True' if form_object[field_name] else 'False', 
-				'name': field_name
-			})
+			output += u"\t{name} = {value}\n".format(value=form_object[field_name], name=field_name)
 		except KeyError:
 			continue
 
@@ -154,7 +151,7 @@ from django.contrib.gis.geos import Point
 		output += write_group(form_object.get('user_groups', ['basic']))
 		if form_object.has_key('fields_for_label'):
 			output += write_label_fields(form_object['fields_for_label'])
-		output += write_boolean_fields(form_object)
+		output += write_plain_fields(form_object)
 
 		visible_when = {}
 		for field_object in form_object['fields']:

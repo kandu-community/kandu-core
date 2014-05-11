@@ -66,10 +66,22 @@
 			</header>
 			<div class="widget-body">
 					<fieldset class="form-inline">
+						<div class="row">
+						{% for field in inline.0 %}
+							{% if field.label != "Baseformmodel ptr" and field.label != object.verbose_name %}
+							<div class="col-md-2">
+								{% if field.label != "Delete" %}
+								{{ field.label }}
+								{% endif %}
+							</div>
+							{% endif %}
+						{% endfor %}
+						</div>
+						
 						{{ inline.management_form }}
 						{% for inline_form in inline %}		
-							<div class="inline-tr">
-							{% bootstrap_form inline_form layout="inline" set_required=False %}
+							<div class="inline-tr row">
+							{% bootstrap_form inline_form layout="inline" field_class="col-md-2" set_required=False %}
 							</div>
 						{% endfor %}
 						<!-- TODO: django-dynamic-formset -->

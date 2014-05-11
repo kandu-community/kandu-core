@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load bootstrap3 %}
 <!DOCTYPE html>
 <html lang="en-us">
  
@@ -177,6 +178,14 @@
                 {% endblock %}
             </div>
             <div id="content">
+                {% if messages %}
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        {% bootstrap_messages %}
+                    </div>
+                </div>
+                {% endif %}
+
                 {% block content %}
                 {% endblock %}
             </div>

@@ -163,94 +163,54 @@
         ]
     },
     {
-        "name": "simple form",
+        "name": "Transaction",
         "category": "testing",
-        "inlines": ["second_form"],
-        "fields_for_label": [
-            "name",
-            "age"
-        ],
-        "show_on_map": true,
-        "fields": [
+        "is_editable": true,
+        "fields_for_label": ["Member", "Comment"],
+        "fields":[
             {
-                "name": "name",
-                "type": "text",
+                "name": "Member",
+                "type": "foreign-key",
+                "to": "New Member",
                 "required": true
             },
             {
-                "name": "second name",
+                "name": "Comment",
                 "type": "text"
+            }
+        ],
+        "inlines": ["Order"]
+    },
+    {
+        "name": "Order",
+        "category": "testing",
+        "fields_for_label": [
+            "Type",
+            "Quantity"
+        ],
+        "fields": [
+            {
+                "name": "Transaction",
+                "type": "foreign-key",
+                "to": "Transaction"
             },
             {
-                "name": "test",
+                "name": "Type",
                 "type": "choice",
+                "required": true,
                 "choices": [
-                    "one",
-                    "two"
-                ],
-                "hint": "choose any"
-            },
-            {
-                "name": "age",
-                "type": "number"
-            },
-            {
-                "name": "newtest",
-                "type": "text"
-            },
-            {
-                "name": "gender",
-                "type": "choice",
-                "choices": [
-                    "male",
-                    "female"
+                    "Ice Berg",
+                    "Butter Lett",
+                    "Butter Red",
+                    "Frilly Green",
+                    "Frilly Red"
                 ]
             },
             {
-                "name": "languages",
-                "type": "multi-choice",
-                "choices": [
-                    "eng",
-                    "rus",
-                    "de"
-                ],
-                "visible_when": {
-                    "gender": "male"
-                }
-            },
-            {
-                "name": "place",
-                "type": "coordinates"
+                "name": "Quantity",
+                "required": true,
+                "type": "number"
             }
-        ],
-        "is_editable": true
-    },
-    {
-        "name": "second form",
-        "category": "testing",
-        "fields": [
-            {
-                "name": "name",
-                "type": "text",
-                "required": true
-            },
-            {
-                "name": "some file",
-                "type": "file"
-            },
-            {
-                "name": "some other file",
-                "type": "file"
-            },
-            {
-                "name": "link",
-                "type": "foreign-key",
-                "to": "simple form"
-            }
-        ],
-        "user_groups": [
-            "advanced",
-            "basic"
         ]
     }
 ]

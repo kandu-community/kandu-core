@@ -6,11 +6,6 @@
 </div>
 <div class="row">
 	<div class="col-sm-12 col-md-12 col-lg-6">
-		{% bootstrap_messages %}
-	</div>
-</div>
-<div class="row">
-	<div class="col-sm-12 col-md-12 col-lg-6">
 		<form action="{% url 'web_config' %}" method="post" enctype="multipart/form-data" class="form">
 		{% csrf_token %} {% bootstrap_form form %} 
 

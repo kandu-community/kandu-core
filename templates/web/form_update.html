@@ -53,18 +53,19 @@
 </div>
 <style>
 .inline-tr { margin-bottom:20px }
-.
+.add-row { margin: 8px; }
 </style>
 {% for inline in inlines %}
 <div class="row">
 	<div class="col-sm-12 col-md-12 col-lg-12">
-		<div class="jarviswidget">
+		<div class="jarviswidget jarviswidget-color-darken">
 			<header>
 				<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
 				<h2>{{ inline.0.instance.verbose_name }}</h2>
 			</header>
-			<div class="widget-body">
+			<div role="content">
 					<fieldset class="form-inline">
+				<div class="widget-body no-padding">
 					<table class="table">
 						<tr>
 						{% for field in inline.0.visible_fields %}
@@ -79,7 +80,7 @@
 							<tr class="inline-tr">
 							{% for field in inline_form.visible_fields %}
 							<td>
-								{% bootstrap_field field layout="inline" %}
+								{% bootstrap_field field layout="inline" set_required=False %}
 							</td>
 							{% endfor %}
 							</tr>
@@ -87,6 +88,7 @@
 						<!-- TODO: django-dynamic-formset -->
 
 					</table>
+				</div>
 					</fieldset>
 			</div>
 		</div>

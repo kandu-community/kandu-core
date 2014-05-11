@@ -41,9 +41,7 @@
 					<div class="form-actions">
 						<div class="row">
 							<div class="col-md-12">
-								<button type="submit" class="btn btn-primary">
-								{% bootstrap_icon 'ok' %} Submit
-								</button>
+								{% bootstrap_button "Submit" button_type='submit' icon='ok' %}
 							</div>
 						</div>
 					</div>
@@ -53,28 +51,45 @@
 		</div>
 	</div>
 </div>
-{% for inline in inlines %}
 <style>
 .inline-tr { margin-bottom:20px }
+.add-row { margin: 8px; }
 </style>
+{% for inline in inlines %}
 <div class="row">
 	<div class="col-sm-12 col-md-12 col-lg-12">
-		<div class="jarviswidget">
+		<div class="jarviswidget jarviswidget-color-darken">
 			<header>
 				<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
 				<h2>{{ inline.0.instance.verbose_name }}</h2>
 			</header>
-			<div class="widget-body">
+			<div role="content">
 					<fieldset class="form-inline">
+				<div class="widget-body no-padding">
+					<table class="table">
+						<tr>
+						{% for field in inline.0.visible_fields %}
+							<th>
+								{{ field.label }}
+							</th>
+						{% endfor %}
+						</tr>
+
 						{{ inline.management_form }}
 						{% for inline_form in inline %}		
-							<div class="inline-tr">
-							{% bootstrap_form inline_form layout="inline" set_required=False %}
-							</div>
+							<tr class="inline-tr">
+							{% for field in inline_form.visible_fields %}
+							<td>
+								{% bootstrap_field field layout="inline" set_required=False %}
+							</td>
+							{% endfor %}
+							</tr>
 						{% endfor %}
 						<!-- TODO: django-dynamic-formset -->
+
+					</table>
+				</div>
 					</fieldset>
-			
 			</div>
 		</div>
 	</div>

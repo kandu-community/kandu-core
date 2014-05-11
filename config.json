@@ -139,7 +139,10 @@
                 "choices": [
                     "Yes",
                     "No"
-                ]
+                ],
+                "visible_when": {
+                    "Level 1 Training?": "Yes"
+                }
             },
             {
                 "name": "Level 3 Training?",
@@ -147,7 +150,10 @@
                 "choices": [
                     "Yes",
                     "No"
-                ]
+                ],
+                "visible_when": {
+                    "Level 2 Training?": "Yes"
+                }
             }
             
             
@@ -159,6 +165,7 @@
     {
         "name": "simple form",
         "category": "testing",
+        "inlines": ["second_form"],
         "fields_for_label": [
             "name",
             "age"

@@ -76,7 +76,10 @@
 						</tr>
 
 						{{ inline.management_form }}
-						{% for inline_form in inline %}		
+						{% for inline_form in inline %}
+							{% for field in inline_form.hidden_fields %}
+								{{ field }}
+							{% endfor %}
 							<tr class="inline-tr">
 							{% for field in inline_form.visible_fields %}
 							<td>

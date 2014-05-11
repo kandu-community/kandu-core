@@ -179,37 +179,38 @@
                 "type": "text"
             }
         ],
-        "inlines": ["Order"]
-    },
-    {
-        "name": "Order",
-        "category": "testing",
-        "fields_for_label": [
-            "Type",
-            "Quantity"
-        ],
-        "fields": [
+        "inlines": [
             {
-                "name": "Transaction",
-                "type": "foreign-key",
-                "to": "Transaction"
-            },
-            {
-                "name": "Type",
-                "type": "choice",
-                "required": true,
-                "choices": [
-                    "Ice Berg",
-                    "Butter Lett",
-                    "Butter Red",
-                    "Frilly Green",
-                    "Frilly Red"
+                "name": "Order",
+                "category": "testing",
+                "fields_for_label": [
+                    "Type",
+                    "Quantity"
+                ],
+                "fields": [
+                    {
+                        "name": "Transaction",
+                        "type": "foreign-key",
+                        "to": "Transaction"
+                    },
+                    {
+                        "name": "Type",
+                        "type": "choice",
+                        "required": true,
+                        "choices": [
+                            "Ice Berg",
+                            "Butter Lett",
+                            "Butter Red",
+                            "Frilly Green",
+                            "Frilly Red"
+                        ]
+                    },
+                    {
+                        "name": "Quantity",
+                        "required": true,
+                        "type": "number"
+                    }
                 ]
-            },
-            {
-                "name": "Quantity",
-                "required": true,
-                "type": "number"
             }
         ]
     }

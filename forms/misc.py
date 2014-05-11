@@ -18,6 +18,7 @@ class BaseFormModel(Model):
 
 	show_on_map = False
 	is_editable = False
+	is_creatable = True
 	inlines = None
 
 	def model_name(self):
@@ -64,7 +65,7 @@ def write_label_fields(fields):
 def write_plain_fields(form_object):
 	output = ''
 
-	for field_name in ['show_on_map', 'is_editable', 'inlines']:
+	for field_name in ['show_on_map', 'is_editable', 'is_creatable']:
 		try:
 			output += u"\t{name} = {value}\n".format(value=form_object[field_name], name=field_name)
 		except KeyError:
@@ -129,6 +130,44 @@ def write_field(verbose_name, datatype, **extra_args):
 
 	return u'\t' + generate_name(verbose_name) + u' = ' + field_class + u'(' + u', '.join(field_args_str) + u')' + u'\n'
 
+def create_model(form_object, collected_output):
+	output = ''
+
+	output += write_model(form_object['name'], form_object)
+	output += write_group(form_object.get('user_groups', ['basic']))
+	if form_object.has_key('fields_for_label'):
+		output += write_label_fields(form_object['fields_for_label'])
+	output += write_plain_fields(form_object)
+
+	visible_when = {}
+	for field_object in form_object['fields']:
+		name = field_object.pop('name')
+		datatype = field_object.pop('type')
+
+		if field_object.has_key('visible_when'):
+			visible_when[name] = field_object.pop('visible_when')
+
+		output += write_field(name, datatype, **field_object)
+
+	output += write_visibility_dependencies(visible_when)
+
+	if form_object.has_key('inlines'):
+		inlines_str = []
+		for inline in form_object['inlines']:
+			if isinstance(inline, basestring):
+				inlines_str.append(inline)
+			elif isinstance(inline, dict):
+				inline['is_creatable'] = False
+				inlines_str.append(create_model(inline, collected_output))
+			else:
+				raise ValueError('"inlines" may contain only form names or json objects')
+
+		output += '\tinlines = %r\n' % inlines_str
+	
+	collected_output.append(output)
+
+	return form_object['name']
+
 def config_to_models(config_file):
 	'''
 	Returns string with a declarations of Django models,
@@ -137,32 +176,18 @@ def config_to_models(config_file):
 
 	config_array = json.load(config_file)
 
-	output = u'''
+	output = [u'''
 #coding:utf-8
 from django.db.models import *
 from django.contrib.gis.db.models import PointField, GeoManager
 from forms.misc import BaseFormModel
 from multiselectfield import MultiSelectField
 from django.contrib.gis.geos import Point
-'''
+''']
 
 	for form_object in config_array:
-		output += write_model(form_object['name'], form_object)
-		output += write_group(form_object.get('user_groups', ['basic']))
-		if form_object.has_key('fields_for_label'):
-			output += write_label_fields(form_object['fields_for_label'])
-		output += write_plain_fields(form_object)
+		model_and_dependent = []
+		create_model(form_object, model_and_dependent)
+		output += model_and_dependent
 
-		visible_when = {}
-		for field_object in form_object['fields']:
-			name = field_object.pop('name')
-			datatype = field_object.pop('type')
-
-			if field_object.has_key('visible_when'):
-				visible_when[name] = field_object.pop('visible_when')
-
-			output += write_field(name, datatype, **field_object)
-
-		output += write_visibility_dependencies(visible_when)
-
-	return output
+	return '\n'.join(output)

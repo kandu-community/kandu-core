@@ -43,7 +43,7 @@
         "name": "New Member",
         "category": "examples",
         "fields_for_label": [
-        "Area"],
+        "SA ID Number","First Name","Last Name"],
         "fields": [
             {
                 "name": "Ward Number",
@@ -134,12 +134,42 @@
                 ]
             },
             {
+                "name": "L1 Modules Completed",
+                "hint": "Select all that apply.",
+                "type": "multi-choice",
+                "choices": [
+                    "L1 Soil Management",
+                    "L1 Water Management",
+                    "L1 Garden Management",
+                    "Other"
+                ]
+            },
+             {
+                "name": "L1 Specify Other",
+                "type": "text"
+            },
+            {
                 "name": "Level 2 Training?",
                 "type": "choice",
                 "choices": [
                     "Yes",
                     "No"
                 ]
+            },
+             {
+                "name": "L2 Modules Completed",
+                "hint": "Select all that apply.",
+                "type": "multi-choice",
+                "choices": [
+                    "L2 Soil Management",
+                    "L2 Water Management",
+                    "L2 Garden Management",
+                    "Other"
+                ]
+            },
+            {
+                "name": "L2 Specify Other",
+                "type": "text"
             },
             {
                 "name": "Level 3 Training?",
@@ -149,101 +179,199 @@
                     "No"
                 ]
             }
+            ,
+             {
+                "name": "L3 Modules Completed",
+                "hint": "Select all that apply.",
+                "type": "multi-choice",
+                "choices": [
+                    "L3 Nursery Management",
+                    "L3 Enterprise Develoment",
+                    "L3 Earthworms",
+                    "Other"
+                ]
+            },
+            {
+                "name": "L3 Specify Other",
+                "type": "text"
+            },
+            {
+                "name": "gps location",
+                "type": "coordinates"
+            }
             
             
         ],
         "user_groups": [
             "advanced"
-        ]
+        ],
+        "is_editable": true
+
     },
     {
-        "name": "simple form",
-        "category": "testing",
+        "name": "Garden Registration",
+        "category": "examples",
         "fields_for_label": [
-            "name",
-            "age"
-        ],
-        "show_on_map": true,
+        "Data collector name."],
         "fields": [
             {
-                "name": "name",
-                "type": "text",
-                "required": true
-            },
-            {
-                "name": "second name",
+                "name": "Data collector name.",
+                "required": true,
                 "type": "text"
             },
             {
-                "name": "test",
-                "type": "choice",
-                "choices": [
-                    "one",
-                    "two"
-                ],
-                "hint": "choose any"
+                "name": "Ward Number",
+                "hint": "Which ward is this garden located in?",
+                "required": true,
+                "type": "text"
             },
             {
-                "name": "age",
+                "name": "Project Name",
+                "hint": "Name of the project or owner (Surname first please)",
+                "required": true,
+                "type": "text"
+            },
+            {
+                "name": "Primary Contact ID",
+                "hint": "SA ID of the person primarily responsible for this garden. Leave blank if unknown.",
+               
                 "type": "number"
             },
             {
-                "name": "newtest",
-                "type": "text"
-            },
-            {
-                "name": "gender",
+                "name": "Co-op member?",
                 "type": "choice",
+                "required": true,
                 "choices": [
-                    "male",
-                    "female"
+                    "Yes",
+                    "No"
+                ]
+            },
+             {
+                "name": "Co-op name",
+                "type": "text",
+        
+                "visible_when": {
+                    "Co-op member?": "Yes"
+                }
+            },
+             
+            {
+                "name": "Skills",
+                "required": true,
+                "type": "multi-choice",
+                "choices": [
+                    "Welding",
+                    "Plumbing",
+                    "Building",
+                    "Electrics",
+                    "Paitings",
+                    "Mechanics",
+                    "None",
+                    "Other"
                 ]
             },
             {
-                "name": "languages",
-                "type": "multi-choice",
+                "name": "Specify Other skills",
+                "type": "text"
+            },
+            {
+                "name": "Co-op member?",
+                "type": "choice",
+                "required": true,
                 "choices": [
-                    "eng",
-                    "rus",
-                    "de"
-                ],
+                    "Yes",
+                    "No"
+                ]
+            },
+             {
+                "name": "Co-op name",
+                "type": "text",
+        
                 "visible_when": {
-                    "gender": "male"
+                    "Co-op member?": "Yes"
                 }
             },
             {
-                "name": "place",
+                "name": "Level 1 Training?",
+                "type": "choice",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "name": "L1 Modules Completed",
+                "hint": "Select all that apply.",
+                "type": "multi-choice",
+                "choices": [
+                    "L1 Soil Management",
+                    "L1 Water Management",
+                    "L1 Garden Management",
+                    "Other"
+                ]
+            },
+             {
+                "name": "L1 Specify Other",
+                "type": "text"
+            },
+            {
+                "name": "Level 2 Training?",
+                "type": "choice",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+             {
+                "name": "L2 Modules Completed",
+                "hint": "Select all that apply.",
+                "type": "multi-choice",
+                "choices": [
+                    "L2 Soil Management",
+                    "L2 Water Management",
+                    "L2 Garden Management",
+                    "Other"
+                ]
+            },
+            {
+                "name": "L2 Specify Other",
+                "type": "text"
+            },
+            {
+                "name": "Level 3 Training?",
+                "type": "choice",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            }
+            ,
+             {
+                "name": "L3 Modules Completed",
+                "hint": "Select all that apply.",
+                "type": "multi-choice",
+                "choices": [
+                    "L3 Nursery Management",
+                    "L3 Enterprise Develoment",
+                    "L3 Earthworms",
+                    "Other"
+                ]
+            },
+            {
+                "name": "L3 Specify Other",
+                "type": "text"
+            },
+            {
+                "name": "gps location",
                 "type": "coordinates"
             }
-        ],
-        "is_editable": true
-    },
-    {
-        "name": "second form",
-        "category": "testing",
-        "fields": [
-            {
-                "name": "name",
-                "type": "text",
-                "required": true
-            },
-            {
-                "name": "some file",
-                "type": "file"
-            },
-            {
-                "name": "some other file",
-                "type": "file"
-            },
-            {
-                "name": "link",
-                "type": "foreign-key",
-                "to": "simple form"
-            }
+            
+            
         ],
         "user_groups": [
-            "advanced",
-            "basic"
-        ]
+            "advanced"
+        ],
+        "is_editable": true
+
     }
 ]

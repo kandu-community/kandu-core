@@ -2,7 +2,7 @@ django==1.6.2
 Pillow
 psycopg2
 djangorestframework
-django-bootstrap3
+django-bootstrap3==4.4.1
 south
 django-model-utils
 django-multiselectfield

@@ -1,10 +1,11 @@
 from rest_framework import serializers
-from django.core.urlresolvers import reverse
+from rest_framework.reverse import reverse
+from django.contrib.gis.db.models import GeometryField as model_GeometryField
+from django.contrib.sites.models import get_current_site
 
 from forms.misc import BaseFormModel
 from multiselectfield import MultiSelectField as model_MultiSelectField
 from fields import MultiSelectField, CoordinatesField
-from django.contrib.gis.db.models import GeometryField as model_GeometryField
 
 class BaseFormSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -20,7 +21,7 @@ class BaseFormSerializer(serializers.ModelSerializer):
 		return obj.__unicode__().split(', ')
 
 	def instance_url(self, obj):
-		return reverse('api_detail', kwargs={'model_name': obj.model_name(), 'pk': obj.pk})
+		return reverse('api_detail', kwargs={'model_name': obj.model_name(), 'pk': obj.pk}, request=self.context['request'])
 
 class CustomFieldMapping(dict):
 	def __getitem__(self, key):

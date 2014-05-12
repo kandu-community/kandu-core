@@ -46,12 +46,14 @@ class ReadOnlyAndInlinesMixin(object):
 		attrs = {
 			'Meta': Meta
 		}
-		for inline_name in self.model.inlines:
-			class InlineSerializer(serializers.ModelSerializer):
-			    class Meta:
-			        model = getattr(forms.models, inline_name)
+		if self.model.inlines:
+			for inline_name in self.model.inlines:
+				class InlineSerializer(serializers.ModelSerializer):
+				    class Meta:
+				        model = getattr(forms.models, inline_name)
+				        read_only_fields = self.read_only_fields
 
-			attrs[inline_name.lower() + '_set'] = InlineSerializer(many=True, read_only=True)
+				attrs[inline_name.lower() + '_set'] = InlineSerializer(many=True, read_only=True)
 
 		return type(
 			'DefaultSerializer',

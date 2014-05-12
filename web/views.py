@@ -147,15 +147,21 @@ class AutocompleteFormMixin(object):
 				exclude=getattr(self, 'get_exclude_fields', None)()
 			)
 
-class BaseFormList(ListView):
+class StaffOmnividenceMixin(object):
+	def get_queryset(self):
+		parent_queryset = super(StaffOmnividenceMixin, self).get_queryset()
+
+		if self.request.user.is_staff:
+			return parent_queryset
+		else:
+			return parent_queryset.filter(user=self.request.user)
+
+class BaseFormList(StaffOmnividenceMixin, ListView):
 	template_name = 'web/form_list.html'
 	paginate_by = 10
 	
 	def get_queryset(self):
-		if self.request.user.is_staff: # staff sees everything
-			return BaseFormModel.objects.order_by('-created_at').select_subclasses()
-		else:
-			return BaseFormModel.objects.order_by('-created_at').filter(user=self.request.user).select_subclasses()
+		return BaseFormModel.objects.order_by('-created_at').select_subclasses()
 
 class MapView(MapMixin, ListView):
 	template_name = 'web/map_view.html'
@@ -177,14 +183,13 @@ class MapView(MapMixin, ListView):
 
 		return object_list
 
-class FormList(ModelFromUrlMixin, CheckPermissionsMixin, BaseFormList):
+class FormList(ModelFromUrlMixin, CheckPermissionsMixin, StaffOmnividenceMixin, ListView):
+	template_name = 'web/form_list.html'
+	paginate_by = 10
+
 	def get_queryset(self):
 		queryset = super(FormList, self).get_queryset()
-
-		if self.request.user.is_staff: # staff sees everything
-			return queryset
-		else:
-			return queryset.filter(user=self.request.user)
+		return queryset.order_by('-created_at')
 
 	def get_context_data(self, **kwargs):
 		context = super(FormList, self).get_context_data(**kwargs)

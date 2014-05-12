@@ -43,7 +43,7 @@
         "name": "New Member",
         "category": "examples",
         "fields_for_label": [
-        "Area"],
+        "SA ID Number","First Name","Last Name"],
         "fields": [
             {
                 "name": "Ward Number",
@@ -134,6 +134,21 @@
                 ]
             },
             {
+                "name": "L1 Modules Completed",
+                "hint": "Select all that apply.",
+                "type": "multi-choice",
+                "choices": [
+                    "L1 Soil Management",
+                    "L1 Water Management",
+                    "L1 Garden Management",
+                    "Other"
+                ]
+            },
+             {
+                "name": "L1 Specify Other",
+                "type": "text"
+            },
+            {
                 "name": "Level 2 Training?",
                 "type": "choice",
                 "choices": [
@@ -143,6 +158,21 @@
                 "visible_when": {
                     "Level 1 Training?": "Yes"
                 }
+            },
+             {
+                "name": "L2 Modules Completed",
+                "hint": "Select all that apply.",
+                "type": "multi-choice",
+                "choices": [
+                    "L2 Soil Management",
+                    "L2 Water Management",
+                    "L2 Garden Management",
+                    "Other"
+                ]
+            },
+            {
+                "name": "L2 Specify Other",
+                "type": "text"
             },
             {
                 "name": "Level 3 Training?",
@@ -155,12 +185,34 @@
                     "Level 2 Training?": "Yes"
                 }
             }
+            ,
+             {
+                "name": "L3 Modules Completed",
+                "hint": "Select all that apply.",
+                "type": "multi-choice",
+                "choices": [
+                    "L3 Nursery Management",
+                    "L3 Enterprise Develoment",
+                    "L3 Earthworms",
+                    "Other"
+                ]
+            },
+            {
+                "name": "L3 Specify Other",
+                "type": "text"
+            },
+            {
+                "name": "gps location",
+                "type": "coordinates"
+            }
             
             
         ],
         "user_groups": [
             "advanced"
-        ]
+        ],
+        "is_editable": true
+
     },
     {
         "name": "Transaction",
@@ -213,5 +265,170 @@
                 ]
             }
         ]
+    },
+    {
+        "name": "Garden Registration",
+        "category": "examples",
+        "fields_for_label": [
+        "Data collector name."],
+        "fields": [
+            {
+                "name": "Data collector name.",
+                "required": true,
+                "type": "text"
+            },
+            {
+                "name": "Ward Number",
+                "hint": "Which ward is this garden located in?",
+                "required": true,
+                "type": "text"
+            },
+            {
+                "name": "Project Name",
+                "hint": "Name of the project or owner (Surname first please)",
+                "required": true,
+                "type": "text"
+            },
+            {
+                "name": "Primary Contact ID",
+                "hint": "SA ID of the person primarily responsible for this garden. Leave blank if unknown.",
+               
+                "type": "number"
+            },
+            {
+                "name": "Co-op member?",
+                "type": "choice",
+                "required": true,
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+             {
+                "name": "Co-op name",
+                "type": "text",
+        
+                "visible_when": {
+                    "Co-op member?": "Yes"
+                }
+            },
+             
+            {
+                "name": "Skills",
+                "required": true,
+                "type": "multi-choice",
+                "choices": [
+                    "Welding",
+                    "Plumbing",
+                    "Building",
+                    "Electrics",
+                    "Paitings",
+                    "Mechanics",
+                    "None",
+                    "Other"
+                ]
+            },
+            {
+                "name": "Specify Other skills",
+                "type": "text"
+            },
+            {
+                "name": "Co-op member?",
+                "type": "choice",
+                "required": true,
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+             {
+                "name": "Co-op name",
+                "type": "text",
+        
+                "visible_when": {
+                    "Co-op member?": "Yes"
+                }
+            },
+            {
+                "name": "Level 1 Training?",
+                "type": "choice",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "name": "L1 Modules Completed",
+                "hint": "Select all that apply.",
+                "type": "multi-choice",
+                "choices": [
+                    "L1 Soil Management",
+                    "L1 Water Management",
+                    "L1 Garden Management",
+                    "Other"
+                ]
+            },
+             {
+                "name": "L1 Specify Other",
+                "type": "text"
+            },
+            {
+                "name": "Level 2 Training?",
+                "type": "choice",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+             {
+                "name": "L2 Modules Completed",
+                "hint": "Select all that apply.",
+                "type": "multi-choice",
+                "choices": [
+                    "L2 Soil Management",
+                    "L2 Water Management",
+                    "L2 Garden Management",
+                    "Other"
+                ]
+            },
+            {
+                "name": "L2 Specify Other",
+                "type": "text"
+            },
+            {
+                "name": "Level 3 Training?",
+                "type": "choice",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            }
+            ,
+             {
+                "name": "L3 Modules Completed",
+                "hint": "Select all that apply.",
+                "type": "multi-choice",
+                "choices": [
+                    "L3 Nursery Management",
+                    "L3 Enterprise Develoment",
+                    "L3 Earthworms",
+                    "Other"
+                ]
+            },
+            {
+                "name": "L3 Specify Other",
+                "type": "text"
+            },
+            {
+                "name": "gps location",
+                "type": "coordinates"
+            }
+            
+            
+        ],
+        "user_groups": [
+            "advanced"
+        ],
+        "is_editable": true
     }
 ]

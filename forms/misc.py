@@ -155,7 +155,7 @@ def create_model(form_object, collected_output):
 		inlines_str = []
 		for inline in form_object['inlines']:
 			if isinstance(inline, basestring):
-				inlines_str.append(inline)
+				inlines_str.append(generate_name(inline))
 			elif isinstance(inline, dict):
 				inline['is_creatable'] = False
 				inlines_str.append(create_model(inline, collected_output))
@@ -166,7 +166,7 @@ def create_model(form_object, collected_output):
 	
 	collected_output.append(output)
 
-	return form_object['name']
+	return generate_name(form_object['name'])
 
 def config_to_models(config_file):
 	'''

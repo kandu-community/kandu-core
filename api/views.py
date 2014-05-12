@@ -35,16 +35,29 @@ class ModelFromUrlMixin(object):
 
 		super(ModelFromUrlMixin, self).initial(request, *args, **kwargs)
 
-class ReadOnlyFieldsMixin(object):
+class ReadOnlyAndInlinesMixin(object):
 	read_only_fields = ('user',)
 
 	def get_serializer_class(self):
-		class DefaultSerializer(self.model_serializer_class):
-			class Meta:
-				model = self.model
-				read_only_fields = self.read_only_fields
+		class Meta:
+			model = self.model
+			read_only_fields = self.read_only_fields
 
-		return DefaultSerializer
+		attrs = {
+			'Meta': Meta
+		}
+		for inline_name in self.model.inlines:
+			class InlineSerializer(serializers.ModelSerializer):
+			    class Meta:
+			        model = getattr(forms.models, inline_name)
+
+			attrs[inline_name.lower() + '_set'] = InlineSerializer(many=True, read_only=True)
+
+		return type(
+			'DefaultSerializer',
+			(self.model_serializer_class,),
+			attrs
+		)
 
 class StaffOmnividenceMixin(object):
 	def filter_queryset(self, queryset):
@@ -68,7 +81,7 @@ class BaseFormList(StaffOmnividenceMixin, generics.ListAPIView):
 	def filter_queryset(self, queryset):
 		return super(BaseFormList, self).filter_queryset(queryset).select_subclasses()
 
-class FormList(ModelFromUrlMixin, ReadOnlyFieldsMixin, StaffOmnividenceMixin, generics.ListCreateAPIView):
+class FormList(ModelFromUrlMixin, ReadOnlyAndInlinesMixin, StaffOmnividenceMixin, generics.ListCreateAPIView):
 	'''
 	Submissions of a particular form by the current user.
 	'''
@@ -119,7 +132,7 @@ class FormInRadius(ModelFromUrlMixin, StaffOmnividenceMixin, generics.ListAPIVie
 		except AttributeError as error:
 			raise exceptions.ParseError(str(error))
 
-class FormDetail(ModelFromUrlMixin, ReadOnlyFieldsMixin, generics.RetrieveUpdateDestroyAPIView):
+class FormDetail(ModelFromUrlMixin, ReadOnlyAndInlinesMixin, generics.RetrieveUpdateDestroyAPIView):
 	'''
 	A submitted in form.
 	'''

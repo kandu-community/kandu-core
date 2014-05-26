@@ -25,7 +25,6 @@ from extra_views import InlineFormSet, CreateWithInlinesView, UpdateWithInlinesV
 import forms.models
 from forms.utils import get_form_models, get_search_fields
 from forms.misc import BaseFormModel
-from forms.fields import CoordinatesField
 
 class ModelFromUrlMixin(object):
 	'''

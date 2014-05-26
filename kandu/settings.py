@@ -41,7 +41,6 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'bootstrap3',
     'gmapi',
-    'jsonify',
     'south',
     'autocomplete_light',
     'forms',

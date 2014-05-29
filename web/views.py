@@ -20,6 +20,7 @@ from django.db import models
 from django.contrib.gis.geoip import GeoIP
 from django.contrib.gis.db.models import PointField
 from django.contrib.gis.measure import Distance
+from django.contrib.gis.geos import Point
 from extra_views import InlineFormSet, CreateWithInlinesView, UpdateWithInlinesView
 
 import forms.models
@@ -175,7 +176,7 @@ class MapView(MapMixin, ListView):
 		object_list = []
 		for form_name, form_model in get_form_models(for_user=self.request.user):
 			if location: # first closest objects
-				object_list += list( form_model.objects.distance(location.wkt).order_by('distance')[:self.max_objects] )
+				object_list += list( form_model.objects.distance(Point(location)).order_by('distance')[:self.max_objects] )
 
 			else: # falling back to just first objects
 				object_list += list(form_model.objects.order_by('created_at')[:self.max_objects])

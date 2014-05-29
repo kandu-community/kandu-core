@@ -176,7 +176,7 @@ class MapView(MapMixin, ListView):
 		object_list = []
 		for form_name, form_model in get_form_models(for_user=self.request.user):
 			if location: # first closest objects
-				object_list += list( form_model.objects.distance(Point(location)).order_by('distance')[:self.max_objects] )
+				object_list += list( form_model.objects.distance(Point(location), field_name=form_model.location_field()).order_by('distance')[:self.max_objects] )
 
 			else: # falling back to just first objects
 				object_list += list(form_model.objects.order_by('created_at')[:self.max_objects])

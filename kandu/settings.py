@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '$m(e@%0_pi5lypls45+pja7t3bt02faf@av!j42vg)8qwhawse'
+SECRET_KEY = '$m(e@%0_pi5lypls45+pja7t3bt02faf@awewjekhvg)8qwhawse'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -69,9 +69,9 @@ WSGI_APPLICATION = 'kandu.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'kandu',
-        'USER': 'kandu',
-        'PASSWORD': 'kandu'
+        'NAME': 'kandu_dev',
+        'USER': 'narek',
+        'PASSWORD': 'in0ma32'
     }
 }
 
@@ -99,10 +99,10 @@ CONFIG_FILE = os.path.join(BASE_DIR, 'config.json')
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/home/inomma/webapps/kandu_media/'
-STATIC_ROOT = '/home/inomma/webapps/kandu_static/'
+MEDIA_ROOT = '/opt/kandu-media/'
+STATIC_ROOT = '/opt/kandu-static/'
 
-TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
+TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates', )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
@@ -143,5 +143,6 @@ LOGGING = {
     }
 }
 
-GEOIP_LIBRARY_PATH = "/home/inomma/lib/libGeoIP.so"
+#GEOIP_LIBRARY_PATH = "/home/inomma/lib/libGeoIP.so"
+GEOIP_LIBRARY_PATH = "/usr/lib64/libGeoIP.so.1"
 GMAPI_JQUERY_URL = "None" # workaround for jQuery conflict

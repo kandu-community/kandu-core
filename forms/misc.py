@@ -199,4 +199,4 @@ from django.contrib.gis.geos import Point
 		create_model(form_object, model_and_dependent)
 		output += model_and_dependent
 
-	return '\n'.join(output)
+	return '\n'.join(output).encode('utf8')

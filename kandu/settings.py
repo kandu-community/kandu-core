@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'gmapi',
     'south',
     'autocomplete_light',
+    'sorl.thumbnail',
     'forms',
     'web',
     'api',

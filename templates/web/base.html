@@ -1,5 +1,6 @@
 {% load staticfiles %}
 {% load bootstrap3 %}
+{% load thumbnail %}
 <!DOCTYPE html>
 <html lang="en-us">
  
@@ -74,7 +75,9 @@
         .partner-logos { margin-right: 20px; }
         </style>
         <span id="logo">
-            <img alt="logotype" class="logo-img" src="{{ logo.icon_file.url }}">
+            {% thumbnail logo.icon_file 'x50' as im %}
+            <img alt="logotype" class="logo-img" src="{{ im.url }}">
+            {% endthumbnail %}
         </span>
         <div class="pull-right">
             <!-- collapse menu button -->
@@ -91,7 +94,9 @@
         </div><!-- end pulled right: nav area -->
         <span id="logo" class="pull-right partner-logos">
             {% for other_logo in other_logos %}
-                <img alt="logotype" class="logo-img" src="{{ other_logo.icon_file.url }}">
+                {% thumbnail other_logo.icon_file 'x50' as im %}
+                <img alt="logotype" class="logo-img" src="{{ im.url }}">
+                {% endthumbnail %}
             {% endfor %}
         </span>
  

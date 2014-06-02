@@ -116,8 +116,8 @@ def write_field(verbose_name, datatype, **extra_args):
 		'number': ('IntegerField', {'null': blank, 'blank': blank, 'default': 0}),
 		'boolean': ('BooleanField', {'default': False}),
 		'file': ('FileField', {'upload_to': 'files', 'blank': blank, 'null':blank, 'default':''}),
-		'choice': ('CharField', {'max_length': 200, 'blank': blank, 'choices': choices}),
-		'multi-choice': ('MultiSelectField', {'max_length': 200, 'blank': blank, 'null': blank, 'choices': choices}),
+		'choice': ('CharField', {'max_length': 200, 'blank': blank, 'choices': choices, 'default':''}),
+		'multi-choice': ('MultiSelectField', {'max_length': 200, 'blank': blank, 'null': blank, 'choices': choices, 'default':''}),
 		'foreign-key': ('ForeignKey', {'null': True, 'blank': True, 'to': generate_name(extra_args.pop('to', ''))}),
 		'coordinates': ('PointField', {'max_length': 100, 'blank': blank, 'null': blank, 'default': Point(0,0)})
 	}

@@ -16,8 +16,9 @@ class Command(BaseCommand):
 		models_filename = os.path.join(settings.BASE_DIR, 'forms', 'models.py')
 
 		try:
-			with open(models_filename, 'w') as models_file:
-				with open(settings.CONFIG_FILE) as config_file:
-					models_file.write(config_to_models(config_file))
+			with open(settings.CONFIG_FILE) as config_file:
+				models_str = config_to_models(config_file)
+				with open(models_filename, 'w') as models_file:
+					models_file.write(models_str)
 		except ValueError as error:
 			raise CommandError(str(error))

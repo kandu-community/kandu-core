@@ -147,12 +147,11 @@
                         <li id="index" {% if request.path == '/web/map/' %}class="active"{% endif %}>
                            <a href="{% url 'web_map' %}"><i class="fa fa-lg fa-fw fa-home"></i> Map</a>                            
                         </li>
-                        {% regroup form_models by 1.category as categories_list %}
-                        {% for category in categories_list %}
+                        {% for category, forms in categories_dict.items %}
                         <li>
-                            <a href="#"><!-- <i class="fa fa-lg fa-fw fa-plus"></i> --> {{ category.grouper|capfirst }}</a>
+                            <a href="#"><!-- <i class="fa fa-lg fa-fw fa-plus"></i> --> {{ category|capfirst }}</a>
                             <ul>
-                                {% for form_name, form_model in category.list %}
+                                {% for form_name, form_model in forms %}
                                 {% if form_model.is_creatable %}
                                 <li id="{{ form_name }}" {% if form.instance.model_name == form_name %}class="active"{% endif %}>
                                     <a href="{% url 'web_create' model_name=form_name %}"><i class="fa fa-lg fa-fw fa-plus"></i> {{ form_model.verbose_name }}</a>

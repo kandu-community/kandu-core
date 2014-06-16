@@ -9,6 +9,7 @@ from model_utils.managers import InheritanceManager
 from django.contrib.gis.geos import Point
 import json
 import re
+import itertools
 
 class BaseFormModel(Model):
 	user = ForeignKey(User)
@@ -139,10 +140,11 @@ def write_field(verbose_name, datatype, **extra_args):
 
 	return u'\t' + generate_name(verbose_name) + u' = ' + field_class + u'(' + u', '.join(field_args_str) + u')' + u'\n'
 
-def create_model(form_object, collected_output):
+def create_model(form_object, collected_output, counter):
 	output = ''
 
 	output += write_model(form_object['name'], form_object)
+	output += '\tdeclared_num = %d\n' % counter()
 	output += write_group(form_object.get('user_groups', ['basic']))
 	if form_object.has_key('fields_for_label'):
 		output += write_label_fields(form_object['fields_for_label'], form_object)
@@ -167,7 +169,7 @@ def create_model(form_object, collected_output):
 				inlines_str.append(generate_name(inline))
 			elif isinstance(inline, dict):
 				inline['is_creatable'] = False
-				inlines_str.append(create_model(inline, collected_output))
+				inlines_str.append(create_model(inline, collected_output, counter=counter))
 			else:
 				raise ValueError('"inlines" may contain only form names or json objects')
 
@@ -194,9 +196,11 @@ from multiselectfield import MultiSelectField
 from django.contrib.gis.geos import Point
 ''']
 
+	counter = itertools.count().next
+
 	for form_object in config_array:
 		model_and_dependent = []
-		create_model(form_object, model_and_dependent)
+		create_model(form_object, model_and_dependent, counter=counter)
 		output += model_and_dependent
 
 	return '\n'.join(output).encode('utf8')

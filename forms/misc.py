@@ -7,9 +7,13 @@ from django.db.models import signals
 from django.contrib.gis.db.models import PointField
 from model_utils.managers import InheritanceManager
 from django.contrib.gis.geos import Point
+from django.conf import settings
+from django.core.management import call_command
+from django.core.management.base import CommandError
 import json
 import re
 import itertools
+import os
 
 class BaseFormModel(Model):
 	user = ForeignKey(User)
@@ -204,3 +208,15 @@ from django.contrib.gis.geos import Point
 		output += model_and_dependent
 
 	return '\n'.join(output).encode('utf8')
+
+def config_update_wrapper():
+	models_filename = os.path.join(settings.BASE_DIR, 'forms', 'models.py')
+	with open(settings.CONFIG_FILE) as config_file:
+		models_str = config_to_models(config_file)
+		try:
+			call_command('validate') # FIXME: this doesn't actually inspect _new_ models.py
+		except CommandError as error:
+			raise ValueError(str(error))
+
+		with open(models_filename, 'w') as models_file:
+			models_file.write(models_str)

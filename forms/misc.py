@@ -51,7 +51,7 @@ def assign_default_group(sender, instance, created, **kwargs):
 		group.save()
 
 def generate_name(verbose_name):
-	no_spaces = re.sub(r'\s', r'_', verbose_name)
+	no_spaces = re.sub(r'\s', r'_', verbose_name.strip())
 	return re.sub(r'[^_\w\d]', r'', no_spaces)
 
 def write_group(group_verbose_names):

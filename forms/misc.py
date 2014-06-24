@@ -211,6 +211,8 @@ from django.contrib.gis.geos import Point
 	return '\n'.join(output).encode('utf8')
 
 def config_update_wrapper():
+	from utils import clear_app_cache
+	
 	models_filename = os.path.join(settings.BASE_DIR, 'forms', 'models.py')
 	with open(models_filename, 'r') as models_file:
 		models_old_str = models_file.read()
@@ -220,7 +222,9 @@ def config_update_wrapper():
 			with open(models_filename, 'w') as models_file:
 				models_file.write(config_to_models(config_file)) # overwriting models.py with freshly generated one
 
-			try: # NOTE: using subprocess here is not good, but call_command doesn't work as expected
+			clear_app_cache()
+
+			try:
 				import forms
 				reload(forms.models)
 				call_command('validate')
@@ -228,7 +232,7 @@ def config_update_wrapper():
 			except CommandError as error:
 				raise ValueError(str(error))
 
-	except Exception as error: # something went wrong
+	except ValueError as error: # something went wrong
 		with open(models_filename, 'w') as models_file:
 			models_file.write(models_old_str) # rolling back models.py to initial state
 		raise error

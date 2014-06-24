@@ -26,7 +26,8 @@
           "Marianhill",
           "Umbumbulu",
           "Hambinathi",
-          "Waterloo"
+          "Waterloo",
+          "None"
         ]
       },
       {
@@ -624,6 +625,9 @@
   {
     "name": "Level1 Agroecology",
     "category": "Training",
+    "fields_for_label": [
+      "Member Name"
+    ],
     "fields": [
       {
         "name": "Member Name",
@@ -669,10 +673,91 @@
         "visible_when": {
           "Data Collector": "Other"
         }
+      },
+      {
+        "name": "Training Date",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "Venue",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "Picture",
+        "type": "file",
+        "hint": "Take a picture of the member at the training"
       }
+    ]
+  },
+  {
+    "name": "Level2 Agroecology",
+    "category": "Training",
+    "fields_for_label": [
+      "Member Name"
     ],
-    "user_groups": [
-      "advanced"
+    "fields": [
+      {
+        "name": "Member Name",
+        "type": "foreign-key",
+        "to": "Member Registration"
+      },
+      {
+        "name": "Agrihub",
+        "required": true,
+        "type": "choice",
+        "choices": [
+          "Clifdale",
+          "Marianhill",
+          "Umbumbulu",
+          "Hambinathi",
+          "Waterloo",
+          "Other"
+        ]
+      },
+      {
+        "name": "Specify Other Area",
+        "type": "text",
+        "visible_when": {
+          "Agrihub": "Other"
+        }
+      },
+      {
+        "name": "Data Collector",
+        "required": true,
+        "type": "choice",
+        "choices": [
+          "Gabriel Mngoma",
+          "Jabulani Memela",
+          "Hazra Ismail",
+          "Nana Bomelo",
+          "Paula Osborn",
+          "Other"
+        ]
+      },
+      {
+        "name": "Specify Other Data Collector",
+        "type": "text",
+        "visible_when": {
+          "Data Collector": "Other"
+        }
+      },
+      {
+        "name": "Training Date",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "Venue",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "Picture",
+        "type": "file",
+        "hint": "Take a picture of the member at the training"
+      }
     ]
   },
   {
@@ -1021,14 +1106,6 @@
           "Yes",
           "No"
         ]
-      },
-      {
-        "name": "Co-op name",
-        "type": "foreign-key",
-        "to": "Co-op Registration",
-        "visible_when": {
-          "Co-op member": "Yes"
-        }
       },
       {
         "name": "Garden Size",

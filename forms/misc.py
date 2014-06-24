@@ -221,9 +221,12 @@ def config_update_wrapper():
 				models_file.write(config_to_models(config_file)) # overwriting models.py with freshly generated one
 
 			try: # NOTE: using subprocess here is not good, but call_command doesn't work as expected
-				subprocess.check_output(['python', os.path.join(settings.BASE_DIR, 'manage.py'), 'validate'], stderr=subprocess.STDOUT)
-			except subprocess.CalledProcessError as error:
-				raise ValueError(error.output.lstrip('CommandError: '))
+				import forms
+				reload(forms.models)
+				call_command('validate')
+				# subprocess.check_output(['python', os.path.join(settings.BASE_DIR, 'manage.py'), 'validate'], stderr=subprocess.STDOUT)
+			except CommandError as error:
+				raise ValueError(str(error))
 
 	except Exception as error: # something went wrong
 		with open(models_filename, 'w') as models_file:

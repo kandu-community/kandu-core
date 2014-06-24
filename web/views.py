@@ -243,7 +243,7 @@ class ManageConfig(FormView):
 			self.restart_server()
 			messages.success(self.request, "Config updated successfully")
 		except ValueError as error:
-			messages.error(self.request, str(error))
+			messages.error(self.request, error)
 		return HttpResponseRedirect(reverse('web_config'))
 
 	def restart_server(self):

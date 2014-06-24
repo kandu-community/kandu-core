@@ -9,7 +9,6 @@ import re
 from forms.misc import config_update_wrapper
 
 class Command(BaseCommand):
-	# args = '<poll_id poll_id ...>'
 	help = 'Updates forms to match config file'
 
 	def handle(self, *args, **options):

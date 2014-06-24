@@ -14,6 +14,7 @@ import json
 import re
 import itertools
 import os
+import subprocess
 
 class BaseFormModel(Model):
 	user = ForeignKey(User)
@@ -211,12 +212,24 @@ from django.contrib.gis.geos import Point
 
 def config_update_wrapper():
 	models_filename = os.path.join(settings.BASE_DIR, 'forms', 'models.py')
-	with open(settings.CONFIG_FILE) as config_file:
-		models_str = config_to_models(config_file)
-		try:
-			call_command('validate') # FIXME: this doesn't actually inspect _new_ models.py
-		except CommandError as error:
-			raise ValueError(str(error))
+	with open(models_filename, 'r') as models_file:
+		models_old_str = models_file.read()
 
+	try:
+		with open(settings.CONFIG_FILE) as config_file:
+			with open(models_filename, 'w') as models_file:
+				models_file.write(config_to_models(config_file)) # overwriting models.py with freshly generated one
+
+			try: # NOTE: using subprocess here is not good, but call_command doesn't work as expected
+				subprocess.check_output(['python', os.path.join(settings.BASE_DIR, 'manage.py'), 'validate'], stderr=subprocess.STDOUT)
+			except subprocess.CalledProcessError as error:
+				raise ValueError(error.output.lstrip('CommandError: '))
+
+	except Exception as error: # something went wrong
 		with open(models_filename, 'w') as models_file:
-			models_file.write(models_str)
+			models_file.write(models_old_str) # rolling back models.py to initial state
+		raise error
+
+	finally:
+		subprocess.call(['rm', os.path.join(settings.BASE_DIR, 'forms', 'models.pyc')])
+

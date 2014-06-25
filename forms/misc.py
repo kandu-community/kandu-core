@@ -103,12 +103,14 @@ def write_visibility_dependencies(aggregate):
 	return u"\tvisibility_dependencies = %s\n" % aggregate_processed
 
 def write_model(verbose_name, form_object):
+	output = u"class {name}(BaseFormModel):\n\tclass Meta:\n\t\tverbose_name = u'{verbose_name}'\n\tobjects = GeoManager()\n".format(
+		name=generate_name(verbose_name), 
+		verbose_name=verbose_name
+	)
 	try:
-		return u"class {name}(BaseFormModel):\n\tclass Meta:\n\t\tverbose_name = u'{verbose_name}'\n\tobjects = GeoManager()\n\tcategory = u'{category}'\n".format(
-			name=generate_name(verbose_name), 
-			verbose_name=verbose_name,
-			category=form_object['category']
-		)
+		if form_object.get('is_creatable', True):
+			output += u"\tcategory = u'{}'\n".format(form_object['category'])
+		return output
 	except KeyError:
 		raise ValueError('%s form doesn\'t specify "category", which is mandatory' % verbose_name)
 

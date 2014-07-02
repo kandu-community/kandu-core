@@ -2,10 +2,10 @@ import inspect
 import operator
 from django.db import models
 
-import forms.models
 from misc import BaseFormModel
 
 def get_form_models(for_user=None):
+	import forms.models
 	return inspect.getmembers(
 		forms.models, 
 		lambda entity: 
@@ -26,7 +26,7 @@ def get_search_fields(model):
 		if isinstance(field, models.CharField) 
 	]
 
-def clear_app_cache():
+def clear_app_cache(*apps):
 	import os
 	from django.db.models.loading import AppCache
 	cache = AppCache()
@@ -34,15 +34,16 @@ def clear_app_cache():
 	curdir = os.getcwd()
 
 	for app in cache.get_apps():
-		f = app.__file__
-		if f.startswith(curdir) and f.endswith('.pyc'):
-			os.remove(f)
-		__import__(app.__name__)
-		reload(app)
+		if app.__name__ in apps or len(apps) == 0:
+			f = app.__file__
+			if f.startswith(curdir) and f.endswith('.pyc'):
+				os.remove(f)
+			__import__(app.__name__)
+			reload(app)
 
-	# from django.utils.datastructures import SortedDict
-	# cache.app_store = SortedDict()
-	# cache.app_models = SortedDict()
-	# cache.app_errors = {}
-	# cache.handled = set()
-	# cache.loaded = False
+	from django.utils.datastructures import SortedDict
+	cache.app_store = SortedDict()
+	cache.app_models = SortedDict()
+	cache.app_errors = {}
+	cache.handled = set()
+	cache.loaded = False

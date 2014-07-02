@@ -216,18 +216,21 @@ def config_update_wrapper():
 	from utils import clear_app_cache
 	
 	models_filename = os.path.join(settings.BASE_DIR, 'forms', 'models.py')
-	with open(models_filename, 'r') as models_file:
-		models_old_str = models_file.read()
+	try:
+		with open(models_filename, 'r') as models_file:
+			models_old_str = models_file.read()
+	except IOError: # nothing to backup
+		models_old_str = ''
 
 	try:
 		with open(settings.CONFIG_FILE) as config_file:
 			with open(models_filename, 'w') as models_file:
 				models_file.write(config_to_models(config_file)) # overwriting models.py with freshly generated one
 
-			clear_app_cache()
+			# clear_app_cache('forms.models')
 
 			try:
-				import forms
+				import forms.models
 				reload(forms.models)
 				call_command('validate')
 				# subprocess.check_output(['python', os.path.join(settings.BASE_DIR, 'manage.py'), 'validate'], stderr=subprocess.STDOUT)

@@ -114,6 +114,8 @@ def write_model(verbose_name, form_object):
 	except KeyError:
 		raise ValueError('%s form doesn\'t specify "category", which is mandatory' % verbose_name)
 
+allowed_extra_args = ['help_text']
+
 def write_field(verbose_name, datatype, **extra_args):
 	blank = not extra_args.pop('required', False)
 	choices = [ (generate_name(verbose), verbose) for verbose in extra_args.pop('choices', []) ]
@@ -136,7 +138,12 @@ def write_field(verbose_name, datatype, **extra_args):
 	try:
 		field_class, field_args = datatype_to_field[datatype]
 	except KeyError:
-		raise ValueError('Unknown datatype "%s" of field "%s"' % (datatype,verbose_name))
+		raise ValueError('Unknown datatype of field "%s": "%s"' % (verbose_name,datatype))
+
+	for key in extra_args: # extra_args validation
+		if key not in allowed_extra_args:
+			raise ValueError('Unknown parameter for field "%s": "%s"' % (verbose_name,key))
+
 	field_args.update(extra_args)
 	# field_args['verbose_name'] = u"u'%s'" % verbose_name
 
@@ -243,5 +250,5 @@ def config_update_wrapper():
 		raise error
 
 	finally:
-		subprocess.call(['rm', os.path.join(settings.BASE_DIR, 'forms', 'models.pyc')])
+		os.remove(os.path.join(settings.BASE_DIR, 'forms', 'models.pyc'))
 

@@ -124,6 +124,7 @@ def write_field(verbose_name, datatype, **extra_args):
 	datatype_to_field = {
 		'text': ('CharField', {'max_length': 300, 'blank': blank, 'default': ''}),
 		'number': ('IntegerField', {'null': blank, 'blank': blank, 'default': 0}),
+		'decimal': ('DecimalField', {'null': blank, 'blank': blank, 'default': 0}),
 		'boolean': ('BooleanField', {'default': False}),
 		'file': ('FileField', {'upload_to': 'files', 'blank': blank, 'null':blank, 'default':''}),
 		'choice': ('CharField', {'max_length': 200, 'blank': blank, 'choices': choices, 'default':''}),

@@ -114,7 +114,7 @@ def write_model(verbose_name, form_object):
 	except KeyError:
 		raise ValueError('%s form doesn\'t specify "category", which is mandatory' % verbose_name)
 
-allowed_extra_args = ['help_text']
+allowed_extra_args = ['help_text', 'max_length']
 
 def write_field(verbose_name, datatype, **extra_args):
 	blank = not extra_args.pop('required', False)

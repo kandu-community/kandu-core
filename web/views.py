@@ -26,6 +26,7 @@ from extra_views import InlineFormSet, CreateWithInlinesView, UpdateWithInlinesV
 import forms.models
 from forms.utils import get_form_models, get_search_fields
 from forms.misc import BaseFormModel
+from widgets import SearchForm
 
 class ModelFromUrlMixin(object):
 	'''
@@ -215,6 +216,10 @@ class FormDelete(SuccessRedirectMixin, ModelFromUrlMixin, CheckPermissionsMixin,
 class UserRegistration(SuccessRedirectMixin, CreateView):
 	template_name = 'web/user_registration.html'
 	form_class = UserCreationForm
+
+def search_redirect(request):
+	garbage, pk = request.GET['identification'].split('-')
+	return HttpResponseRedirect(BaseFormModel.objects.select_subclasses().get(pk=pk).get_absolute_url())
 
 class ManageConfig(FormView):
 	template_name = 'web/config_form.html'

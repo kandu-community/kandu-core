@@ -10,6 +10,7 @@ from django.contrib.gis.geos import Point
 from django.conf import settings
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.core.urlresolvers import reverse
 import json
 import re
 import itertools
@@ -29,6 +30,9 @@ class BaseFormModel(Model):
 
 	def model_name(self):
 		return self.__class__.__name__
+
+	def get_absolute_url(self):
+		return reverse('web_update', kwargs={'model_name': self.model_name(), 'pk': self.pk})
 
 	@classmethod
 	def location_field(cls):

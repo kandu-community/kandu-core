@@ -23,5 +23,7 @@ urlpatterns = patterns('',
     url(r'^(?P<model_name>\w+)/(?P<pk>\d+)/update/', FormUpdate.as_view(), name='web_update'),
     url(r'^(?P<model_name>\w+)/(?P<pk>\d+)/delete/', FormDelete.as_view(), name='web_delete'),
 
+    url(r'^search/redirect/', search_redirect, name='web_search_redirect'),
+
     url(r'^autocomplete/', include('autocomplete_light.urls')),
 )

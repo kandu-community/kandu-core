@@ -142,10 +142,16 @@ class AutocompleteFormMixin(object):
 		if self.form_class:
 			return self.form_class
 		else:
+			foreignkey_fields = [ 
+				field.name for field in self.model._meta.fields 
+				if isinstance(field, models.ForeignKey) or isinstance(field, models.ManyToManyField)
+			]
+			manytomany_fields = [ field.name for field in self.model._meta.many_to_many ]
+
 			return autocomplete_light.modelform_factory(
 				self.model, 
-				autocomplete_fields=[ field.name for field in self.model._meta.fields if isinstance(field, models.ForeignKey) ],
-				exclude=getattr(self, 'get_exclude_fields', None)()
+				exclude=getattr(self, 'get_exclude_fields', None)(),
+				autocomplete_fields=foreignkey_fields + manytomany_fields
 			)
 
 class StaffOmnividenceMixin(object):

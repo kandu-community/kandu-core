@@ -118,11 +118,12 @@ def write_model(verbose_name, form_object):
 	except KeyError:
 		raise ValueError('%s form doesn\'t specify "category", which is mandatory' % verbose_name)
 
-allowed_extra_args = ['help_text', 'max_length']
+allowed_extra_args = ['help_text', 'max_length', 'to', 'choices']
 
 def write_field(verbose_name, datatype, **extra_args):
 	blank = not extra_args.pop('required', False)
 	choices = [ (generate_name(verbose), verbose) for verbose in extra_args.pop('choices', []) ]
+	foreignkey_to = generate_name(extra_args.pop('to', ''))
 
 
 	datatype_to_field = {
@@ -133,7 +134,8 @@ def write_field(verbose_name, datatype, **extra_args):
 		'file': ('FileField', {'upload_to': 'files', 'blank': blank, 'null':blank, 'default':''}),
 		'choice': ('CharField', {'max_length': 200, 'blank': blank, 'choices': choices, 'default':''}),
 		'multi-choice': ('MultiSelectField', {'max_length': 200, 'blank': blank, 'null': blank, 'choices': choices, 'default':''}),
-		'foreign-key': ('ForeignKey', {'null': True, 'blank': True, 'to': generate_name(extra_args.pop('to', ''))}),
+		'foreign-key': ('ForeignKey', {'null': True, 'blank': True, 'to': foreignkey_to}),
+		'many-to-many': ('ManyToManyField', {'null': True, 'blank': True, 'to': foreignkey_to}),
 		'coordinates': ('PointField', {'max_length': 100, 'blank': blank, 'null': blank, 'default': Point(0,0)})
 	}
 
@@ -240,6 +242,10 @@ def config_update_wrapper():
 				models_file.write(config_to_models(config_file)) # overwriting models.py with freshly generated one
 
 			# clear_app_cache('forms.models')
+			try:
+				os.remove(os.path.join(settings.BASE_DIR, 'forms', 'models.pyc'))
+			except OSError:
+				pass
 
 			try:
 				import forms.models

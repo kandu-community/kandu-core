@@ -13,6 +13,7 @@ This manual assumes that one has working postgresql and apache installations.
 		yum -y install yum-utils autoconf automake geoip httpd-devel openssl-devel.x86_64 bzip2-devel gcc g++ make
 		yumdownloader postgresql92-devel
 		rpm -ivh postgresql92-devel-9.2.8-1PGDG.rhel6.x86_64.rpm --nodeps
+		yum install hg-git.noarch
 
 2. Install Python 2.7
 

@@ -30,7 +30,25 @@
 					{% if form.instance.visibility_dependencies %}
 						{% visibility_dependencies_js form.instance.visibility_dependencies %}
 					{% endif %}
-					{% csrf_token %} 
+
+					{% if form.instance.location_field %}
+					<script>
+						$(document).ready(function(event){
+							location_field = $('input[name="{{ form.instance.location_field }}"]');
+
+							if (location_field.val() == '')
+							{
+								navigator.geolocation.getCurrentPosition(recordPosition);
+								function recordPosition(position)
+								{
+									location_field.val('POINT ('+position.coords.longitude+' '+position.coords.latitude+')');
+								}
+							}
+						})
+					</script>
+					{% endif %}
+
+					{% csrf_token %}
 
 					<fieldset class="form-horizontal">
 						<legend>{{ object.verbose_name }}</legend>

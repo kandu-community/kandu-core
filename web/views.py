@@ -79,10 +79,16 @@ class ExcludeFieldsMixin(object):
 	'''
 
 	def get_exclude_fields(self):
-		exclude_fields = ['user', 'created_at'] + \
-		[ field.name for field in self.model._meta.fields if isinstance(field, PointField) ]
-
+		exclude_fields = ['user', 'created_at']
 		return exclude_fields
+
+class HiddenFieldsMixin(object):
+	def get_hidden_fields(self):
+		hidden_fields = []
+		if self.model.location_field():
+			hidden_fields.append(self.model.location_field())
+
+		return hidden_fields
 
 class SuccessRedirectMixin(object):
 	def get_success_url(self):
@@ -148,11 +154,19 @@ class AutocompleteFormMixin(object):
 			]
 			manytomany_fields = [ field.name for field in self.model._meta.many_to_many ]
 
-			return autocomplete_light.modelform_factory(
-				self.model, 
-				exclude=getattr(self, 'get_exclude_fields', None)(),
-				autocomplete_fields=foreignkey_fields + manytomany_fields
-			)
+			class AutocompleteForm(autocomplete_light.ModelForm):
+				class Meta:
+					model = self.model
+					exclude = self.get_exclude_fields()
+					autocomplete_fields = foreignkey_fields + manytomany_fields
+
+				def __init__(form_self, *agrs, **kwargs):
+					super(AutocompleteForm, form_self).__init__(*agrs, **kwargs)
+					from django.forms import HiddenInput
+					for field_name in self.get_hidden_fields():
+						form_self.fields[field_name].widget = HiddenInput()
+
+			return AutocompleteForm
 
 class StaffOmnividenceMixin(object):
 	def get_queryset(self):
@@ -162,6 +176,13 @@ class StaffOmnividenceMixin(object):
 			return parent_queryset
 		else:
 			return parent_queryset.filter(user=self.request.user)
+
+class AutoCurrentCoordinatesMixin(object):
+	def form_valid(self, form):
+		# [ field.name for field in self.model._meta.fields if isinstance(field, PointField) ]
+		# TODO: but what field?
+
+		super(AutoCurrentCoordinatesMixin, self).form_valid(form)
 
 class BaseFormList(StaffOmnividenceMixin, ListView):
 	template_name = 'web/form_list.html'
@@ -202,11 +223,11 @@ class FormList(ModelFromUrlMixin, CheckPermissionsMixin, StaffOmnividenceMixin, 
 		context['object_list_model'] = self.object_list.model
 		return context
 
-class FormCreate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, InlineDefaultValueMixin, ModelFromUrlMixin, CheckPermissionsMixin, CreateWithInlinesView):
+class FormCreate(AutocompleteFormMixin, HiddenFieldsMixin, ExcludeFieldsMixin, SuccessRedirectMixin, InlineDefaultValueMixin, ModelFromUrlMixin, CheckPermissionsMixin, CreateWithInlinesView):
 	template_name = 'web/form_create.html'
 	inlines_also = True
 
-class FormUpdate(AutocompleteFormMixin, ExcludeFieldsMixin, SuccessRedirectMixin, InlineDefaultValueMixin, ModelFromUrlMixin, CheckPermissionsMixin, UpdateWithInlinesView):
+class FormUpdate(AutocompleteFormMixin, HiddenFieldsMixin, ExcludeFieldsMixin, SuccessRedirectMixin, InlineDefaultValueMixin, ModelFromUrlMixin, CheckPermissionsMixin, UpdateWithInlinesView):
 	template_name = 'web/form_update.html'
 	inlines_also = True
 

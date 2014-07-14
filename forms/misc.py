@@ -39,7 +39,7 @@ class BaseFormModel(Model):
 		try:
 			field_name = next( field.name for field in cls._meta.fields if isinstance(field, PointField) )
 		except StopIteration:
-			raise AttributeError('This form has no coordinates field')
+			return None
 		return field_name
 
 	@classmethod

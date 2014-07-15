@@ -76,6 +76,8 @@ def write_label_fields(fields, form_object):
 			next(field for field in form_object['fields'] if field['name'] == field_name)
 		except StopIteration:
 			raise ValueError('Field {field_name} is referenced in "fields_for_label" of {model_name} but not defined'.format(field_name=field_name, model_name=form_object['name']))
+		except KeyError as error:
+			raise ValueError('Field of form %r is missing %r param.' % (form_object['name'], error.args[0]))
 
 		field_names.append(generate_name(field_name))
 
@@ -164,7 +166,11 @@ def write_field(verbose_name, datatype, **extra_args):
 def create_model(form_object, collected_output, counter):
 	output = ''
 
-	output += write_model(form_object['name'], form_object)
+	try:
+		output += write_model(form_object['name'], form_object)
+	except KeyError as error:
+		raise ValueError('Form is missing %r param. This info might help you locate the form: %r' % (error.args[0], form_object))
+
 	output += '\tdeclared_num = %d\n' % counter()
 	output += write_group(form_object.get('user_groups', ['basic']))
 	if form_object.has_key('fields_for_label'):
@@ -173,8 +179,11 @@ def create_model(form_object, collected_output, counter):
 
 	visible_when = {}
 	for field_object in form_object['fields']:
-		name = field_object.pop('name')
-		datatype = field_object.pop('type')
+		try:
+			name = field_object.pop('name')
+			datatype = field_object.pop('type')
+		except KeyError as error:
+			raise ValueError('Field of form %r is missing %r param. This info might help you locate the field: %r' % (form_object['name'], error.args[0], field_object))
 
 		if field_object.has_key('visible_when'):
 			visible_when[name] = field_object.pop('visible_when')

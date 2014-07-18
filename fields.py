@@ -2,6 +2,7 @@ from django.contrib.gis.geos import Point
 import re
 
 from functions import generate_name
+from mixins import *
 
 
 def load_field(json_object):
@@ -16,10 +17,10 @@ def load_field(json_object):
 		raise ValueError('Unknown type %r of field %r' % ())
 	return FieldClass(**json_object)
 
-class Field(object):
+class Field(DjangoRenderMixin, ParamsMixin, QtMixin, object):
 	type = str()
 	name = str()
-	visible_when = dict()
+	# visible_when = dict()
 	hint = str()
 	
 	required = False
@@ -32,31 +33,8 @@ class Field(object):
 		except KeyError as error:
 			raise ValueError('Field is missing \'name\' parameter. This info might help you locate the field: %r' % kwargs)
 
-		self.populate_params(**kwargs)
-
-	def populate_params(self, **kwargs):
-		for name, value in kwargs.items():
-			if hasattr(self, name):
-				setattr(self, name, value)
-			else:
-				raise ValueError('Unknown parameter %r for field %r' % (name, kwargs['name']))
-
-	def get_django_args(self):
-		django_args = {name: getattr(self, name) for name in dir(self) if not name.startswith('_') and not callable(getattr(self, name))}
-		django_args['blank'] = not django_args.pop('required')
-		django_args['help_text'] = django_args.pop('hint')
-
-		for name in ['visible_when', 'type', 'name']:
-			django_args.pop(name)
-		return django_args
-
-	def render_django(self):
-		django_args = self.get_django_args()
-		if not self.required:
-			django_args.pop('default', None)
-
-		field_args_str = [ '%s=%r' % (arg, value) for arg, value in django_args.items() ]
-		return u'\t' + generate_name(self.name) + u' = ' + self._django_class + u'(' + u', '.join(field_args_str) + u')' + u'\n'
+	def children(self):
+		return [] # TODO: should return visible_when
 
 	def _type(self):
 		class_name = self.__class__.__name__

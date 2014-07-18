@@ -17,47 +17,7 @@ import itertools
 import os
 import subprocess
 
-class BaseFormModel(Model):
-	user = ForeignKey(User)
-	created_at = DateTimeField(auto_now_add=True)
 
-	objects = InheritanceManager()
-
-	show_on_map = False
-	is_editable = False
-	is_creatable = True
-	inlines = None
-
-	def model_name(self):
-		return self.__class__.__name__
-
-	def get_absolute_url(self):
-		return reverse('web_update', kwargs={'model_name': self.model_name(), 'pk': self.pk})
-
-	@classmethod
-	def location_field(cls):
-		try:
-			field_name = next( field.name for field in cls._meta.fields if isinstance(field, PointField) )
-		except StopIteration:
-			return None
-		return field_name
-
-	@classmethod
-	def verbose_name(cls):
-		return cls._meta.verbose_name.title()
-
-	def __unicode__(self):
-		try:
-			return u', '.join( unicode(getattr(self, field_name)) for field_name in self.label_fields if hasattr(self, field_name) and getattr(self, field_name) != None )
-		except AttributeError:
-			return self.__class__.verbose_name()
-
-@receiver(signals.post_save, sender=User)
-def assign_default_group(sender, instance, created, **kwargs):
-	if created:
-		group, created = Group.objects.get_or_create(name='basic')
-		group.user_set.add(instance)
-		group.save()
 
 def generate_name(verbose_name):
 	no_spaces = re.sub(r'\s', r'_', verbose_name.strip())
@@ -122,46 +82,12 @@ def write_model(verbose_name, form_object):
 
 allowed_extra_args = ['help_text', 'max_length', 'to', 'choices']
 
-def write_field(verbose_name, datatype, **extra_args):
-	blank = not extra_args.pop('required', False)
-	choices = [ (generate_name(verbose), verbose) for verbose in extra_args.pop('choices', []) ]
-	foreignkey_to = generate_name(extra_args.pop('to', ''))
-
-
-	datatype_to_field = {
-		'text': ('CharField', {'max_length': 300, 'blank': blank, 'default': ''}),
-		'number': ('IntegerField', {'null': blank, 'blank': blank, 'default': 0}),
-		'decimal': ('DecimalField', {'null': blank, 'blank': blank, 'default': 0}),
-		'boolean': ('BooleanField', {'default': False}),
-		'file': ('FileField', {'upload_to': 'files', 'blank': blank, 'null':blank, 'default':''}),
-		'choice': ('CharField', {'max_length': 200, 'blank': blank, 'choices': choices, 'default':''}),
-		'multi-choice': ('MultiSelectField', {'max_length': 200, 'blank': blank, 'null': blank, 'choices': choices, 'default':''}),
-		'foreign-key': ('ForeignKey', {'null': True, 'blank': True, 'to': foreignkey_to}),
-		'many-to-many': ('ManyToManyField', {'null': True, 'blank': True, 'to': foreignkey_to}),
-		'coordinates': ('PointField', {'max_length': 100, 'blank': blank, 'null': blank, 'default': Point(0,0)})
-	}
-
-	if extra_args.has_key('hint'):
-		extra_args['help_text'] = extra_args.pop('hint')
-
+def write_field(field_object, form_name):
+	from fields import load_field
 	try:
-		field_class, field_args = datatype_to_field[datatype]
-	except KeyError:
-		raise ValueError('Unknown datatype of field "%s": "%s"' % (verbose_name,datatype))
-
-	for key in extra_args: # extra_args validation
-		if key not in allowed_extra_args:
-			raise ValueError('Unknown parameter for field "%s": "%s"' % (verbose_name,key))
-
-	field_args.update(extra_args)
-	# field_args['verbose_name'] = u"u'%s'" % verbose_name
-
-	if blank: # if not requred field, no need for default value
-		field_args.pop('default', None)
-
-	field_args_str = [ '%s=%r' % (arg, value) for arg, value in field_args.items() ]
-
-	return u'\t' + generate_name(verbose_name) + u' = ' + field_class + u'(' + u', '.join(field_args_str) + u')' + u'\n'
+		return load_field(field_object).render_django()
+	except ValueError as error:
+		raise ValueError('Form %r: %s' % (form_name, str(error)))
 
 def create_model(form_object, collected_output, counter):
 	output = ''
@@ -179,16 +105,10 @@ def create_model(form_object, collected_output, counter):
 
 	visible_when = {}
 	for field_object in form_object['fields']:
-		try:
-			name = field_object.pop('name')
-			datatype = field_object.pop('type')
-		except KeyError as error:
-			raise ValueError('Field of form %r is missing %r param. This info might help you locate the field: %r' % (form_object['name'], error.args[0], field_object))
-
+		output += write_field(field_object, form_object['name'])
+		
 		if field_object.has_key('visible_when'):
-			visible_when[name] = field_object.pop('visible_when')
-
-		output += write_field(name, datatype, **field_object)
+			visible_when[field_object['name']] = field_object.get('visible_when')
 
 	output += write_visibility_dependencies(visible_when)
 
@@ -236,7 +156,7 @@ from django.contrib.gis.geos import Point
 	return '\n'.join(output).encode('utf8')
 
 def config_update_wrapper():
-	from utils import clear_app_cache
+	# from utils import clear_app_cache
 	
 	models_filename = os.path.join(settings.BASE_DIR, 'forms', 'models.py')
 	try:
@@ -267,8 +187,9 @@ def config_update_wrapper():
 	except ValueError as error: # something went wrong
 		with open(models_filename, 'w') as models_file:
 			models_file.write(models_old_str) # rolling back models.py to initial state
+		try:
+			os.remove(os.path.join(settings.BASE_DIR, 'forms', 'models.pyc'))
+		except OSError:
+			pass
+		
 		raise error
-
-	finally:
-		os.remove(os.path.join(settings.BASE_DIR, 'forms', 'models.pyc'))
-

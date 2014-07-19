@@ -1,16 +1,5 @@
 #coding:utf-8
 
-from django.db.models import Model, ForeignKey, ImageField, DateTimeField
-from django.contrib.auth.models import User, Group
-from django.dispatch import receiver
-from django.db.models import signals
-from django.contrib.gis.db.models import PointField
-from model_utils.managers import InheritanceManager
-from django.contrib.gis.geos import Point
-from django.conf import settings
-from django.core.management import call_command
-from django.core.management.base import CommandError
-from django.core.urlresolvers import reverse
 import json
 import re
 import itertools
@@ -23,6 +12,7 @@ def generate_name(verbose_name):
 	return re.sub(r'[^_\w\d]', r'', no_spaces)
 
 def write_group(group_verbose_names):
+	from django.contrib.auth.models import Group
 	for group_name in group_verbose_names:
 		group, created = Group.objects.get_or_create(name=group_name)
 	
@@ -155,6 +145,9 @@ from django.contrib.gis.geos import Point
 	return '\n'.join(output).encode('utf8')
 
 def config_update_wrapper():
+	from django.conf import settings
+	from django.core.management import call_command
+	from django.core.management.base import CommandError
 	# from utils import clear_app_cache
 	
 	models_filename = os.path.join(settings.BASE_DIR, 'forms', 'models.py')

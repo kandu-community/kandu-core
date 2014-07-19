@@ -1,11 +1,10 @@
-from django.contrib.gis.geos import Point
 import re
 
-from functions import generate_name
 from mixins import *
+from functions import generate_name
 
 
-def load_field(json_object):
+def load_field(json_object, parent):
 	try:
 		class_name = ''.join(part.capitalize() for part in json_object['type'].split('-'))
 	except KeyError as error:
@@ -15,23 +14,26 @@ def load_field(json_object):
 		FieldClass = globals()[class_name]
 	except KeyError as error:
 		raise ValueError('Unknown type %r of field %r' % ())
-	return FieldClass(**json_object)
+	return FieldClass(parent=parent, **json_object)
 
-class Field(DjangoRenderMixin, ParamsMixin, QtMixin, object):
+class Field(QtMixin, DjangoRenderMixin, ParamsMixin, Base):
 	type = str()
 	name = str()
-	# visible_when = dict()
 	hint = str()
-	
 	required = False
 
 	_django_class = None
+	_conditions = None
 
-	def __init__(self, **kwargs):
+	def __init__(self, *args, **kwargs):
 		try:
 			self.name = kwargs['name']
 		except KeyError as error:
 			raise ValueError('Field is missing \'name\' parameter. This info might help you locate the field: %r' % kwargs)
+
+		self._conditions = kwargs.pop('visible_when', None)
+
+		super(Field, self).__init__(*args, **kwargs)
 
 	def children(self):
 		return [] # TODO: should return visible_when
@@ -109,5 +111,9 @@ class ManyToMany(NullValueMixin, ToMixin, Field):
 
 class Coordinates(NullValueMixin, Field):
 	max_length = 100
-	default = Point(0,0)
 	_django_class = 'PointField'
+
+	@property
+	def default(self):
+		from django.contrib.gis.geos import Point
+		return Point(0,0)

@@ -113,8 +113,12 @@ class ManyToMany(NullValueMixin, ToMixin, Field):
 class Coordinates(NullValueMixin, Field):
 	max_length = 100
 	_django_class = 'PointField'
+	default = None
 
-	@property
-	def default(self):
-		from django.contrib.gis.geos import Point
-		return Point(0,0)
+	def get_django_args(self):
+		django_args = super(NullValueMixin, self).get_django_args()
+
+		if not kwargs['default']:
+			from django.contrib.gis.geos import Point
+			django_args['default'] = Point(0,0)
+		return django_args

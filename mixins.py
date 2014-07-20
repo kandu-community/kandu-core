@@ -44,14 +44,18 @@ class QtMixin(object):
 		super(QtMixin, self).__init__(*args, **kwargs)
 
 	def parent(self):
-		return self._parent # NOTE: it's not besause of the OOP incapsulation stuff, but beacause all "public" attrs are considered JSON params
+		return self._parent # NOTE: it's not because of the OOP incapsulation stuff, but beacause all "public" attrs are considered JSON params
 
 	def childNumber(self):
 		return self._parent.children().index(self)
 
 	def columnNames(self):
-		names_order = ['name', 'type']
-		return sorted(dir(self), key = lambda name: names_order.index(name) if names_order.index(name) != -1 else 99)
+		def key(name):
+			try:
+				return ['name', 'type'].index(name)
+			except ValueError:
+				return 99
+		return sorted(dir(self), key=key)
 
 	def columns(self):
 		return [getattr(self, name) for name in self.columnNames() if not name.startswith('_') and not callable(getattr(self, name))]
@@ -61,3 +65,8 @@ class QtMixin(object):
 
 	def rowCount(self):
 		return len(self.children())
+
+	def getEditor(self, column_number, parent=None):
+		from PySide.QtGui import QWidget
+		field_name = self.columnNames()[column_number]
+		return None

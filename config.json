@@ -2,11 +2,6 @@
   {
     "name": "Member Registration",
     "category": "Registration",
-    "fields_for_label": [
-      "Last Name",
-      "First Name",
-      "SA ID Number"
-    ],
     "fields": [
       {
         "name": "Data Collector",
@@ -15,7 +10,8 @@
         "choices": [
           "Gabriel Mngoma",
           "Jabulani Memela"
-        ]
+        ],
+        "label_field": true
       },
       {
         "name": "Agrihub",
@@ -33,7 +29,8 @@
       {
         "name": "Ward Number",
         "required": true,
-        "type": "number"
+        "type": "number",
+        "label_field": true
       },
       {
         "name": "Area",
@@ -107,9 +104,6 @@
   {
     "name": "Garden Registration",
     "category": "Registration",
-    "fields_for_label": [
-      "Primary Member"
-    ],
     "fields": [
       {
         "name": "Data Collector",
@@ -124,7 +118,8 @@
         "name": "Primary Member",
         "required": true,
         "type": "foreign-key",
-        "to": "Member Registration"
+        "to": "Member Registration",
+        "label_field": true
       },
       {
         "name": "Primary Water Source",
@@ -625,14 +620,12 @@
   {
     "name": "Level1 Agroecology",
     "category": "Training",
-    "fields_for_label": [
-      "Member Name"
-    ],
     "fields": [
       {
         "name": "Member Name",
         "type": "foreign-key",
-        "to": "Member Registration"
+        "to": "Member Registration",
+        "label_field": true
       },
       {
         "name": "Agrihub",
@@ -689,484 +682,6 @@
         "type": "file",
         "hint": "Take a picture of the member at the training"
       }
-    ]
-  },
-  {
-    "name": "Level2 Agroecology",
-    "category": "Training",
-    "fields_for_label": [
-      "Member Name"
-    ],
-    "fields": [
-      {
-        "name": "Member Name",
-        "type": "foreign-key",
-        "to": "Member Registration"
-      },
-      {
-        "name": "Agrihub",
-        "required": true,
-        "type": "choice",
-        "choices": [
-          "Clifdale",
-          "Marianhill",
-          "Umbumbulu",
-          "Hambinathi",
-          "Waterloo",
-          "Other"
-        ]
-      },
-      {
-        "name": "Specify Other Area",
-        "type": "text",
-        "visible_when": {
-          "Agrihub": "Other"
-        }
-      },
-      {
-        "name": "Data Collector",
-        "required": true,
-        "type": "choice",
-        "choices": [
-          "Gabriel Mngoma",
-          "Jabulani Memela",
-          "Hazra Ismail",
-          "Nana Bomelo",
-          "Paula Osborn",
-          "Other"
-        ]
-      },
-      {
-        "name": "Specify Other Data Collector",
-        "type": "text",
-        "visible_when": {
-          "Data Collector": "Other"
-        }
-      },
-      {
-        "name": "Training Date",
-        "type": "text",
-        "required": true
-      },
-      {
-        "name": "Venue",
-        "type": "text",
-        "required": true
-      },
-      {
-        "name": "Picture",
-        "type": "file",
-        "hint": "Take a picture of the member at the training"
-      }
-    ]
-  },
-  {
-    "name": "Seedling Order",
-    "category": "Supply Support",
-    "fields_for_label": [
-      "Member"
-    ],
-    "fields": [
-      {
-        "name": "Member",
-        "type": "foreign-key",
-        "to": "Member Registration",
-        "required": true
-      }
-    ],
-    "inlines": [
-      {
-        "name": "Seedling Order",
-        "category": "Supplies",
-        "fields_for_label": [
-          "Type",
-          "Quantity"
-        ],
-        "fields": [
-          {
-            "name": "Seedling Order",
-            "type": "foreign-key",
-            "to": "Seedling Order"
-          },
-          {
-            "name": "Type",
-            "type": "choice",
-            "required": true,
-            "choices": [
-              "Ice Berg",
-              "Butter Lett",
-              "Butter Red",
-              "Frilly Green",
-              "Frilly Red",
-              "Green Cos",
-              "Red Cos",
-              "Red Oak",
-              "Green Oak",
-              "Basil",
-              "Coriander",
-              "Parsley",
-              "Mint",
-              "Thyme",
-              "Onion",
-              "Red Onion",
-              "Spring Onion",
-              "Beetroot",
-              "Carrot",
-              "Cauliflower",
-              "Broccoli",
-              "Chard",
-              "China Spinach",
-              "BL Spinach",
-              "Cabbage",
-              "Red Cabbage",
-              "Celery",
-              "Leek",
-              "Green Pepper",
-              "Chilli",
-              "Brinjal",
-              "Tomato",
-              "Marrow",
-              "Patty Pan",
-              "Cucumber",
-              "Butternut",
-              "Pumpkin"
-            ]
-          },
-          {
-            "name": "Quantity",
-            "required": true,
-            "type": "number"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Seed Order",
-    "category": "Supply Support",
-    "fields_for_label": [
-      "Member"
-    ],
-    "fields": [
-      {
-        "name": "Member",
-        "type": "foreign-key",
-        "to": "Member Registration",
-        "required": true
-      }
-    ],
-    "inlines": [
-      {
-        "name": "Seed Order",
-        "category": "Supplies",
-        "fields_for_label": [
-          "Type",
-          "Quantity"
-        ],
-        "fields": [
-          {
-            "name": "Seed Order",
-            "type": "foreign-key",
-            "to": "Seed Order"
-          },
-          {
-            "name": "Type",
-            "type": "choice",
-            "required": true,
-            "choices": [
-              "Beans 1kg",
-              "Beans 500g",
-              "Beans 100g",
-              "Beans 25g",
-              "Peas 1kg",
-              "Peas 500g",
-              "Peas 100g",
-              "Peas 25g",
-              "Turnip 1kg",
-              "Turnip 500g",
-              "Tunrip 100g",
-              "Turnip 25g",
-              "Beetroot 1kg",
-              "Beetroot 500g",
-              "Beetroot 100g",
-              "Beetroot 25g",
-              "Carrot 1kg",
-              "Carrot 500g",
-              "Carrot 100g",
-              "Carrot 25g"
-            ]
-          },
-          {
-            "name": "Quantity",
-            "required": true,
-            "type": "number"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Compost Order",
-    "category": "Supply Support",
-    "fields_for_label": [
-      "Member"
-    ],
-    "fields": [
-      {
-        "name": "Member",
-        "type": "foreign-key",
-        "to": "Member Registration",
-        "required": true
-      }
-    ],
-    "inlines": [
-      {
-        "name": "Compost Order",
-        "category": "Supplies",
-        "fields_for_label": [
-          "Type",
-          "Quantity"
-        ],
-        "fields": [
-          {
-            "name": "Compost Order",
-            "type": "foreign-key",
-            "to": "Compost Order"
-          },
-          {
-            "name": "Type",
-            "type": "choice",
-            "required": true,
-            "choices": [
-              "Compost 1",
-              "Compost 2"
-            ]
-          },
-          {
-            "name": "Quantity",
-            "required": true,
-            "type": "number"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Seed Potato Order",
-    "category": "Supply Support",
-    "fields_for_label": [
-      "Member"
-    ],
-    "fields": [
-      {
-        "name": "Member",
-        "type": "foreign-key",
-        "to": "Member Registration",
-        "required": true
-      }
-    ],
-    "inlines": [
-      {
-        "name": "Seed Potato Order",
-        "category": "Supplies",
-        "fields_for_label": [
-          "Type",
-          "Quantity"
-        ],
-        "fields": [
-          {
-            "name": "Seed Potato Order",
-            "type": "foreign-key",
-            "to": "Seed Potato Order"
-          },
-          {
-            "name": "Type",
-            "type": "choice",
-            "required": true,
-            "choices": [
-              "Potato 25 Kg",
-              "Potato 10Kg",
-              "Potato 1Kg"
-            ]
-          },
-          {
-            "name": "Quantity",
-            "required": true,
-            "type": "number"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Sales",
-    "category": "Market Support",
-    "fields_for_label": [
-      "Member"
-    ],
-    "fields": [
-      {
-        "name": "Member",
-        "type": "foreign-key",
-        "to": "Member Registration",
-        "required": true
-      }
-    ],
-    "inlines": [
-      {
-        "name": "Produce Sale",
-        "category": "Market",
-        "fields_for_label": [
-          "Type",
-          "Quantity"
-        ],
-        "fields": [
-          {
-            "name": "Sales",
-            "type": "foreign-key",
-            "to": "Sales"
-          },
-          {
-            "name": "Type",
-            "type": "choice",
-            "required": true,
-            "choices": [
-              "Ice Berg",
-              "Butter Lett",
-              "Butter Red",
-              "Frilly Green",
-              "Frilly Red",
-              "Green Cos",
-              "Red Cos",
-              "Red Oak",
-              "Green Oak",
-              "Basil",
-              "Coriander",
-              "Parsley",
-              "Mint",
-              "Thyme",
-              "Onion",
-              "Red Onion",
-              "Spring Onion",
-              "Beetroot",
-              "Carrot",
-              "Cauliflower",
-              "Broccoli",
-              "Chard",
-              "China Spinach",
-              "BL Spinach",
-              "Cabbage",
-              "Red Cabbage",
-              "Celery",
-              "Leek",
-              "Green Pepper",
-              "Chilli",
-              "Brinjal",
-              "Tomato",
-              "Marrow",
-              "Patty Pan",
-              "Cucumber",
-              "Butternut",
-              "Pumpkin"
-            ]
-          },
-          {
-            "name": "Unit",
-            "type": "choice",
-            "required": true,
-            "choices": [
-              "Kg",
-              "Bunch",
-              "Item"
-            ]
-          },
-          {
-            "name": "Price",
-            "type": "number",
-            "required": true
-          },
-          {
-            "name": "Quantity",
-            "type": "number",
-            "required": true
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "name": "Garden Baseline Survey",
-    "category": "Monitoring and Evaluation",
-    "fields": [
-      {
-        "name": "Co-op member",
-        "type": "choice",
-        "required": true,
-        "choices": [
-          "Yes",
-          "No"
-        ]
-      },
-      {
-        "name": "Garden Size",
-        "hint": "How big is your garden in square meteres?",
-        "type": "number"
-      },
-      {
-        "name": "Bennefits",
-        "hint": "What bennefits do you get from gardenin",
-        "type": "multi-choice",
-        "choices": [
-          "Self Employment",
-          "Vegetables",
-          "Income",
-          "Other"
-        ]
-      },
-      {
-        "name": "Bennefits Specify Other",
-        "type": "text"
-      },
-      {
-        "name": "Workdays",
-        "hint": "How many days per week do you spend in your garden?",
-        "type": "number"
-      },
-      {
-        "name": "Dependents",
-        "hint": "How many household dependents do you feed from your garden?",
-        "type": "multi-choice",
-        "choices": [
-          "Less than 5",
-          "5 to 10",
-          "More than 10"
-        ]
-      },
-      {
-        "name": "Income",
-        "hint": "For how much do you sell per week?",
-        "type": "choice",
-        "choices": [
-          "Less than R50",
-          "R50 - R100",
-          "R100 - R200",
-          "More than R200"
-        ]
-      },
-      {
-        "name": "Support Rating",
-        "hint": "Please rate the quality of support received in terms of access to seed, seedlings and supplies.",
-        "type": "choice",
-        "choices": [
-          "poor",
-          "OK",
-          "Very good",
-          "Excellent"
-        ]
-      }
-    ],
-    "user_groups": [
-      "advanced"
     ]
   }
 ]

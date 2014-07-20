@@ -19,17 +19,7 @@ def write_group(group_verbose_names):
 	return u"\tuser_group_names = %s\n" % group_verbose_names
 
 def write_label_fields(fields, form_object):
-	field_names = []
-	for field_name in fields:
-		try:
-			next(field for field in form_object['fields'] if field['name'] == field_name)
-		except StopIteration:
-			raise ValueError('Field {field_name} is referenced in "fields_for_label" of {model_name} but not defined'.format(field_name=field_name, model_name=form_object['name']))
-		except KeyError as error:
-			raise ValueError('Field of form %r is missing %r param.' % (form_object['name'], error.args[0]))
-
-		field_names.append(generate_name(field_name))
-
+	field_names = [field['name'] for field in form_object['fields'] if field.get('label_field', False)]
 	return u"\tlabel_fields = %r\n" % field_names
 
 def write_plain_fields(form_object):
@@ -88,8 +78,6 @@ def create_model(form_object, collected_output, counter):
 
 	output += '\tdeclared_num = %d\n' % counter()
 	output += write_group(form_object.get('user_groups', ['basic']))
-	if form_object.has_key('fields_for_label'):
-		output += write_label_fields(form_object['fields_for_label'], form_object)
 	output += write_plain_fields(form_object)
 
 	visible_when = {}
@@ -100,6 +88,7 @@ def create_model(form_object, collected_output, counter):
 			visible_when[field_object['name']] = field_object.get('visible_when')
 
 	output += write_visibility_dependencies(visible_when)
+	output += write_label_fields(form_object)
 
 	if form_object.has_key('inlines'):
 		inlines_str = []

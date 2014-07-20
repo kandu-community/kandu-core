@@ -8,7 +8,6 @@ def load_form(json_object, parent):
 class Form(QtMixin, ParamsMixin, Base):
 	name = str()
 	category = str()
-	fields_for_label = list()
 	user_groups = list()
 	is_editable = None
 

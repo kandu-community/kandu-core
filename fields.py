@@ -21,6 +21,7 @@ class Field(QtMixin, DjangoRenderMixin, ParamsMixin, Base):
 	name = str()
 	hint = str()
 	required = False
+	label_field = False
 
 	_django_class = None
 	_conditions = None

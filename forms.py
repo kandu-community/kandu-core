@@ -32,6 +32,9 @@ class Form(QtMixin, ParamsMixin, Base):
 	def insertChild(self, datatype):
 		self._fields.append(Field(parent=self, name='New field', type=datatype))
 
+	def removeChildren(self, position, number):
+		self._fields[position:position+number] = []
+
 class InlinesContainer(QtMixin, Base):
 	name = 'inlines'
 
@@ -40,6 +43,9 @@ class InlinesContainer(QtMixin, Base):
 
 	def insertChild(self):
 		self._parent._inlines.append(Form(name='New inline form'))
+
+	def removeChildren(self, position, number):
+		self._parent._inlines[position:position+number] = []
 
 class RootContainer(QtMixin, Base):
 	name = 'config'
@@ -54,3 +60,6 @@ class RootContainer(QtMixin, Base):
 
 	def insertChild(self):
 		self._forms.append(Form(parent=self, name='New form', category='Default'))
+
+	def removeChildren(self, position, number):
+		self._forms[position:position+number] = []

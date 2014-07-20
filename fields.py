@@ -32,6 +32,7 @@ class Field(QtMixin, DjangoRenderMixin, ParamsMixin, Base):
 		except KeyError as error:
 			raise ValueError('Field is missing \'name\' parameter. This info might help you locate the field: %r' % kwargs)
 
+		self.type = self.get_type()
 		self._conditions = kwargs.pop('visible_when', None)
 
 		super(Field, self).__init__(*args, **kwargs)
@@ -39,8 +40,9 @@ class Field(QtMixin, DjangoRenderMixin, ParamsMixin, Base):
 	def children(self):
 		return [] # TODO: should return visible_when
 
-	def _type(self):
-		class_name = self.__class__.__name__
+	@classmethod
+	def get_type(cls):
+		class_name = cls.__name__
 		return re.sub('([a-z0-9])([A-Z])', r'\1-\2', re.sub('(.)([A-Z][a-z]+)', r'\1-\2', class_name)).lower()
 
 class DefaultStringMixin(object):

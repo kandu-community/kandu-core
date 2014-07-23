@@ -23,6 +23,18 @@ class DjangoRenderMixin(object):
 		field_args_str = [ '%s=%r' % (arg, value) for arg, value in django_args.items() ]
 		return u'\t' + generate_name(self.name) + u' = ' + self._django_class + u'(' + u', '.join(field_args_str) + u')' + u'\n'
 
+class JSONRenderMixin(object):
+	def render_json(self):
+		json = {key: value for key, value in self.get_json_params().items() if value not in ('',[],{})}
+		self.insert_children_json(json)
+		return json
+
+	def get_json_params(self):
+		return dict(zip(self.columnNames(), self.columns()))
+
+	def insert_children_json(self, json_object):
+		pass
+
 class ParamsMixin(object):
 	def __init__(self, *args, **kwargs):
 		super(ParamsMixin, self).__init__(*args, **kwargs)
@@ -46,6 +58,9 @@ class QtMixin(object):
 	def parent(self):
 		return self._parent # NOTE: it's not because of the OOP incapsulation stuff, but beacause all "public" attrs are considered JSON params
 
+	def children(self):
+		return []
+
 	def childNumber(self):
 		return self._parent.children().index(self)
 
@@ -55,10 +70,10 @@ class QtMixin(object):
 				return ['name', 'type'].index(name)
 			except ValueError:
 				return 99
-		return sorted(dir(self), key=key)
+		return [name for name in sorted(dir(self), key=key) if not name.startswith('_') and not callable(getattr(self, name))]
 
 	def columns(self):
-		return [getattr(self, name) for name in self.columnNames() if not name.startswith('_') and not callable(getattr(self, name))]
+		return [getattr(self, name) for name in self.columnNames()]
 
 	def columnCount(self):
 		return len(self.columns())

@@ -5,7 +5,7 @@ from fields import load_field, Field
 def load_form(json_object, parent):
 	return Form(parent=parent, **json_object)
 
-class Form(QtMixin, ParamsMixin, Base):
+class Form(QtMixin, JSONRenderMixin, ParamsMixin, Base):
 	name = str()
 	category = str()
 	user_groups = list()
@@ -35,6 +35,10 @@ class Form(QtMixin, ParamsMixin, Base):
 	def removeChildren(self, position, number):
 		self._fields[position:position+number] = []
 
+	def insert_children_json(self, json_object):
+		json_object['fields'] = [field.render_json() for field in self._fields]
+		json_object['inlines'] = [form.render_json() for form in self._inlines]
+
 class InlinesContainer(QtMixin, Base):
 	name = 'inlines'
 
@@ -47,7 +51,7 @@ class InlinesContainer(QtMixin, Base):
 	def removeChildren(self, position, number):
 		self._parent._inlines[position:position+number] = []
 
-class RootContainer(QtMixin, Base):
+class RootContainer(QtMixin, JSONRenderMixin, Base):
 	name = 'config'
 
 	_forms = []
@@ -63,3 +67,6 @@ class RootContainer(QtMixin, Base):
 
 	def removeChildren(self, position, number):
 		self._forms[position:position+number] = []
+
+	def render_json(self):
+		return [form.render_json() for form in self._forms]

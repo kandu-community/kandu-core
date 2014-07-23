@@ -16,7 +16,7 @@ def load_field(json_object, parent):
 		raise ValueError('Unknown type %r of field %r' % ())
 	return FieldClass(parent=parent, **json_object)
 
-class Field(QtMixin, DjangoRenderMixin, ParamsMixin, Base):
+class Field(QtMixin, DjangoRenderMixin, JSONRenderMixin, ParamsMixin, Base):
 	type = str()
 	name = str()
 	hint = str()
@@ -32,18 +32,40 @@ class Field(QtMixin, DjangoRenderMixin, ParamsMixin, Base):
 		except KeyError as error:
 			raise ValueError('Field is missing \'name\' parameter. This info might help you locate the field: %r' % kwargs)
 
+		self._conditions_container = ConditionsContainer(parent=self)
+
 		self.type = self.get_type()
-		self._conditions = kwargs.pop('visible_when', None)
+		self._conditions = [Condition(field=field, value=value) for field, value in kwargs.pop('visible_when', {}).items()]
 
 		super(Field, self).__init__(*args, **kwargs)
 
 	def children(self):
-		return [] # TODO: should return visible_when
+		return [self._conditions_container] # TODO: should return visible_when
 
 	@classmethod
 	def get_type(cls):
 		class_name = cls.__name__
 		return re.sub('([a-z0-9])([A-Z])', r'\1-\2', re.sub('(.)([A-Z][a-z]+)', r'\1-\2', class_name)).lower()
+
+	def insert_children_json(self, json_object):
+		if self._conditions:
+			json_object['visible_when'] = {condition.field: condition.value for condition in self._conditions}
+
+class ConditionsContainer(QtMixin, Base):
+	name = 'visible_when'
+
+	def children(self):
+		return self._parent._conditions
+
+	def insertChild(self):
+		self._parent._conditions.append(Condition(field='choose field'))
+
+	def removeChildren(self, position, number):
+		self._parent._conditions[position:position+number] = []
+
+class Condition(QtMixin, ParamsMixin, Base):
+	field = str()
+	value = str()
 
 class DefaultStringMixin(object):
 	default = ''

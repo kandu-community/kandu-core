@@ -67,6 +67,11 @@ class Condition(QtMixin, ParamsMixin, Base):
 	field = str()
 	value = str()
 
+	_combobox_field = 'field'
+
+	def get_combobox_choices(self):
+		return [field.name for field in self._parent._fields]
+
 class DefaultStringMixin(object):
 	default = ''
 
@@ -84,13 +89,27 @@ class ChoicesMixin(object):
 		django_args['choices'] = [ (generate_name(verbose), verbose) for verbose in django_args.pop('choices', []) ]
 		return django_args
 
-class ToMixin(object):
+class ToMixin(ComboboxEditorMixin):
 	to = str()
+
+	_combobox_field = 'to'
 
 	def get_django_args(self):
 		django_args = super(ToMixin, self).get_django_args()
 		django_args['to'] = generate_name(django_args.pop('to'))
 		return django_args
+
+	def get_combobox_choices(self):
+		item = self._parent
+		while item._parent: # go up the tree to the root
+			item = item._parent
+		return [form.name for form in item.children()] + ['']
+
+	def get_json_params(self):
+		if to == '':
+			raise ValueError('Foreign-key field %r at form %r is missing "to" parameter value' % (self.name, self._parent.name))
+		else:
+			return super(ToMixin, self).get_json_params()
 
 class Text(DefaultStringMixin, Field):
 	max_length = 300

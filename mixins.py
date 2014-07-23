@@ -48,6 +48,30 @@ class ParamsMixin(object):
 				from fields import Field
 				raise ValueError('Unknown parameter %r for %s %r' % (name, 'field' if isinstance(self, Field) else 'form', kwargs['name']))
 
+class ComboboxEditorMixin(object):
+	def getEditor(self, column_number, parent=None):
+		if self.columnNames()[column_number] == self._combobox_field:
+			from PySide.QtGui import QComboBox, QWidget
+			editor = QComboBox(parent or QWidget())
+			# editor.insertItems(self.get_combobox_choices())
+			return editor
+		else:
+			return super(ComboboxEditorMixin, self).getEditor(column_number, parent)
+
+	def setEditorData(self, editor, column_number):
+		if self.columnNames()[column_number] == self._combobox_field:
+			combobox_choices = self.get_combobox_choices()
+			editor.insertItems(combobox_choices)
+			editor.setCurrentIndex(combobox_choices.index(self.columns()[column_number]))
+		else:
+			return super(ComboboxEditorMixin, self).setEditorData(editor, column_number)
+
+	def setModelData(self, editor, model, column_number):
+		if self.columnNames()[column_number] == self._combobox_field:
+			setattr(self, self._combobox_field, editor.currentText())
+		else:
+			return super(ComboboxEditorMixin, self).setModelData(editor, model, column_number)
+
 class QtMixin(object):
 	_parent = None
 
@@ -82,6 +106,4 @@ class QtMixin(object):
 		return len(self.children())
 
 	def getEditor(self, column_number, parent=None):
-		from PySide.QtGui import QWidget
-		field_name = self.columnNames()[column_number]
 		return None

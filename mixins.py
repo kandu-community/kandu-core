@@ -61,7 +61,7 @@ class ComboboxEditorMixin(object):
 	def setEditorData(self, editor, column_number):
 		if self.columnNames()[column_number] == self._combobox_field:
 			combobox_choices = self.get_combobox_choices()
-			editor.insertItems(combobox_choices)
+			editor.insertItems(0, combobox_choices)
 			editor.setCurrentIndex(combobox_choices.index(self.columns()[column_number]))
 		else:
 			return super(ComboboxEditorMixin, self).setEditorData(editor, column_number)

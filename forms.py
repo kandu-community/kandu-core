@@ -1,5 +1,5 @@
 from mixins import *
-from fields import load_field, Field
+from fields import load_field, get_field_class
 
 
 def load_form(json_object, parent):
@@ -30,7 +30,8 @@ class Form(QtMixin, JSONRenderMixin, ParamsMixin, Base):
 		return self._fields + [self._inlines_container]
 
 	def insertChild(self, datatype):
-		self._fields.append(Field(parent=self, name='New field', type=datatype))
+		FieldClass = get_field_class(datatype)
+		self._fields.append(FieldClass(parent=self, name='New field', type=datatype))
 
 	def removeChildren(self, position, number):
 		self._fields[position:position+number] = []
@@ -43,10 +44,10 @@ class InlinesContainer(QtMixin, Base):
 	name = 'inlines'
 
 	def children(self):
-		self._parent._inlines
+		return self._parent._inlines
 
 	def insertChild(self):
-		self._parent._inlines.append(Form(name='New inline form'))
+		self._parent._inlines.append(Form(name='New inline form', parent=self))
 
 	def removeChildren(self, position, number):
 		self._parent._inlines[position:position+number] = []

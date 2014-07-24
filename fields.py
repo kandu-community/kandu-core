@@ -4,16 +4,21 @@ from mixins import *
 from functions import generate_name
 
 
-def load_field(json_object, parent):
-	try:
-		class_name = ''.join(part.capitalize() for part in json_object['type'].split('-'))
-	except KeyError as error:
-		raise ValueError('Field is missing %r param. This info might help you locate the field: %r' % (error.args[0], json_object))
-	
+def get_field_class(datatype):
+	class_name = ''.join(part.capitalize() for part in datatype.split('-'))
 	try:
 		FieldClass = globals()[class_name]
 	except KeyError as error:
 		raise ValueError('Unknown type %r of field %r' % ())
+	return FieldClass
+
+def load_field(json_object, parent):
+	try:
+		datatype = json_object['type']
+	except KeyError as error:
+		raise ValueError('Field is missing %r param. This info might help you locate the field: %r' % (error.args[0], json_object))
+
+	FieldClass = get_field_class(datatype)
 	return FieldClass(parent=parent, **json_object)
 
 class Field(QtMixin, DjangoRenderMixin, JSONRenderMixin, ParamsMixin, Base):
@@ -58,7 +63,7 @@ class ConditionsContainer(QtMixin, Base):
 		return self._parent._conditions
 
 	def insertChild(self):
-		self._parent._conditions.append(Condition(field='choose field'))
+		self._parent._conditions.append(Condition(field='choose field', parent=self))
 
 	def removeChildren(self, position, number):
 		self._parent._conditions[position:position+number] = []
@@ -106,7 +111,7 @@ class ToMixin(ComboboxEditorMixin):
 		return [form.name for form in item.children()] + ['']
 
 	def get_json_params(self):
-		if to == '':
+		if self.to == '':
 			raise ValueError('Foreign-key field %r at form %r is missing "to" parameter value' % (self.name, self._parent.name))
 		else:
 			return super(ToMixin, self).get_json_params()

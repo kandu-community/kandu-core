@@ -12,7 +12,7 @@ def get_field_class(datatype):
 		raise ValueError('Unknown type %r of field %r' % ())
 	return FieldClass
 
-def load_field(json_object, parent):
+def load_field(json_object, parent=None):
 	try:
 		datatype = json_object['type']
 	except KeyError as error:
@@ -166,7 +166,7 @@ class Coordinates(NullValueMixin, Field):
 	def get_django_args(self):
 		django_args = super(NullValueMixin, self).get_django_args()
 
-		if not kwargs['default']:
+		if not django_args['default']:
 			from django.contrib.gis.geos import Point
 			django_args['default'] = Point(0,0)
 		return django_args

@@ -20,7 +20,12 @@ def write_group(group_verbose_names):
 
 def write_label_fields(fields, form_object):
 	field_names = [field['name'] for field in form_object['fields'] if field.get('label_field', False)]
-	return u"\tlabel_fields = %r\n" % field_names
+	field_names = list(set(field_names) | form_object.get('fields_for_label', set()))
+
+	if len(field_names) > 0:
+		return u"\tlabel_fields = %r\n" % map(generate_name, field_names)
+	else:
+		return ''
 
 def write_plain_fields(form_object):
 	output = ''
@@ -88,7 +93,7 @@ def create_model(form_object, collected_output, counter):
 			visible_when[field_object['name']] = field_object.get('visible_when')
 
 	output += write_visibility_dependencies(visible_when)
-	output += write_label_fields(form_object)
+	output += write_label_fields(form_object['fields'], form_object)
 
 	if form_object.has_key('inlines'):
 		inlines_str = []

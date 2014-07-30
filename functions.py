@@ -1,16 +1,5 @@
 #coding:utf-8
 
-from django.db.models import Model, ForeignKey, ImageField, DateTimeField
-from django.contrib.auth.models import User, Group
-from django.dispatch import receiver
-from django.db.models import signals
-from django.contrib.gis.db.models import PointField
-from model_utils.managers import InheritanceManager
-from django.contrib.gis.geos import Point
-from django.conf import settings
-from django.core.management import call_command
-from django.core.management.base import CommandError
-from django.core.urlresolvers import reverse
 import json
 import re
 import itertools
@@ -18,29 +7,19 @@ import os
 import subprocess
 
 
-
 def generate_name(verbose_name):
 	no_spaces = re.sub(r'\s', r'_', verbose_name.strip())
 	return re.sub(r'[^_\w\d]', r'', no_spaces)
 
 def write_group(group_verbose_names):
+	from django.contrib.auth.models import Group
 	for group_name in group_verbose_names:
 		group, created = Group.objects.get_or_create(name=group_name)
 	
 	return u"\tuser_group_names = %s\n" % group_verbose_names
 
 def write_label_fields(fields, form_object):
-	field_names = []
-	for field_name in fields:
-		try:
-			next(field for field in form_object['fields'] if field['name'] == field_name)
-		except StopIteration:
-			raise ValueError('Field {field_name} is referenced in "fields_for_label" of {model_name} but not defined'.format(field_name=field_name, model_name=form_object['name']))
-		except KeyError as error:
-			raise ValueError('Field of form %r is missing %r param.' % (form_object['name'], error.args[0]))
-
-		field_names.append(generate_name(field_name))
-
+	field_names = [field['name'] for field in form_object['fields'] if field.get('label_field', False)]
 	return u"\tlabel_fields = %r\n" % field_names
 
 def write_plain_fields(form_object):
@@ -99,8 +78,6 @@ def create_model(form_object, collected_output, counter):
 
 	output += '\tdeclared_num = %d\n' % counter()
 	output += write_group(form_object.get('user_groups', ['basic']))
-	if form_object.has_key('fields_for_label'):
-		output += write_label_fields(form_object['fields_for_label'], form_object)
 	output += write_plain_fields(form_object)
 
 	visible_when = {}
@@ -111,6 +88,7 @@ def create_model(form_object, collected_output, counter):
 			visible_when[field_object['name']] = field_object.get('visible_when')
 
 	output += write_visibility_dependencies(visible_when)
+	output += write_label_fields(form_object)
 
 	if form_object.has_key('inlines'):
 		inlines_str = []
@@ -156,6 +134,9 @@ from django.contrib.gis.geos import Point
 	return '\n'.join(output).encode('utf8')
 
 def config_update_wrapper():
+	from django.conf import settings
+	from django.core.management import call_command
+	from django.core.management.base import CommandError
 	# from utils import clear_app_cache
 	
 	models_filename = os.path.join(settings.BASE_DIR, 'forms', 'models.py')

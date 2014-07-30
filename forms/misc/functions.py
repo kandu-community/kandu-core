@@ -18,7 +18,7 @@ def write_group(group_verbose_names):
 	
 	return u"\tuser_group_names = %s\n" % group_verbose_names
 
-def write_label_fields(form_object):
+def write_label_fields(fields, form_object):
 	field_names = [field['name'] for field in form_object['fields'] if field.get('label_field', False)]
 	return u"\tlabel_fields = %r\n" % field_names
 

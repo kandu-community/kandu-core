@@ -1,0 +1,47 @@
+{% extends 'web/base.html' %}
+{% load bootstrap3 %}
+{% block extrahead %}
+<script src="/static/js/tree.jquery.js"></script>
+<link rel="stylesheet" href="/static/css/jqtree.css">
+
+<script src="/static/js/backbone-min.js"></script>
+<script src="/static/js/backbone-forms.min.js"></script>
+<script src="/static/js/editors/list.min.js"></script>
+
+<!-- <script src="backbone-forms/distribution/templates/bootstrap.js"></script>
+<link href="backbone-forms/distribution/templates/bootstrap.css" rel="stylesheet" /> -->
+{% endblock %}
+{% block content %}
+<script>
+$(document).ready(function(event) {
+	$('#treeWidget').tree();
+	// $('#treeWidget').tree('loadDataFromUrl', '{% url "editor:get_tree" %}');
+
+	$('#treeWidget').bind(
+	    'tree.click',
+	    function(event) {
+	        $.getJSON("{% url 'editor:get_node' %}", {id: event.node.id}, function(data){
+	        	var form = new Backbone.Form({
+				    schema: data.schema,
+				    data: data.data
+				}).render();
+	        	$('#paramsWidget').html(form.el);
+        	});
+	    }
+	);
+});
+</script>
+<div class="row">
+	<div class="col-md-6">
+		<div id="treeWidget" data-url="{% url 'editor:get_tree' %}"></div>
+	</div>	
+	<div class="col-md-6">
+		<div id="paramsWidget"></div>
+	</div>
+</div>
+{% endblock %}
+{% block breadcrumbs %}
+	<ol class="breadcrumb">
+		<li><a href="/admin/">Admin site</a></li><li>Config editor</li>
+	</ol>
+{% endblock %}

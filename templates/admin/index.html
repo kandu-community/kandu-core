@@ -15,9 +15,16 @@
 <div class="module">
 <table>
         <caption>Management</caption>
-        <tr><td>
-        <a href="{% url 'web_config' %}">Manage config</a>
-        </td></tr>
+        <tr>
+            <td>
+                <a href="{% url 'editor:complete_page' %}">Edit config</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a href="{% url 'web_config' %}">Upload config</a>
+            </td>
+        </tr>
 </table>
 </div>
 

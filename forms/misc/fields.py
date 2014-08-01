@@ -21,7 +21,7 @@ def load_field(json_object, parent=None):
 	FieldClass = get_field_class(datatype)
 	return FieldClass(parent=parent, **json_object)
 
-class Field(QtMixin, DjangoRenderMixin, JSONRenderMixin, ParamsMixin, Base):
+class Field(TreeMixin, DjangoRenderMixin, JSONRenderMixin, ParamsMixin, Base):
 	type = str()
 	name = str()
 	hint = str()
@@ -56,7 +56,7 @@ class Field(QtMixin, DjangoRenderMixin, JSONRenderMixin, ParamsMixin, Base):
 		if self._conditions:
 			json_object['visible_when'] = {condition.field: condition.value for condition in self._conditions}
 
-class ConditionsContainer(QtMixin, Base):
+class ConditionsContainer(TreeMixin, Base):
 	name = 'visible_when'
 
 	def children(self):
@@ -68,7 +68,7 @@ class ConditionsContainer(QtMixin, Base):
 	def removeChildren(self, position, number):
 		self._parent._conditions[position:position+number] = []
 
-class Condition(QtMixin, ParamsMixin, Base):
+class Condition(TreeMixin, ParamsMixin, Base):
 	field = str()
 	value = str()
 
@@ -76,6 +76,10 @@ class Condition(QtMixin, ParamsMixin, Base):
 
 	def get_combobox_choices(self):
 		return [field.name for field in self._parent._fields]
+
+	@property
+	def name(self):
+		return '%s == %s' % (self.field, self.value)
 
 class DefaultStringMixin(object):
 	default = ''

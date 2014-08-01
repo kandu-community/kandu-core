@@ -1,9 +1,13 @@
+import time
+import random
+from itertools import izip, repeat
+
 from functions import generate_name
 
 
 class Base(object): # workaround for "object.__init__() takes no parameters"
 	def __init__(self, *args, **kwargs):
-		pass
+		self._id = ('%d%d' % (time.time(), random.randint(1,42))).replace('.','')
 
 class DjangoRenderMixin(object):
 	def get_django_args(self):
@@ -72,12 +76,21 @@ class ComboboxEditorMixin(object):
 		else:
 			return super(ComboboxEditorMixin, self).setModelData(editor, model, column_number)
 
-class QtMixin(object):
+class TreeMixin(object):
 	_parent = None
 
 	def __init__(self, *args, **kwargs):
 		self._parent = kwargs.pop('parent', None)
-		super(QtMixin, self).__init__(*args, **kwargs)
+		super(TreeMixin, self).__init__(*args, **kwargs)
+
+	def find_by_id(self, id):
+		if self._id == id: # not me!
+			return self
+		else:
+			try:
+				return next(child for child in self.children() if child.find_by_id(id))
+			except StopIteration:
+				return None # not here!
 
 	def parent(self):
 		return self._parent # NOTE: it's not because of the OOP incapsulation stuff, but beacause all "public" attrs are considered JSON params
@@ -85,25 +98,26 @@ class QtMixin(object):
 	def children(self):
 		return []
 
-	def childNumber(self):
-		return self._parent.children().index(self)
-
-	def columnNames(self):
+	def column_names(self):
 		def key(name):
 			try:
 				return ['name', 'type'].index(name)
 			except ValueError:
 				return 99
-		return [name for name in sorted(dir(self), key=key) if not name.startswith('_') and not callable(getattr(self, name))]
+		return (name for name in sorted(dir(self), key=key) if not name.startswith('_') and not callable(getattr(self, name)))
 
 	def columns(self):
-		return [getattr(self, name) for name in self.columnNames()]
+		return (getattr(self, name) for name in self.column_names())
 
-	def columnCount(self):
-		return len(self.columns())
+	def render_tree_json(self):
+		return {
+			'label': self.name,
+			'children': [child.render_tree_json() for child in self.children()],
+			'id': self._id
+		}
 
-	def rowCount(self):
-		return len(self.children())
+	def render_schema(self):
+		return dict(izip(self.column_names(), repeat('Text')))
 
-	def getEditor(self, column_number, parent=None):
-		return None
+	def render_data(self):
+		return dict(izip(self.column_names(), self.columns()))

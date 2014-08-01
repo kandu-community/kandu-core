@@ -1,9 +1,6 @@
 {% extends 'web/base.html' %}
 {% load bootstrap3 %}
 {% block content %}
-<div class="page-header">
-	<h1>Manage config</h1>
-</div>
 <div class="row">
 	<div class="col-sm-12 col-md-12 col-lg-6">
 		<form action="{% url 'web_config' %}" method="post" enctype="multipart/form-data" class="form">
@@ -23,4 +20,9 @@
 	<!-- <a href="{% url 'web_config' operation='make_migration' %}"><button class="btn">{% bootstrap_icon 'refresh' %} Make migration</button></a> -->
 	<!-- <a href="{% url 'web_config' operation='migrate' %}"><button class="btn">{% bootstrap_icon 'ok' %} Migrate</button></a> -->
 </div>
+{% endblock %}
+{% block breadcrumbs %}
+	<ol class="breadcrumb">
+		<li><a href="/admin/">Admin site</a></li><li>Upload config</li>
+	</ol>
 {% endblock %}

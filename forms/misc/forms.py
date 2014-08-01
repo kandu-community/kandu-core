@@ -5,7 +5,7 @@ from fields import load_field, get_field_class
 def load_form(json_object, parent):
 	return Form(parent=parent, **json_object)
 
-class Form(QtMixin, JSONRenderMixin, ParamsMixin, Base):
+class Form(TreeMixin, JSONRenderMixin, ParamsMixin, Base):
 	name = str()
 	category = str()
 	user_groups = list()
@@ -40,7 +40,7 @@ class Form(QtMixin, JSONRenderMixin, ParamsMixin, Base):
 		json_object['fields'] = [field.render_json() for field in self._fields]
 		json_object['inlines'] = [form.render_json() for form in self._inlines]
 
-class InlinesContainer(QtMixin, Base):
+class InlinesContainer(TreeMixin, Base):
 	name = 'inlines'
 
 	def children(self):
@@ -52,13 +52,14 @@ class InlinesContainer(QtMixin, Base):
 	def removeChildren(self, position, number):
 		self._parent._inlines[position:position+number] = []
 
-class RootContainer(QtMixin, JSONRenderMixin, Base):
+class RootContainer(TreeMixin, JSONRenderMixin, Base):
 	name = 'config'
 
 	_forms = []
 
-	def __init__(self, json_object):
+	def __init__(self, json_object, *args, **kwargs):
 		self._forms = [load_form(form_object, parent=self) for form_object in json_object]
+		super(RootContainer, self).__init__(*args, **kwargs)
 
 	def children(self):
 		return self._forms
@@ -71,3 +72,6 @@ class RootContainer(QtMixin, JSONRenderMixin, Base):
 
 	def render_json(self):
 		return [form.render_json() for form in self._forms]
+
+	def render_tree_json(self):
+		return [child.render_tree_json() for child in self.children()]

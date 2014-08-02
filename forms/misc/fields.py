@@ -75,8 +75,8 @@ class ConditionsContainer(TreeMixin, Base):
 	def insertChild(self):
 		self._parent._conditions.append(Condition(field='choose field', parent=self))
 
-	def removeChildren(self, position, number):
-		self._parent._conditions[position:position+number] = []
+	def removeChildren(self, node):
+		self._parent._conditions.remove(node)
 
 class Condition(TreeMixin, ParamsMixin, Base):
 	field = str()

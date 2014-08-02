@@ -97,6 +97,18 @@ class TreeMixin(object):
 	def parent(self):
 		return self._parent # NOTE: it's not because of the OOP incapsulation stuff, but beacause all "public" attrs are considered JSON params
 
+	def parent_form(self):
+		from forms import Form
+
+		parent_form = self
+		try:
+			while not isinstance(parent_form, Form): # go up the tree to closest Form
+				parent_form = parent_form.parent()
+		except AttributeError:
+			raise ValueError('Please select a form before trying to do this')
+
+		return parent_form
+
 	def children(self):
 		return []
 

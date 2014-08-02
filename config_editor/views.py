@@ -1,9 +1,10 @@
 from django.views.generic import View, TemplateView
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 import json
 
 import utils
+from forms import misc
 
 
 class JSONResponseMixin(object):
@@ -21,7 +22,13 @@ class JSONResponseMixin(object):
 class PythonRootMixin(object):
 	def dispatch(self, *args, **kwargs):
 		self.root = utils.get_root()
-		return super(PythonRootMixin, self).dispatch(*args, **kwargs)
+		
+		response = super(PythonRootMixin, self).dispatch(*args, **kwargs)
+
+		if self.request.method.lower() in ['put', 'post', 'delete']:
+			utils.save_root(self.root)
+
+		return response
 
 class TreeView(JSONResponseMixin, PythonRootMixin, View):
 	def get(self, *args, **kwargs):
@@ -36,7 +43,34 @@ class NodeView(JSONResponseMixin, PythonRootMixin, View):
 		})
 
 	def put(self, *args, **kwargs):
-		node = self.root.find_by_id(str(self.request.POST['id']))
+		node = self.root.find_by_id(str(self.request.GET['id']))
+		node.load_data(json.loads(self.request.body))
+		return self.render_to_response({'result': 'ok'})
 
+	def post(self, *args, **kwargs):
+		node_type = self.request.GET['nodeType']
+		if node_type.startswith('form'):
+			new_node = self.root.insertChild()
+			return self.render_to_response({'result': 'ok', 'node_id': new_node._id})
+		elif node_type.startswith('field'):
+			field, datatype = node_type.split(' ')
+			parent_node = self.root.find_by_id(self.request.GET['id']).parent_form()
+			new_node = parent_node.insertChild(datatype)
+			return self.render_to_response({'result': 'ok', 'node_id': new_node._id})
+		elif node_type.startswith('inline'):
+			parent_node = self.root.find_by_id(self.request.GET['id']).parent_form()
+			new_node = parent_node._inlines_container.insertChild()
+			return self.render_to_response({'result': 'ok', 'node_id': new_node._id})
 
+	def delete(self, *args, **kwargs):
+		node = self.root.find_by_id(str(self.request.GET['id']))
+		node.parent().removeChildren(node)
+		return self.render_to_response({'result': 'ok'})
 
+def reset_changes(request):
+	utils.reset_changes()
+	return HttpResponseRedirect(reverse('editor:complete_page'))
+
+def overwrite_config(request):
+	utils.save_to_config()
+	return HttpResponseRedirect(reverse('web_config'))

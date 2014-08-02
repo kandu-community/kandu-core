@@ -10,5 +10,8 @@ urlpatterns = patterns('',
 
     url(r'^node/', NodeView.as_view(), name='get_node'),
 
+    url(r'^save/', overwrite_config, name='overwrite_config'),
+    url(r'^reset/', reset_changes, name='reset_changes'),
+
     url(r'^$', TemplateView.as_view(template_name='config_editor/complete_page.html'), name='complete_page')
 )

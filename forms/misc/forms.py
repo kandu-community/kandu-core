@@ -32,9 +32,10 @@ class Form(TreeMixin, JSONRenderMixin, ParamsMixin, Base):
 	def insertChild(self, datatype):
 		FieldClass = get_field_class(datatype)
 		self._fields.append(FieldClass(parent=self, name='New field', type=datatype))
+		return self._fields[-1]
 
-	def removeChildren(self, position, number):
-		self._fields[position:position+number] = []
+	def removeChildren(self, node):
+		self._fields.remove(node)
 
 	def insert_children_json(self, json_object):
 		json_object['fields'] = [field.render_json() for field in self._fields]
@@ -54,9 +55,10 @@ class InlinesContainer(TreeMixin, Base):
 
 	def insertChild(self):
 		self._parent._inlines.append(Form(name='New inline form', parent=self))
+		return self._parent._inlines[-1]
 
-	def removeChildren(self, position, number):
-		self._parent._inlines[position:position+number] = []
+	def removeChildren(self, node):
+		self._parent._inlines.remove(node)
 
 class RootContainer(TreeMixin, JSONRenderMixin, Base):
 	name = 'config'
@@ -72,9 +74,10 @@ class RootContainer(TreeMixin, JSONRenderMixin, Base):
 
 	def insertChild(self):
 		self._forms.append(Form(parent=self, name='New form', category='Default'))
+		return self._forms[-1]
 
-	def removeChildren(self, position, number):
-		self._forms[position:position+number] = []
+	def removeChildren(self, node):
+		self._forms.remove(node)
 
 	def render_json(self):
 		return [form.render_json() for form in self._forms]

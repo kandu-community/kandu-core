@@ -1,6 +1,7 @@
 {% extends 'web/base.html' %}
 {% load bootstrap3 %}
 {% block extrahead %}
+<script type="text/javascript" src="http://creativecouple.github.com/jquery-timing/jquery-timing.min.js"></script>
 <script src="/static/js/tree.jquery.js"></script>
 <link rel="stylesheet" href="/static/css/jqtree.css">
 
@@ -9,8 +10,8 @@
 <script src="/static/js/backbone-forms.min.js"></script>
 <script src="/static/js/editors/list.min.js"></script>
 
-<!-- <script src="backbone-forms/distribution/templates/bootstrap.js"></script>
-<link href="backbone-forms/distribution/templates/bootstrap.css" rel="stylesheet" /> -->
+<!-- <script src="/static/js/templates/bootstrap3.js"></script> -->
+<!-- <link href="/static/css/templates/bootstrap3.css" rel="stylesheet" /> -->
 {% endblock %}
 {% block content %}
 <script>
@@ -18,8 +19,46 @@ var propertyExplorerForm;
 
 $(document).ready(function(event) {
 	$('#treeWidget').tree();
-	// $('#treeWidget').tree('loadDataFromUrl', '{% url "editor:get_tree" %}');
+	$('#propertyExplorerSubmit').hide();
 
+    $('button.updateNode').click(function(event){
+	    $.ajax({
+	        type: "PUT",
+	        url: "{% url 'editor:get_node' %}?id=" + $('#treeWidget').tree('getSelectedNode').id,
+	        dataType: 'json',
+	        data: JSON.stringify(propertyExplorerForm.getValue())
+	    });
+    });
+
+    $('button.addNode').click(function(event){
+	    $.ajax({
+	        type: "POST",
+	        url: "{% url 'editor:get_node' %}?nodeType=" + $(this).attr('data-node-type') + '&id=' + $('#treeWidget').tree('getSelectedNode').id,
+			success: function(data) {
+				$('#treeWidget').tree('reload');
+				setTimeout(function() {
+					$('#treeWidget').tree('selectNode', $('#treeWidget').tree('getNodeById', data.node_id));
+				}, 500);
+			}
+	    });
+    });
+
+    $('button.deleteNode').click(function(event){
+	    $.ajax({
+	        type: "DELETE",
+	        url: "{% url 'editor:get_node' %}?id=" + $('#treeWidget').tree('getSelectedNode').id,
+			success: function(data) {
+				$('#treeWidget').tree('reload');
+			}
+	    });
+    });
+
+ //    $('#propertyExplorerSubmit').slideDown(function() {
+	//     setTimeout(function() {
+	//         $('#propertyExplorerSubmit').slideUp();
+	//     }, 5000);
+	// });
+	
 	$('#treeWidget').bind(
 	    'tree.click',
 	    function(event) {
@@ -28,10 +67,12 @@ $(document).ready(function(event) {
 				    schema: data.schema,
 				    data: data.data
 				}).render();
+
 	        	$('#propertyExplorerWidget').html(propertyExplorerForm.el);
-        	});
-        	event.preventDefault();
-	    }
+	        	$('#propertyExplorerSubmit').show();
+	    	});
+	    	// event.preventDefault();
+		}
 	);
 });
 </script>
@@ -41,6 +82,21 @@ $(document).ready(function(event) {
 	</div>	
 	<div class="col-md-6">
 		<div id="propertyExplorerWidget"></div>
+		<div id="propertyExplorerSubmit" class="form-actions">
+			<button class='btn updateNode'><span class='glyphicon glyphicon-ok'></span> Update</button>
+			<button class="btn btn-danger deleteNode"><span class='glyphicon glyphicon-cross'></span> Delete</a>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="form-actions">
+		<div class="pull-left">
+			<button class='btn addNode' data-node-type='form'><span class='glyphicon glyphicon-plus'></span> form</button>
+			<button class='btn addNode' data-node-type='field'><span class='glyphicon glyphicon-plus'></span> field</button>
+			<button class='btn addNode' data-node-type='inline'><span class='glyphicon glyphicon-plus'></span> inline</button>
+		</div>
+		{% bootstrap_button "Save to config.json" button_type='submit' icon='ok' %}
+		<a href="{% url 'editor:reset_changes' %}" class="btn btn-danger">Reset changes</a>
 	</div>
 </div>
 {% endblock %}

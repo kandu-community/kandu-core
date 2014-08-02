@@ -47,7 +47,8 @@ INSTALLED_APPS = (
     'forms',
     'web',
     'api',
-    'icons'
+    'icons',
+    'config_editor'
 )
 
 MIDDLEWARE_CLASSES = (

@@ -4,6 +4,7 @@
 <script src="/static/js/tree.jquery.js"></script>
 <link rel="stylesheet" href="/static/css/jqtree.css">
 
+<script src="/static/js/underscore.js"></script>
 <script src="/static/js/backbone-min.js"></script>
 <script src="/static/js/backbone-forms.min.js"></script>
 <script src="/static/js/editors/list.min.js"></script>
@@ -27,6 +28,7 @@ $(document).ready(function(event) {
 				}).render();
 	        	$('#paramsWidget').html(form.el);
         	});
+        	event.preventDefault();
 	    }
 	);
 });

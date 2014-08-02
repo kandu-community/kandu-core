@@ -1,13 +1,15 @@
 import time
 import random
 from itertools import izip, repeat
+from collections import OrderedDict
+from hashlib import md5
 
 from functions import generate_name
 
 
 class Base(object): # workaround for "object.__init__() takes no parameters"
 	def __init__(self, *args, **kwargs):
-		self._id = ('%d%d' % (time.time(), random.randint(1,42))).replace('.','')
+		self._id = md5(str(time.time()) + str(random.randint(1,420)) + self.name).hexdigest()
 
 class DjangoRenderMixin(object):
 	def get_django_args(self):
@@ -88,7 +90,7 @@ class TreeMixin(object):
 			return self
 		else:
 			try:
-				return next(child for child in self.children() if child.find_by_id(id))
+				return next(child.find_by_id(id) for child in self.children() if child.find_by_id(id))
 			except StopIteration:
 				return None # not here!
 
@@ -117,7 +119,7 @@ class TreeMixin(object):
 		}
 
 	def render_schema(self):
-		return dict(izip(self.column_names(), repeat('Text')))
+		return OrderedDict(izip(self.column_names(), repeat('Text')))
 
 	def render_data(self):
 		return dict(izip(self.column_names(), self.columns()))

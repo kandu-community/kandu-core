@@ -40,6 +40,12 @@ class Form(TreeMixin, JSONRenderMixin, ParamsMixin, Base):
 		json_object['fields'] = [field.render_json() for field in self._fields]
 		json_object['inlines'] = [form.render_json() for form in self._inlines]
 
+	def render_schema(self):
+		schema = super(Form, self).render_schema()
+		schema['is_editable'] = 'Checkbox'
+		schema['user_groups'] = 'List'
+		return schema
+
 class InlinesContainer(TreeMixin, Base):
 	name = 'inlines'
 

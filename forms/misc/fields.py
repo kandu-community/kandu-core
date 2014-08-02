@@ -98,6 +98,11 @@ class ChoicesMixin(object):
 		django_args['choices'] = [ (generate_name(verbose), verbose) for verbose in django_args.pop('choices', []) ]
 		return django_args
 
+	def render_schema(self):
+		schema = super(Form, self).render_schema()
+		schema['choices'] = 'List'
+		return schema
+
 class ToMixin(ComboboxEditorMixin):
 	to = str()
 

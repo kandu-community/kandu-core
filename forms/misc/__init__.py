@@ -57,13 +57,7 @@ except ImportError:
 
 import inspect
 from forms import RootContainer
-import fields
 
 
 def load_root(json_object):
 	return RootContainer(json_object)
-
-def get_available_fields():
-	return inspect.getmembers(fields, 
-		lambda entity: inspect.isclass(entity) and issubclass(entity, fields.Field) and entity != fields.Field
-	)

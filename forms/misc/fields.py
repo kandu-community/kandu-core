@@ -1,7 +1,7 @@
 import re
 
 from mixins import *
-from functions import generate_name
+from functions import generate_name, get_available_fields
 
 
 def get_field_class(datatype):
@@ -56,6 +56,16 @@ class Field(TreeMixin, DjangoRenderMixin, JSONRenderMixin, ParamsMixin, Base):
 		if self._conditions:
 			json_object['visible_when'] = {condition.field: condition.value for condition in self._conditions}
 
+	def render_schema(self):
+		schema = super(Field, self).render_schema()
+		schema['type'] = {
+			'type': 'Select',
+			'options': [field_class.get_type() for field_name, field_class in get_available_fields()]
+		}
+		schema['required'] = 'Checkbox'
+		schema['label_field'] = 'Checkbox'
+		return schema
+
 class ConditionsContainer(TreeMixin, Base):
 	name = 'visible_when'
 
@@ -81,6 +91,11 @@ class Condition(TreeMixin, ParamsMixin, Base):
 	def name(self):
 		return '%s == %s' % (self.field, self.value)
 
+	def render_schema(self):
+		data = super(Condition, self).render_schema()
+		data.pop('name') # it is a calculated and therefore read only field
+		return data
+
 class DefaultStringMixin(object):
 	default = ''
 
@@ -99,7 +114,7 @@ class ChoicesMixin(object):
 		return django_args
 
 	def render_schema(self):
-		schema = super(Form, self).render_schema()
+		schema = super(ChoicesMixin, self).render_schema()
 		schema['choices'] = 'List'
 		return schema
 
@@ -124,6 +139,11 @@ class ToMixin(ComboboxEditorMixin):
 			raise ValueError('Foreign-key field %r at form %r is missing "to" parameter value' % (self.name, self._parent.name))
 		else:
 			return super(ToMixin, self).get_json_params()
+
+	def render_schema(self):
+		schema = super(ToMixin, self).render_schema()
+		schema['to'] = {'type': 'Select', 'options': self.get_combobox_choices()}
+		return schema
 
 class Text(DefaultStringMixin, Field):
 	max_length = 300

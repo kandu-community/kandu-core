@@ -21,3 +21,14 @@ def get_root():
 def save_root(root):
 	with open(settings.EDITOR_PICKLE_FILE, 'w') as root_dump:
 		pickle.dump(root, root_dump)
+
+def save_to_config(root):
+	with open(conf.settings.CONFIG_FILE, 'w') as config_file:
+		json.dump(root.render_json(), config_file)
+
+def reset_changes():
+	with open(conf.settings.CONFIG_FILE) as config_file:
+		root = misc.load_root(json.load(config_file))
+	with open(settings.EDITOR_PICKLE_FILE, 'w') as root_dump:
+		pickle.dump(root, root_dump)
+	return root

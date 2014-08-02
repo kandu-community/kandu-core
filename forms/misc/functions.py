@@ -5,11 +5,18 @@ import re
 import itertools
 import os
 import subprocess
+import inspect
 
 
 def generate_name(verbose_name):
 	no_spaces = re.sub(r'\s', r'_', verbose_name.strip())
 	return re.sub(r'[^_\w\d]', r'', no_spaces)
+
+def get_available_fields():
+	import fields
+	return inspect.getmembers(fields, 
+		lambda entity: inspect.isclass(entity) and issubclass(entity, fields.Field) and entity != fields.Field
+	)
 
 def write_group(group_verbose_names):
 	from django.contrib.auth.models import Group

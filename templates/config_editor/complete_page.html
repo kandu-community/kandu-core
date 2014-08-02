@@ -14,6 +14,8 @@
 {% endblock %}
 {% block content %}
 <script>
+var propertyExplorerForm;
+
 $(document).ready(function(event) {
 	$('#treeWidget').tree();
 	// $('#treeWidget').tree('loadDataFromUrl', '{% url "editor:get_tree" %}');
@@ -22,11 +24,11 @@ $(document).ready(function(event) {
 	    'tree.click',
 	    function(event) {
 	        $.getJSON("{% url 'editor:get_node' %}", {id: event.node.id}, function(data){
-	        	var form = new Backbone.Form({
+	        	propertyExplorerForm = new Backbone.Form({
 				    schema: data.schema,
 				    data: data.data
 				}).render();
-	        	$('#paramsWidget').html(form.el);
+	        	$('#propertyExplorerWidget').html(propertyExplorerForm.el);
         	});
         	event.preventDefault();
 	    }
@@ -38,7 +40,7 @@ $(document).ready(function(event) {
 		<div id="treeWidget" data-url="{% url 'editor:get_tree' %}"></div>
 	</div>	
 	<div class="col-md-6">
-		<div id="paramsWidget"></div>
+		<div id="propertyExplorerWidget"></div>
 	</div>
 </div>
 {% endblock %}

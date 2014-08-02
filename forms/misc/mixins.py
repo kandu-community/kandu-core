@@ -123,3 +123,6 @@ class TreeMixin(object):
 
 	def render_data(self):
 		return dict(izip(self.column_names(), self.columns()))
+
+	def load_data(self, data):
+		self.populate_params(**data)

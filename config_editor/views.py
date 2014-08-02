@@ -35,5 +35,8 @@ class NodeView(JSONResponseMixin, PythonRootMixin, View):
 			'data': node.render_data()
 		})
 
+	def put(self, *args, **kwargs):
+		node = self.root.find_by_id(str(self.request.POST['id']))
+
 
 

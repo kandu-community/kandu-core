@@ -17,16 +17,55 @@
 <script>
 var propertyExplorerForm;
 
+function showNodeProperties(node_id)
+{
+    $.getJSON("{% url 'editor:get_node' %}", {id: node_id}, function(data){
+    	propertyExplorerForm = new Backbone.Form({
+		    schema: data.schema,
+		    data: data.data
+		}).render();
+
+    	$('#propertyExplorerWidget').html(propertyExplorerForm.el);
+    	$('#propertyExplorerSubmit').show();
+
+    	$('#propertyExplorerWidget form select[name="type"]').change(function(event){
+		    $.ajax({
+		        type: "PUT",
+		        url: "{% url 'editor:get_node' custom_action='change_field_type' %}?id=" + $('#treeWidget').tree('getSelectedNode').id,
+		        dataType: 'json',
+		        data: JSON.stringify(propertyExplorerForm.getValue()),
+		        success: function(data){
+		        	showNodeProperties(data.node_id);
+		        }
+		    });
+    	});
+	});
+}
+
+function reloadTreeAndSelect(node_id)
+{
+	$('#treeWidget').tree('reload');
+	setTimeout(function() {
+		$('#treeWidget').tree('selectNode', $('#treeWidget').tree('getNodeById', node_id));
+		showNodeProperties(node_id);
+	}, 500);
+}
+
 $(document).ready(function(event) {
 	$('#treeWidget').tree();
+	
 	$('#propertyExplorerSubmit').hide();
+	$('button[data-node-type="condition"]').prop('disabled', true);
 
     $('button.updateNode').click(function(event){
 	    $.ajax({
 	        type: "PUT",
 	        url: "{% url 'editor:get_node' %}?id=" + $('#treeWidget').tree('getSelectedNode').id,
 	        dataType: 'json',
-	        data: JSON.stringify(propertyExplorerForm.getValue())
+	        data: JSON.stringify(propertyExplorerForm.getValue()),
+	        success: function(data){
+				reloadTreeAndSelect(data.node_id);
+	        }
 	    });
     });
 
@@ -35,10 +74,7 @@ $(document).ready(function(event) {
 	        type: "POST",
 	        url: "{% url 'editor:get_node' %}?nodeType=" + $(this).attr('data-node-type') + '&id=' + $('#treeWidget').tree('getSelectedNode').id,
 			success: function(data) {
-				$('#treeWidget').tree('reload');
-				setTimeout(function() {
-					$('#treeWidget').tree('selectNode', $('#treeWidget').tree('getNodeById', data.node_id));
-				}, 500);
+				reloadTreeAndSelect(data.node_id);
 			}
 	    });
     });
@@ -58,19 +94,15 @@ $(document).ready(function(event) {
 	//         $('#propertyExplorerSubmit').slideUp();
 	//     }, 5000);
 	// });
-	
+
 	$('#treeWidget').bind(
 	    'tree.click',
 	    function(event) {
-	        $.getJSON("{% url 'editor:get_node' %}", {id: event.node.id}, function(data){
-	        	propertyExplorerForm = new Backbone.Form({
-				    schema: data.schema,
-				    data: data.data
-				}).render();
-
-	        	$('#propertyExplorerWidget').html(propertyExplorerForm.el);
-	        	$('#propertyExplorerSubmit').show();
-	    	});
+	    	showNodeProperties(event.node.id);
+	    	if (event.node.kind == 'field')
+	    		$('button[data-node-type="condition"]').prop('disabled', false);
+	    	else
+	    		$('button[data-node-type="condition"]').prop('disabled', true);
 	    	// event.preventDefault();
 		}
 	);
@@ -94,8 +126,9 @@ $(document).ready(function(event) {
 			<button class='btn addNode' data-node-type='form'><span class='glyphicon glyphicon-plus'></span> form</button>
 			<button class='btn addNode' data-node-type='field'><span class='glyphicon glyphicon-plus'></span> field</button>
 			<button class='btn addNode' data-node-type='inline'><span class='glyphicon glyphicon-plus'></span> inline</button>
+			<button class='btn addNode' data-node-type='condition'><span class='glyphicon glyphicon-plus'></span> visible when</button>
 		</div>
-		{% bootstrap_button "Save to config.json" button_type='submit' icon='ok' %}
+		{% bootstrap_button "Overwrite config.json" button_type='submit' icon='ok' %}
 		<a href="{% url 'editor:reset_changes' %}" class="btn btn-danger">Reset changes</a>
 	</div>
 </div>

@@ -9,7 +9,16 @@ from functions import generate_name
 
 class Base(object): # workaround for "object.__init__() takes no parameters"
 	def __init__(self, *args, **kwargs):
-		self._id = md5(str(time.time()) + str(random.randint(1,420)) + self.name).hexdigest()
+		self._id = kwargs.pop('id', None) or md5(str(time.time()) + str(random.randint(1,420)) + self.name).hexdigest()
+		self.populate_params(**kwargs)
+
+	def populate_params(self, **kwargs):
+		for name, value in kwargs.items():
+			if hasattr(self, name):
+				setattr(self, name, value)
+			else:
+				from fields import Field
+				raise ValueError('Unknown parameter %r for %s %r' % (name, 'field' if isinstance(self, Field) else 'form', kwargs['name']))
 
 class DjangoRenderMixin(object):
 	def get_django_args(self):
@@ -40,19 +49,6 @@ class JSONRenderMixin(object):
 
 	def insert_children_json(self, json_object):
 		pass
-
-class ParamsMixin(object):
-	def __init__(self, *args, **kwargs):
-		super(ParamsMixin, self).__init__(*args, **kwargs)
-		self.populate_params(**kwargs)
-
-	def populate_params(self, **kwargs):
-		for name, value in kwargs.items():
-			if hasattr(self, name):
-				setattr(self, name, value)
-			else:
-				from fields import Field
-				raise ValueError('Unknown parameter %r for %s %r' % (name, 'field' if isinstance(self, Field) else 'form', kwargs['name']))
 
 class ComboboxEditorMixin(object):
 	def getEditor(self, column_number, parent=None):
@@ -123,9 +119,13 @@ class TreeMixin(object):
 	def columns(self):
 		return (getattr(self, name) for name in self.column_names())
 
+	def node_kind(self):
+		return 'generic'
+
 	def render_tree_json(self):
 		return {
 			'label': self.name,
+			'kind': self.node_kind(),
 			'children': [child.render_tree_json() for child in self.children()],
 			'id': self._id
 		}

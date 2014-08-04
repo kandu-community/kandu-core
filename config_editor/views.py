@@ -44,23 +44,30 @@ class NodeView(JSONResponseMixin, PythonRootMixin, View):
 
 	def put(self, *args, **kwargs):
 		node = self.root.find_by_id(str(self.request.GET['id']))
-		node.load_data(json.loads(self.request.body))
-		return self.render_to_response({'result': 'ok'})
+		json_object = json.loads(self.request.body)
+
+		if self.kwargs.has_key('custom_action') and self.kwargs['custom_action'] == 'change_field_type':
+			node.parent_form().change_field_type(node, json_object['type'])
+		else:
+			node.load_data(json_object)
+	
+		return self.render_to_response({'result': 'ok', 'node_id': node._id})
 
 	def post(self, *args, **kwargs):
 		node_type = self.request.GET['nodeType']
-		if node_type.startswith('form'):
+		if node_type == 'form':
 			new_node = self.root.insertChild()
-			return self.render_to_response({'result': 'ok', 'node_id': new_node._id})
-		elif node_type.startswith('field'):
-			field, datatype = node_type.split(' ')
+		elif node_type == 'field':
 			parent_node = self.root.find_by_id(self.request.GET['id']).parent_form()
-			new_node = parent_node.insertChild(datatype)
-			return self.render_to_response({'result': 'ok', 'node_id': new_node._id})
-		elif node_type.startswith('inline'):
+			new_node = parent_node.insertChild()
+		elif node_type == 'inline':
 			parent_node = self.root.find_by_id(self.request.GET['id']).parent_form()
 			new_node = parent_node._inlines_container.insertChild()
-			return self.render_to_response({'result': 'ok', 'node_id': new_node._id})
+		elif node_type == 'condition':
+			parent_node = self.root.find_by_id(self.request.GET['id'])
+			new_node = parent_node.insertChild()
+
+		return self.render_to_response({'result': 'ok', 'node_id': new_node._id})
 
 	def delete(self, *args, **kwargs):
 		node = self.root.find_by_id(str(self.request.GET['id']))

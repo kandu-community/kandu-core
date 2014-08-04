@@ -21,7 +21,7 @@ def load_field(json_object, parent=None):
 	FieldClass = get_field_class(datatype)
 	return FieldClass(parent=parent, **json_object)
 
-class Field(TreeMixin, DjangoRenderMixin, JSONRenderMixin, ParamsMixin, Base):
+class Field(TreeMixin, DjangoRenderMixin, JSONRenderMixin, Base):
 	type = str()
 	name = str()
 	hint = str()
@@ -37,15 +37,10 @@ class Field(TreeMixin, DjangoRenderMixin, JSONRenderMixin, ParamsMixin, Base):
 		except KeyError as error:
 			raise ValueError('Field is missing \'name\' parameter. This info might help you locate the field: %r' % kwargs)
 
-		self._conditions_container = ConditionsContainer(parent=self)
-
 		self.type = self.get_type()
-		self._conditions = [Condition(field=field, value=value) for field, value in kwargs.pop('visible_when', {}).items()]
+		self._conditions = [Condition(field=field, value=value, parent=self) for field, value in kwargs.pop('visible_when', {}).items()]
 
 		super(Field, self).__init__(*args, **kwargs)
-
-	def children(self):
-		return [self._conditions_container] # TODO: should return visible_when
 
 	@classmethod
 	def get_type(cls):
@@ -66,19 +61,20 @@ class Field(TreeMixin, DjangoRenderMixin, JSONRenderMixin, ParamsMixin, Base):
 		schema['label_field'] = 'Checkbox'
 		return schema
 
-class ConditionsContainer(TreeMixin, Base):
-	name = 'visible_when'
+	def node_kind(self):
+		return 'field'
 
 	def children(self):
-		return self._parent._conditions
+		return self._conditions
 
 	def insertChild(self):
-		self._parent._conditions.append(Condition(field='choose field', parent=self))
+		self._conditions.append(Condition(parent=self))
+		return self._conditions[-1]
 
 	def removeChildren(self, node):
-		self._parent._conditions.remove(node)
+		self._conditions.remove(node)
 
-class Condition(TreeMixin, ParamsMixin, Base):
+class Condition(TreeMixin, Base):
 	field = str()
 	value = str()
 
@@ -92,9 +88,10 @@ class Condition(TreeMixin, ParamsMixin, Base):
 		return '%s == %s' % (self.field, self.value)
 
 	def render_schema(self):
-		data = super(Condition, self).render_schema()
-		data.pop('name') # it is a calculated and therefore read only field
-		return data
+		schema = super(Condition, self).render_schema()
+		schema.pop('name') # it is a calculated and therefore read only field
+		schema['field'] = {'type': 'Select', 'options': [field.name for field in self.parent_form()._fields]}
+		return schema
 
 class DefaultStringMixin(object):
 	default = ''
@@ -132,7 +129,7 @@ class ToMixin(ComboboxEditorMixin):
 		item = self._parent
 		while item._parent: # go up the tree to the root
 			item = item._parent
-		return [form.name for form in item.children()] + ['']
+		return [form.name for form in item.children()]
 
 	def get_json_params(self):
 		if self.to == '':
@@ -193,9 +190,9 @@ class Coordinates(NullValueMixin, Field):
 	default = None
 
 	def get_django_args(self):
-		django_args = super(NullValueMixin, self).get_django_args()
+		django_args = super(Coordinates, self).get_django_args()
 
-		if not django_args['default']:
+		if not django_args['default']: # NOTE: no default anyway
 			from django.contrib.gis.geos import Point
 			django_args['default'] = Point(0,0)
 		return django_args

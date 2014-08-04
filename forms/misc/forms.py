@@ -1,3 +1,5 @@
+from itertools import izip
+
 from mixins import *
 from fields import load_field, get_field_class
 
@@ -5,7 +7,7 @@ from fields import load_field, get_field_class
 def load_form(json_object, parent):
 	return Form(parent=parent, **json_object)
 
-class Form(TreeMixin, JSONRenderMixin, ParamsMixin, Base):
+class Form(TreeMixin, JSONRenderMixin, Base):
 	name = str()
 	category = str()
 	user_groups = list()
@@ -26,13 +28,32 @@ class Form(TreeMixin, JSONRenderMixin, ParamsMixin, Base):
 
 		super(Form, self).__init__(*args, **kwargs)
 
+	def populate_params(self, **kwargs):
+		kwargs.pop('label_fields', None)
+		super(Form, self).populate_params(**kwargs)
+
 	def children(self):
 		return self._fields + [self._inlines_container]
 
-	def insertChild(self, datatype):
+	def insertChild(self, datatype='text'):
 		FieldClass = get_field_class(datatype)
 		self._fields.append(FieldClass(parent=self, name='New field', type=datatype))
 		return self._fields[-1]
+
+	def change_field_type(self, field_object, new_datatype):
+		self._fields.remove(field_object)
+
+		FieldClass = get_field_class(new_datatype)
+		new_field_object = FieldClass(parent=self, name=field_object.name, id=field_object._id)
+		self._fields.append(new_field_object)
+		for param, value in izip(field_object.column_names(), field_object.columns()): # transfer as much data as possible to a new instance
+			if param == 'type':
+				continue
+
+			if hasattr(new_field_object, param): # if applicable
+				setattr(new_field_object, param, value)
+
+		return new_field_object
 
 	def removeChildren(self, node):
 		self._fields.remove(node)

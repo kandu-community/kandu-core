@@ -45,7 +45,7 @@ class JSONRenderMixin(object):
 		return json
 
 	def get_json_params(self):
-		return dict(zip(self.columnNames(), self.columns()))
+		return dict(zip(self.column_names(), self.columns()))
 
 	def insert_children_json(self, json_object):
 		pass

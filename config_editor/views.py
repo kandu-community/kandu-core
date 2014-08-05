@@ -78,6 +78,7 @@ def reset_changes(request):
 	utils.reset_changes()
 	return HttpResponseRedirect(reverse('editor:complete_page'))
 
-def overwrite_config(request):
-	utils.save_to_config()
-	return HttpResponseRedirect(reverse('web_config'))
+class OverwriteConfig(PythonRootMixin, View):
+	def get(self, *args, **kwargs):
+		utils.save_to_config(self.root)
+		return HttpResponseRedirect(reverse('editor:complete_page'))

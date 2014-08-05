@@ -128,7 +128,7 @@ $(document).ready(function(event) {
 			<button class='btn addNode' data-node-type='inline'><span class='glyphicon glyphicon-plus'></span> inline</button>
 			<button class='btn addNode' data-node-type='condition'><span class='glyphicon glyphicon-plus'></span> visible when</button>
 		</div>
-		{% bootstrap_button "Overwrite config.json" button_type='submit' icon='ok' %}
+		<a href="{% url 'editor:overwrite_config' %}" class='btn btn-primary'><span class='glyphicon glyphicon-ok'></span> Overwrite config.json</a>
 		<a href="{% url 'editor:reset_changes' %}" class="btn btn-danger">Reset changes</a>
 	</div>
 </div>

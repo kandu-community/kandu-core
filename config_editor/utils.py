@@ -24,7 +24,7 @@ def save_root(root):
 
 def save_to_config(root):
 	with open(conf.settings.CONFIG_FILE, 'w') as config_file:
-		json.dump(root.render_json(), config_file)
+		json.dump(root.render_json(), config_file, indent=2)
 
 def reset_changes():
 	with open(conf.settings.CONFIG_FILE) as config_file:

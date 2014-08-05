@@ -26,7 +26,7 @@ from extra_views import InlineFormSet, CreateWithInlinesView, UpdateWithInlinesV
 import forms.models
 from forms.utils import get_form_models, get_search_fields
 from forms.misc import BaseFormModel
-from widgets import SearchForm
+from widgets import SearchForm, DatepickerWidget
 
 class ModelFromUrlMixin(object):
 	'''
@@ -162,9 +162,13 @@ class AutocompleteFormMixin(object):
 
 				def __init__(form_self, *agrs, **kwargs):
 					super(AutocompleteForm, form_self).__init__(*agrs, **kwargs)
-					from django.forms import HiddenInput
-					for field_name in self.get_hidden_fields():
-						form_self.fields[field_name].widget = HiddenInput()
+					from django.forms import HiddenInput, DateField
+
+					for field_name in form_self.fields:
+						if field_name in self.get_hidden_fields():
+							form_self.fields[field_name].widget = HiddenInput()
+						if isinstance(form_self.fields[field_name], DateField):
+							form_self.fields[field_name].widget = DatepickerWidget()
 
 			return AutocompleteForm
 

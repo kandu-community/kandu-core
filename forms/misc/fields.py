@@ -146,6 +146,17 @@ class Text(DefaultStringMixin, Field):
 	max_length = 300
 	_django_class = 'CharField'
 
+class Date(NullValueMixin, Field):
+	_django_class = 'DateField'
+
+	def get_django_args(self):
+		django_args = super(Date, self).get_django_args()
+
+		if not django_args.get('default', None):
+			from datetime import date
+			django_args['default'] = date(1999,1,1)
+		return django_args
+
 class Number(NullValueMixin, Field):
 	default = 0
 	_django_class = 'IntegerField'
@@ -192,7 +203,7 @@ class Coordinates(NullValueMixin, Field):
 	def get_django_args(self):
 		django_args = super(Coordinates, self).get_django_args()
 
-		if not django_args['default']: # NOTE: no default anyway
+		if not django_args.get('default', None):
 			from django.contrib.gis.geos import Point
 			django_args['default'] = Point(0,0)
 		return django_args

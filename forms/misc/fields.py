@@ -145,7 +145,7 @@ class ToMixin(ComboboxEditorMixin):
 class NumericFieldMixin(object):
 	def get_django_args(self):
 		django_args = super(NumericFieldMixin, self).get_django_args()
-		django_args['max_digits'] = django_args['max_length']
+		django_args['max_digits'] = int(django_args['max_length'])
 		django_args['decimal_places'] = int(django_args.pop('max_length')) / 2
 		return django_args
 

@@ -173,7 +173,7 @@ class Decimal(NullValueMixin, NumericFieldMixin, Field):
 	max_length = 5
 	_django_class = 'DecimalField'
 
-class Boolean(Field):
+class Boolean(NullValueMixin, Field):
 	default = False
 	_django_class = 'BooleanField'
 

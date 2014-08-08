@@ -177,10 +177,6 @@ class Boolean(Field):
 	default = False
 	_django_class = 'BooleanField'
 
-	def get_django_args(self):
-		django_args = {name: value for name, value in dir(self).items() if not name.startswith('_') or callable(value)} # NOTE: is_callable?
-		return django_args
-
 class File(DefaultStringMixin, NullValueMixin, Field):
 	_django_class = 'FileField'
 

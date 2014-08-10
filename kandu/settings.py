@@ -70,10 +70,10 @@ WSGI_APPLICATION = 'kandu.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'kandu_dev',
-        'USER': 'narek',
-        'PASSWORD': 'in0ma32'
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'kandu',
+        'USER': 'kandu',
+        'PASSWORD': 'kandu'
     }
 }
 
@@ -100,11 +100,10 @@ CONFIG_FILE = os.path.join(BASE_DIR, 'config.json')
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
-MEDIA_ROOT = '/opt/kandu-media/'
-STATIC_ROOT = '/opt/kandu-static/'
+STATIC_ROOT = '/home/inomma/webapps/kandu_media/'
+MEDIA_ROOT = '/home/inomma/webapps/kandu_media/'
 
-TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates', )
+TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",

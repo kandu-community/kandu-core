@@ -27,7 +27,7 @@ def write_group(group_verbose_names):
 
 def write_label_fields(fields, form_object):
 	field_names = [field['name'] for field in form_object['fields'] if field.get('label_field', False)]
-	field_names = list(set(field_names) | form_object.get('fields_for_label', set()))
+	field_names = list(set(field_names) | set(form_object.get('fields_for_label', [])))
 
 	if len(field_names) > 0:
 		return u"\tlabel_fields = %r\n" % map(generate_name, field_names)

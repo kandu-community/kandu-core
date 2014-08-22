@@ -64,7 +64,8 @@ $(document).ready(function(event) {
 	        dataType: 'json',
 	        data: JSON.stringify(propertyExplorerForm.getValue()),
 	        success: function(data){
-				reloadTreeAndSelect(data.node_id);
+	        	if (data.reload)
+					reloadTreeAndSelect(data.node_id);
 	        }
 	    });
     });
@@ -120,7 +121,7 @@ $(document).ready(function(event) {
 		<div id="propertyExplorerWidget"></div>
 		<div id="propertyExplorerSubmit" class="form-actions">
 			<button class='btn updateNode'><span class='glyphicon glyphicon-ok'></span> Update</button>
-			<button class="btn btn-danger deleteNode"><span class='glyphicon glyphicon-cross'></span> Delete</a>
+			<button class="btn btn-danger deleteNode"><span class='glyphicon glyphicon-cross'></span> Delete</button>
 		</div>
 	</div>
 </div>

@@ -137,4 +137,10 @@ class TreeMixin(object):
 		return dict(izip(self.column_names(), self.columns()))
 
 	def load_data(self, data):
+		updated_params = []
+		if self.name != data['name']:
+			updated_params.append('name')
+		
 		self.populate_params(**data)
+
+		return updated_params

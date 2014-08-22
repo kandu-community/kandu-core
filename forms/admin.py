@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import ManyToManyField
 import autocomplete_light
 
 from utils import get_form_models, get_search_fields
@@ -6,7 +7,7 @@ from utils import get_form_models, get_search_fields
 for form_name, form_model in get_form_models():
 	try:
 		class FormAdmin(admin.ModelAdmin):
-			list_display = form_model.label_fields
+			list_display = [field.name for field in form_model._meta.fields if field.name in form_model.label_fields and not isinstance(field, ManyToManyField)]
 
 		admin.site.register(form_model, FormAdmin)
 		

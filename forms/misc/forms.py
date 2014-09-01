@@ -33,7 +33,10 @@ class Form(TreeMixin, JSONRenderMixin, Base):
 		super(Form, self).populate_params(**kwargs)
 
 	def children(self):
-		return self._fields + [self._inlines_container]
+		if len(self._inlines_container.children()) > 0: # there are inlines
+			return self._fields + [self._inlines_container] # show "inlines" node
+		else:
+			return self._fields
 
 	def insertChild(self, datatype='text'):
 		FieldClass = get_field_class(datatype)

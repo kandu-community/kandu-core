@@ -42,6 +42,7 @@ class ReadOnlyAndInlinesMixin(object):
 		class Meta:
 			model = self.model
 			read_only_fields = self.read_only_fields
+			depth = 1
 
 		attrs = {
 			'Meta': Meta

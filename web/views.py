@@ -181,13 +181,6 @@ class StaffOmnividenceMixin(object):
 		else:
 			return parent_queryset.filter(user=self.request.user)
 
-class AutoCurrentCoordinatesMixin(object):
-	def form_valid(self, form):
-		# [ field.name for field in self.model._meta.fields if isinstance(field, PointField) ]
-		# TODO: but what field?
-
-		super(AutoCurrentCoordinatesMixin, self).form_valid(form)
-
 class BaseFormList(StaffOmnividenceMixin, ListView):
 	template_name = 'web/form_list.html'
 	paginate_by = 10

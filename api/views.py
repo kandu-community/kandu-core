@@ -140,7 +140,7 @@ class FormDetail(ModelFromUrlMixin, ReadOnlyAndInlinesMixin, generics.RetrieveUp
 	'''
 
 	permission_classes = (IsOwnerOrStaff, HasPermission)
-	model_serializer_class = CustomModelSerializer
+	model_serializer_class = CustomModelSerializer # TODO: depth = 1
 
 class AvailableForms(generics.GenericAPIView):
 	def get(self, request, *args, **kwargs):

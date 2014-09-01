@@ -48,10 +48,11 @@ class NodeView(JSONResponseMixin, PythonRootMixin, View):
 
 		if self.kwargs.has_key('custom_action') and self.kwargs['custom_action'] == 'change_field_type':
 			node.parent_form().change_field_type(node, json_object['type'])
+			updated_params = ['type']
 		else:
 			updated_params = node.load_data(json_object)
 	
-		return self.render_to_response({'result': 'ok', 'node_id': node._id, 'reload': 'name' in updated_params})
+		return self.render_to_response({'result': 'ok', 'node_id': node._id, 'reload': 'name' in updated_params or 'type' in updated_params})
 
 	def post(self, *args, **kwargs):
 		node_type = self.request.GET['nodeType']

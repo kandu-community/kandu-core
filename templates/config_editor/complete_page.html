@@ -19,26 +19,26 @@ var propertyExplorerForm;
 
 function showNodeProperties(node_id)
 {
-    $.getJSON("{% url 'editor:get_node' %}", {id: node_id}, function(data){
-    	propertyExplorerForm = new Backbone.Form({
-		    schema: data.schema,
-		    data: data.data
+	$.getJSON("{% url 'editor:get_node' %}", {id: node_id}, function(data){
+		propertyExplorerForm = new Backbone.Form({
+			schema: data.schema,
+			data: data.data
 		}).render();
 
-    	$('#propertyExplorerWidget').html(propertyExplorerForm.el);
-    	$('#propertyExplorerSubmit').show();
+		$('#propertyExplorerWidget').html(propertyExplorerForm.el);
+		$('#propertyExplorerSubmit').show();
 
-    	$('#propertyExplorerWidget form select[name="type"]').change(function(event){
-		    $.ajax({
-		        type: "PUT",
-		        url: "{% url 'editor:get_node' custom_action='change_field_type' %}?id=" + $('#treeWidget').tree('getSelectedNode').id,
-		        dataType: 'json',
-		        data: JSON.stringify(propertyExplorerForm.getValue()),
-		        success: function(data){
-		        	showNodeProperties(data.node_id);
-		        }
-		    });
-    	});
+		$('#propertyExplorerWidget form select[name="type"]').change(function(event){
+			$.ajax({
+				type: "PUT",
+				url: "{% url 'editor:get_node' custom_action='change_field_type' %}?id=" + $('#treeWidget').tree('getSelectedNode').id,
+				dataType: 'json',
+				data: JSON.stringify(propertyExplorerForm.getValue()),
+				success: function(data){
+					showNodeProperties(data.node_id);
+				}
+			});
+		});
 	});
 }
 
@@ -54,49 +54,52 @@ function reloadTreeAndSelect(node_id)
 $(document).ready(function(event) {
 	$('#treeWidget').tree({
 		dragAndDrop: true,
-	    onCanMoveTo: function(moved_node, target_node, position) {
-	        return !(position == 'inside');
-	    },
-	    onCanMove: function(node) {
-	        return !(node.kind == 'container');
-	    }
+		onCanMoveTo: function(moved_node, target_node, position) {
+			if (position == 'inside')
+				return target_node.kind == moved_node.parent.kind;
+			else
+				return target_node.parent.kind == moved_node.parent.kind;
+		},
+		onCanMove: function(node) {
+			return !(node.kind == 'container');
+		}
 	});
 	
 	$('#propertyExplorerSubmit').hide();
 	$('button[data-node-type="condition"]').prop('disabled', true);
 
-    $('button.updateNode').click(function(event){
-	    $.ajax({
-	        type: "PUT",
-	        url: "{% url 'editor:get_node' %}?id=" + $('#treeWidget').tree('getSelectedNode').id,
-	        dataType: 'json',
-	        data: JSON.stringify(propertyExplorerForm.getValue()),
-	        success: function(data){
-	        	if (data.reload)
+	$('button.updateNode').click(function(event){
+		$.ajax({
+			type: "PUT",
+			url: "{% url 'editor:get_node' %}?id=" + $('#treeWidget').tree('getSelectedNode').id,
+			dataType: 'json',
+			data: JSON.stringify(propertyExplorerForm.getValue()),
+			success: function(data){
+				if (data.reload)
 					reloadTreeAndSelect(data.node_id);
-	        }
-	    });
-    });
+			}
+		});
+	});
 
-    $('button.addNode').click(function(event){
-	    $.ajax({
-	        type: "POST",
-	        url: "{% url 'editor:get_node' %}?nodeType=" + $(this).attr('data-node-type') + '&id=' + $('#treeWidget').tree('getSelectedNode').id,
+	$('button.addNode').click(function(event){
+		$.ajax({
+			type: "POST",
+			url: "{% url 'editor:get_node' %}?nodeType=" + $(this).attr('data-node-type') + '&id=' + $('#treeWidget').tree('getSelectedNode').id,
 			success: function(data) {
 				reloadTreeAndSelect(data.node_id);
 			}
-	    });
-    });
+		});
+	});
 
-    $('button.deleteNode').click(function(event){
-	    $.ajax({
-	        type: "DELETE",
-	        url: "{% url 'editor:get_node' %}?id=" + $('#treeWidget').tree('getSelectedNode').id,
+	$('button.deleteNode').click(function(event){
+		$.ajax({
+			type: "DELETE",
+			url: "{% url 'editor:get_node' %}?id=" + $('#treeWidget').tree('getSelectedNode').id,
 			success: function(data) {
 				$('#treeWidget').tree('reload');
 			}
-	    });
-    });
+		});
+	});
 
  //    $('#propertyExplorerSubmit').slideDown(function() {
 	//     setTimeout(function() {
@@ -105,39 +108,39 @@ $(document).ready(function(event) {
 	// });
 
 	$('#treeWidget').bind(
-	    'tree.click',
-	    function(event) {
-	    	showNodeProperties(event.node.id);
-	    	if (event.node.kind == 'field')
-	    		$('button[data-node-type="condition"]').prop('disabled', false);
-	    	else
-	    		$('button[data-node-type="condition"]').prop('disabled', true);
-	    	// event.preventDefault();
+		'tree.click',
+		function(event) {
+			showNodeProperties(event.node.id);
+			if (event.node.kind == 'field')
+				$('button[data-node-type="condition"]').prop('disabled', false);
+			else
+				$('button[data-node-type="condition"]').prop('disabled', true);
+			// event.preventDefault();
 		}
 	);
 
 	$('#treeWidget').bind(
-	    'tree.move',
-	    function(event) {
-		    $.ajax({
-		        type: "PUT",
-		        url: "{% url 'editor:get_tree' %}",
-		        dataType: 'json',
-		        data: JSON.stringify({
-		        	moved_node: event.move_info.moved_node.id,
+		'tree.move',
+		function(event) {
+			$.ajax({
+				type: "PUT",
+				url: "{% url 'editor:get_tree' %}",
+				dataType: 'json',
+				data: JSON.stringify({
+					moved_node: event.move_info.moved_node.id,
 					previous_parent: event.move_info.previous_parent.id,
 					target_node: event.move_info.target_node.id,
 					position: event.move_info.position
-		        }),
+				}),
 				success: function(data) {
 					// $('#treeWidget').tree('reload');
 				}
-		    });
-	    }
+			});
+		}
 	);
 
 	$("[data-confirm]").click(function(event){
-	    return confirm($(this).data("confirm"));
+		return confirm($(this).data("confirm"));
 	});
 });
 </script>

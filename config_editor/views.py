@@ -40,7 +40,7 @@ class TreeView(JSONResponseMixin, PythonRootMixin, View):
 			self.root.find_by_id(json_object['moved_node']), 
 			self.root.find_by_id(json_object['previous_parent']) if json_object.has_key('previous_parent') else self.root,
 			self.root.find_by_id(json_object['target_node']), 
-			after = json_object['position'] == 'after' # if not "after" then "before"
+			json_object['position']
 		)
 		
 		return self.render_to_response({'result': 'ok'})

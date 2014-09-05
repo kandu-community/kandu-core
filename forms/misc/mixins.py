@@ -138,7 +138,7 @@ class TreeMixin(object):
 
 	def load_data(self, data):
 		updated_params = []
-		if self.name != data['name']:
+		if self.name != data.get('name', None):
 			updated_params.append('name')
 		
 		self.populate_params(**data)

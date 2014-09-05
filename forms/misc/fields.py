@@ -87,6 +87,16 @@ class Condition(TreeMixin, Base):
 	def name(self):
 		return '%s == %s' % (self.field, self.value)
 
+	def load_data(self, data):
+		updated_params = []
+		for attr_name in ['field', 'value']:
+			if getattr(self, attr_name) != data.get(attr_name, getattr(self, attr_name)):
+				updated_params.append(attr_name)
+
+		self.populate_params(**data)
+
+		return updated_params
+
 	def render_schema(self):
 		schema = super(Condition, self).render_schema()
 		schema.pop('name') # it is a calculated and therefore read only field

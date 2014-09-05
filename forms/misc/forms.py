@@ -106,11 +106,14 @@ class RootContainer(TreeMixin, JSONRenderMixin, Base):
 	def removeChildren(self, node):
 		self._forms.remove(node)
 
-	def moveChild(self, node, parent, target, after):
-		nodes_list = parent.children(for_editing=True)
+	def moveChild(self, node, previous_parent, target, after):
+		from_list = previous_parent.children(for_editing=True)
+		to_list = target.parent().children(for_editing=True)
 
-		moved_node = nodes_list.pop(nodes_list.index(node))
-		nodes_list.insert(nodes_list.index(target) + int(after), moved_node) # before
+		moved_node = from_list.pop(from_list.index(node))
+		to_list.insert(to_list.index(target) + int(after), moved_node)
+
+		node._parent = target.parent()
 
 	def render_json(self):
 		return [form.render_json() for form in self._forms]

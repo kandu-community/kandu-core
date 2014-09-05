@@ -52,7 +52,15 @@ function reloadTreeAndSelect(node_id)
 }
 
 $(document).ready(function(event) {
-	$('#treeWidget').tree();
+	$('#treeWidget').tree({
+		dragAndDrop: true,
+	    onCanMoveTo: function(moved_node, target_node, position) {
+	        return !(position == 'inside');
+	    },
+	    onCanMove: function(node) {
+	        return !(node.kind == 'container');
+	    }
+	});
 	
 	$('#propertyExplorerSubmit').hide();
 	$('button[data-node-type="condition"]').prop('disabled', true);
@@ -106,6 +114,26 @@ $(document).ready(function(event) {
 	    		$('button[data-node-type="condition"]').prop('disabled', true);
 	    	// event.preventDefault();
 		}
+	);
+
+	$('#treeWidget').bind(
+	    'tree.move',
+	    function(event) {
+		    $.ajax({
+		        type: "PUT",
+		        url: "{% url 'editor:get_tree' %}",
+		        dataType: 'json',
+		        data: JSON.stringify({
+		        	moved_node: event.move_info.moved_node.id,
+					previous_parent: event.move_info.previous_parent.id,
+					target_node: event.move_info.target_node.id,
+					position: event.move_info.position
+		        }),
+				success: function(data) {
+					$('#treeWidget').tree('reload');
+				}
+		    });
+	    }
 	);
 
 	$("[data-confirm]").click(function(event){

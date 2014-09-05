@@ -32,8 +32,8 @@ class Form(TreeMixin, JSONRenderMixin, Base):
 		kwargs.pop('label_fields', None)
 		super(Form, self).populate_params(**kwargs)
 
-	def children(self):
-		if len(self._inlines_container.children()) > 0: # there are inlines
+	def children(self, for_editing=False):
+		if len(self._inlines_container.children()) > 0 and not for_editing: # there are inlines
 			return self._fields + [self._inlines_container] # show "inlines" node
 		else:
 			return self._fields
@@ -84,6 +84,9 @@ class InlinesContainer(TreeMixin, Base):
 	def removeChildren(self, node):
 		self._parent._inlines.remove(node)
 
+	def node_kind(self):
+		return 'container'
+
 class RootContainer(TreeMixin, JSONRenderMixin, Base):
 	name = 'config'
 
@@ -93,7 +96,7 @@ class RootContainer(TreeMixin, JSONRenderMixin, Base):
 		self._forms = [load_form(form_object, parent=self) for form_object in json_object]
 		super(RootContainer, self).__init__(*args, **kwargs)
 
-	def children(self):
+	def children(self, for_editing=False):
 		return self._forms
 
 	def insertChild(self):
@@ -102,6 +105,12 @@ class RootContainer(TreeMixin, JSONRenderMixin, Base):
 
 	def removeChildren(self, node):
 		self._forms.remove(node)
+
+	def moveChild(self, node, parent, target, after):
+		nodes_list = parent.children(for_editing=True)
+
+		moved_node = nodes_list.pop(nodes_list.index(node))
+		nodes_list.insert(nodes_list.index(target) + int(after), moved_node) # before
 
 	def render_json(self):
 		return [form.render_json() for form in self._forms]

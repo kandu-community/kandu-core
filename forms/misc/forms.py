@@ -71,7 +71,7 @@ class Form(TreeMixin, JSONRenderMixin, Base):
 		schema['user_groups'] = 'List'
 		return schema
 
-class InlinesContainer(TreeMixin, Base):
+class InlinesContainer(ContainerMixin, TreeMixin, Base):
 	name = 'inlines'
 
 	def children(self):
@@ -84,10 +84,7 @@ class InlinesContainer(TreeMixin, Base):
 	def removeChildren(self, node):
 		self._parent._inlines.remove(node)
 
-	def node_kind(self):
-		return 'container'
-
-class RootContainer(TreeMixin, JSONRenderMixin, Base):
+class RootContainer(ContainerMixin, TreeMixin, JSONRenderMixin, Base):
 	name = 'config'
 
 	_forms = []

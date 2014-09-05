@@ -144,3 +144,7 @@ class TreeMixin(object):
 		self.populate_params(**data)
 
 		return updated_params
+
+class ContainerMixin(object):
+	def node_kind(self):
+		return 'container'

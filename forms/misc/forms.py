@@ -29,7 +29,9 @@ class Form(TreeMixin, JSONRenderMixin, Base):
 		super(Form, self).__init__(*args, **kwargs)
 
 	def populate_params(self, **kwargs):
-		kwargs.pop('label_fields', None)
+		for label_field_name in kwargs.pop('fields_for_label', []):
+			field = next(field for field in self._fields if field.name == label_field_name)
+			field.label_field = True
 		super(Form, self).populate_params(**kwargs)
 
 	def children(self, for_editing=False):

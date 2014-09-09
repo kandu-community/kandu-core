@@ -11,7 +11,9 @@ class Form(TreeMixin, JSONRenderMixin, Base):
 	name = str()
 	category = str()
 	user_groups = list()
-	is_editable = False
+	is_editable = True
+	is_creatable = True
+	show_on_map = False
 
 	_fields = None
 	_inlines = None
@@ -70,6 +72,8 @@ class Form(TreeMixin, JSONRenderMixin, Base):
 	def render_schema(self):
 		schema = super(Form, self).render_schema()
 		schema['is_editable'] = 'Checkbox'
+		schema['is_creatable'] = 'Checkbox'
+		schema['show_on_map'] = 'Checkbox'
 		schema['user_groups'] = 'List'
 		return schema
 

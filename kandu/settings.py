@@ -100,6 +100,7 @@ CONFIG_FILE = os.path.join(BASE_DIR, 'config.json')
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 STATIC_ROOT = '/home/inomma/webapps/kandu_static/'
 MEDIA_ROOT = '/home/inomma/webapps/kandu_media/'
 

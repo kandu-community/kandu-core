@@ -42,7 +42,7 @@ class ReadOnlyAndInlinesMixin(object):
 		class Meta:
 			model = self.model
 			read_only_fields = self.read_only_fields
-			depth = 1
+			depth = 1 if self.request.method in ('GET', 'OPTIONS') else 0 # NOTE: kinda dirty hack, better to override serializer instead
 
 		attrs = {
 			'Meta': Meta

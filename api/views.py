@@ -42,7 +42,7 @@ class ReadOnlyAndInlinesMixin(object):
 		class Meta:
 			model = self.model
 			read_only_fields = self.read_only_fields
-			depth = 1
+			depth = 1 if self.request.method in ('GET', 'OPTIONS') else 0 # NOTE: kinda dirty hack, better to override serializer instead
 
 		attrs = {
 			'Meta': Meta
@@ -98,7 +98,7 @@ class FormList(ModelFromUrlMixin, ReadOnlyAndInlinesMixin, StaffOmnividenceMixin
 		obj.user = self.request.user
 		super(FormList, self).pre_save(obj)
 
-class FormSearch(ModelFromUrlMixin, StaffOmnividenceMixin, generics.ListAPIView):
+class FormSearch(ModelFromUrlMixin, ReadOnlyAndInlinesMixin, StaffOmnividenceMixin, generics.ListAPIView):
 	paginate_by = 20
 	model_serializer_class = CustomModelSerializer
 
@@ -112,7 +112,7 @@ class FormSearch(ModelFromUrlMixin, StaffOmnividenceMixin, generics.ListAPIView)
 
 		return search_in_queryset(parent_queryset, search_query)
 
-class FormInRadius(ModelFromUrlMixin, StaffOmnividenceMixin, generics.ListAPIView):
+class FormInRadius(ModelFromUrlMixin, ReadOnlyAndInlinesMixin, StaffOmnividenceMixin, generics.ListAPIView):
 	'''
 	Submissions with coordinates in a given 'radius' of a given point ('lat' and 'long').
 	'''

@@ -11,7 +11,9 @@ class Form(TreeMixin, JSONRenderMixin, Base):
 	name = str()
 	category = str()
 	user_groups = list()
-	is_editable = False
+	is_editable = True
+	is_creatable = True
+	show_on_map = False
 
 	_fields = None
 	_inlines = None
@@ -29,7 +31,9 @@ class Form(TreeMixin, JSONRenderMixin, Base):
 		super(Form, self).__init__(*args, **kwargs)
 
 	def populate_params(self, **kwargs):
-		kwargs.pop('label_fields', None)
+		for label_field_name in kwargs.pop('fields_for_label', []):
+			field = next(field for field in self._fields if field.name == label_field_name)
+			field.label_field = True
 		super(Form, self).populate_params(**kwargs)
 
 	def children(self, for_editing=False):
@@ -68,6 +72,8 @@ class Form(TreeMixin, JSONRenderMixin, Base):
 	def render_schema(self):
 		schema = super(Form, self).render_schema()
 		schema['is_editable'] = 'Checkbox'
+		schema['is_creatable'] = 'Checkbox'
+		schema['show_on_map'] = 'Checkbox'
 		schema['user_groups'] = 'List'
 		return schema
 

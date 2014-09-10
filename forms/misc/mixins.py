@@ -40,7 +40,7 @@ class DjangoRenderMixin(object):
 
 class JSONRenderMixin(object):
 	def render_json(self):
-		json = {key: value for key, value in self.get_json_params().items() if value not in ('',[],{})}
+		json = {key: value for key, value in self.get_json_params().items() if value not in ('',[],{}, None)}
 		self.insert_children_json(json)
 		return json
 

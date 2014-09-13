@@ -17,8 +17,10 @@ def get_form_models(for_user=None):
 
 def search_in_queryset(queryset, search_query):
 	q_objects = [ models.Q(**{ field_name + '__icontains': search_query }) for field_name in get_search_fields(queryset.model) ]
-
-	return queryset.filter(reduce(operator.or_, q_objects))
+	try:
+		return queryset.filter(reduce(operator.or_, q_objects))
+	except TypeError:
+		return []
 
 def get_search_fields(model):
 	return [ 

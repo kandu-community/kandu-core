@@ -1,11 +1,10 @@
 <script>
 $(document).ready(function(event) {
-    $('form.header-search').submit(function(event){
-        window.location = "{% url 'web_search_redirect' %}" + "?identification=" + $('form.header-search span[data-value]').attr('data-value');
-        event.preventDefault();
+    $('input.autocomplete').bind('selectChoice', function(e, choice, autocomplete) { 
+    	window.location = "{% url 'web_search_redirect' %}" + "?identification=" + choice.attr('data-value');
     });
 });
 </script>
-<form action="#dummy/search.html" class="header-search pull-right">
+<form action="{% url 'web_search_redirect' %}" class="header-search pull-right">
     {{ search_form.query }}
 </form>

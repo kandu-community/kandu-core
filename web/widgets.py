@@ -1,22 +1,22 @@
 from django import forms
 import autocomplete_light
+import itertools
 
-from forms.utils import get_search_fields, get_form_models
+from forms.utils import get_search_fields, get_form_models, search_in_queryset
 
 class SearchAutocomplete(autocomplete_light.AutocompleteGenericBase):
 	choices = []
 	search_fields = []
 
 	def choices_for_request(self):
-		search_fields, choices = zip(*(
-			(get_search_fields(form_class), form_class.objects.all()) for form_name, form_class 
-			in get_form_models(for_user=self.request.user)
+		q = self.request.GET.get('q', '')
+
+		request_choices = itertools.chain(*(
+			search_in_queryset(queryset=form_class.objects.all(), search_query=q)
+			for form_name, form_class in get_form_models(for_user=self.request.user)
 		))
 
-		self.choices = choices
-		self.search_fields = search_fields
-
-		return super(SearchAutocomplete, self).choices_for_request()
+		return request_choices
 
 autocomplete_light.register(SearchAutocomplete)
 

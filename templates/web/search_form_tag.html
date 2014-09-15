@@ -1,6 +1,6 @@
 <script>
 $(document).ready(function(event) {
-    $('input.autocomplete').bind('selectChoice', function(e, choice, autocomplete) { 
+    $('.header-search input.autocomplete').bind('selectChoice', function(e, choice, autocomplete) { 
     	window.location = "{% url 'web_search_redirect' %}" + "?identification=" + choice.attr('data-value');
     });
 });

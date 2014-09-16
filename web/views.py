@@ -8,7 +8,7 @@ from django.forms import Form, FileField, Field, Form
 from django.contrib.auth.models import Group
 from django.db.models import ForeignKey
 from django.core.management import call_command
-from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponseNotFound, HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponseNotFound, HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
@@ -275,9 +275,13 @@ class ManageConfig(FormView):
 			messages.error(self.request, error)
 		return HttpResponseRedirect(reverse('web_config'))
 
-	def restart_server(self):
+	def execute_script(self):
 		from subprocess import call
-		call(['touch', os.path.join(settings.BASE_DIR, 'kandu', 'wsgi.py')])
+		ret_code = call(os.path.join(settings.BASE_DIR, 'apply_config.sh'), shell=True)
+		if ret_code == 0:
+			return HttpResponseRedirect('/admin/')
+		else:
+			return HttpResponse('Script returned %d (something\'s not right)' % ret_code)
 
 	def make_migration(self):
 		# self.restart_server()

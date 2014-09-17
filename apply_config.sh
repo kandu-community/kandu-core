@@ -7,7 +7,7 @@ KANDUHOME='.'
 STATE=`echo $?`
 
 cd $KANDUHOME
-source /opt/kandu-venv/bin/activate
+# source /opt/kandu-venv/bin/activate
 
 
 if [ -e $KANDUHOME/forms/models.py ]

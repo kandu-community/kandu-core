@@ -3,7 +3,7 @@
 #Script to be applied after making changes to config.json via the UI
 #
 
-KANDUHOME='/Users/colorfulfool/Projects/config-generated-forms/repo/'
+KANDUHOME='.'
 STATE=`echo $?`
 
 cd $KANDUHOME

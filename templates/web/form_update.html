@@ -58,7 +58,12 @@
 
 					<div class="form-actions">
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-6 text-left">
+								<a href="{% url 'web_delete' model_name=object.model_name pk=object.pk %}" class="btn btn-danger">
+									{% bootstrap_icon 'remove' %} Delete
+								</a>
+							</div>
+							<div class="col-md-6">
 								{% bootstrap_button "Submit" button_type='submit' icon='ok' %}
 							</div>
 						</div>

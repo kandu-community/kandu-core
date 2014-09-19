@@ -1,8 +1,21 @@
 <script>
-	var master_inputs = {{ dependencies_dict }};
+	{% if not inline_prefix %}
+		var master_inputs = {'form': {{ dependencies_dict }}};
+	{% else %}
+		master_inputs['{{ inline_prefix }}'] = {{ dependencies_dict }};
+	{% endif %}
 
-	function manage_input(master_input, slave_input_name, trigger_value) {
-		slave_input = $('div.form-group:has([name="'+slave_input_name+'"])');
+	{% if not inline_prefix %}
+	function show_or_hide_input(master_input, slave_input_name, trigger_value, form_name) {
+		if (form_name == 'form') // not inline
+		{
+			slave_input = $('div.form-group:has([name="'+slave_input_name+'"])');
+		}
+		else
+		{
+			inline_number = master_input.attr('name').split('-')[1]
+			slave_input = $('div.form-group:has([name="'+form_name+"-"+inline_number+"-"+slave_input_name+'"])');
+		}
 		
 		if (master_input.val() == trigger_value) {
 			slave_input.show(200);
@@ -11,27 +24,39 @@
 		}
 	}
 
-	function create_handler(master_input) { // needed to deal with closures
+	function create_handler(master_input, form_name) { // needed to deal with closures
 		return function(){
-				for (trigger_value in master_inputs[master_input]) {
-					for (slave_input_index in master_inputs[master_input][trigger_value]) {
-						slave_input_name = master_inputs[master_input][trigger_value][slave_input_index];
-						manage_input($(this), slave_input_name, trigger_value);
+				for (trigger_value in master_inputs[form_name][master_input]) {
+					for (slave_input_index in master_inputs[form_name][master_input][trigger_value]) {
+						slave_input_name = master_inputs[form_name][master_input][trigger_value][slave_input_index];
+						show_or_hide_input($(this), slave_input_name, trigger_value, form_name);
 					}
 				}
 			}
 	}
 
-	$( document ).ready(function() {
-		for (master_input in master_inputs) {
-			for (trigger_value in master_inputs[master_input]) {
-				for (slave_input_index in master_inputs[master_input][trigger_value]) {
-					slave_input_name = master_inputs[master_input][trigger_value][slave_input_index];
-					manage_input($('[name="'+master_input+'"]'), slave_input_name, trigger_value);
+	function manage_visibility_for_form(form_name)
+	{
+		for (master_input in master_inputs[form_name]) {
+			for (trigger_value in master_inputs[form_name][master_input]) {
+				for (slave_input_index in master_inputs[form_name][master_input][trigger_value]) {
+					slave_input_name = master_inputs[form_name][master_input][trigger_value][slave_input_index];
+					$('[name$="'+master_input+'"]').each(function(){
+						show_or_hide_input($(this), slave_input_name, trigger_value, form_name);
+					});
 				}
 			}
 
-			$('[name="'+master_input+'"]').change(create_handler(master_input));
+			$('[name$="'+master_input+'"]').each(function(){
+				$(this).change(create_handler(master_input, form_name));
+			});
+		}
+	}
+
+	$( document ).ready(function() {
+		for (form_name in master_inputs) {
+			manage_visibility_for_form(form_name);
 		}
 	});
+	{% endif %}
 </script>

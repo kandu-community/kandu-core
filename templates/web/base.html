@@ -89,6 +89,9 @@
             <div class="btn-header transparent pull-right" id="logout">
                 <span><a data-logout-msg="You can improve your security further after logging out by closing this opened browser" href="{% url 'django.contrib.auth.views.logout' %}" title="Sign Out"><i class="fa fa-sign-out"></i></a></span>
             </div><!-- end logout button -->
+            <div class="btn-header transparent pull-right">
+                <span><a href="{% url 'web_list' %}" title="Home"><i class="fa fa-home"></i></a></span>
+            </div>
         </div><!-- end pulled right: nav area -->
         <span id="logo" class="pull-right partner-logos">
             {% for other_logo in other_logos %}

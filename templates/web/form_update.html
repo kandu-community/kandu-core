@@ -11,7 +11,9 @@
 		$('fieldset.form-inline .inline-tr').formset({
 			prefix: '{{ inline.prefix }}',
 			deleteCssClass: 'delete-row btn btn-danger',
-			addCssClass: 'add-row btn btn-primary'
+			addCssClass: 'add-row btn btn-primary',
+			deleteText: 'Delete',
+			addText: 'Add another'
 		});
 		{% endfor %}
    })

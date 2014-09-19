@@ -84,6 +84,9 @@
 <div class="row">
 	<div class="col-sm-12 col-md-12 col-lg-12">
 		<div class="jarviswidget jarviswidget-color-darken">
+			{% if inline.0.instance.visibility_dependencies %}
+				{% visibility_dependencies_js inline.0.instance.visibility_dependencies inline_prefix=inline.prefix %}
+			{% endif %}
 			<header>
 				<span class="widget-icon"> <i class="fa fa-edit"></i> </span>
 				<h2>{{ inline.0.instance.verbose_name }}</h2>

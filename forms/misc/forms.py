@@ -11,7 +11,7 @@ class Form(TreeMixin, JSONRenderMixin, Base):
 	name = str()
 	category = str()
 	user_groups = list()
-	is_editable = True
+	is_editable = False
 	is_creatable = True
 	show_on_map = False
 

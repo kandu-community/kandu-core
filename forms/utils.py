@@ -15,10 +15,11 @@ def get_form_models(for_user=None):
 			(not for_user or for_user.groups.filter(name__in=entity.user_group_names).exists())
 	)
 
-def search_in_queryset(queryset, search_query):
+def search_in_queryset(queryset, search_query, limit=None):
 	q_objects = [ models.Q(**{ field_name + '__icontains': search_query }) for field_name in get_search_fields(queryset.model) ]
 	try:
-		return queryset.filter(reduce(operator.or_, q_objects))
+		full_queryset = queryset.filter(reduce(operator.or_, q_objects))
+		return full_queryset[:limit] if limit else full_queryset
 	except TypeError:
 		return []
 

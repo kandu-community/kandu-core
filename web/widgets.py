@@ -12,7 +12,7 @@ class SearchAutocomplete(autocomplete_light.AutocompleteGenericBase):
 		q = self.request.GET.get('q', '')
 
 		request_choices = itertools.chain(*(
-			search_in_queryset(queryset=form_class.objects.all(), search_query=q)
+			search_in_queryset(queryset=form_class.objects.all(), search_query=q, limit=40)
 			for form_name, form_class in get_form_models(for_user=self.request.user)
 		))
 

@@ -24,18 +24,17 @@ def search_in_queryset(queryset, search_query, limit=None):
 		return []
 
 def get_search_fields(model):
-	# return [ 
-	# 	field.name for field in model._meta.fields 
-	# 	if isinstance(field, models.CharField) 
-	# ]
 	lookup_names = []
 	for field in (field for field in model._meta.fields if field.name in getattr(model, 'label_fields', [])):
 		if isinstance(field, models.ForeignKey):
-			field_name = field.name + '__' + field.related.parent_model.label_fields[0]
+			field_names = [
+				field.name + '__' + foreign_label_field for foreign_label_field 
+				in getattr(field.related.parent_model, 'label_fields', [])
+			]
 		else:
-			field_name = field.name
+			field_names = [field.name]
 
-		lookup_names.append(field_name)
+		lookup_names += field_names
 
 	return lookup_names
 

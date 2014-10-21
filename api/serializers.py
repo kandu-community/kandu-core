@@ -30,6 +30,12 @@ class CustomFieldMapping(dict):
 		else:
 			return super(CustomFieldMapping, self).__getitem__(key)
 
+	def __contains__(self, key):
+		if issubclass(key, model_GeometryField):
+			return True
+		else:
+			return super(CustomFieldMapping, self).__contains__(key)		
+
 class CustomModelSerializer(serializers.ModelSerializer):
 	'''
 	Adds MultiSelectField to default mapping.

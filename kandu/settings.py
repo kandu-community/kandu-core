@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'south',
     'autocomplete_light',
     'sorl.thumbnail',
+    'raven.contrib.django.raven_compat',
     'forms',
     'web',
     'api',
@@ -147,3 +148,7 @@ LOGGING = {
 
 GEOIP_LIBRARY_PATH = "/home/inomma/lib/libGeoIP.so"
 GMAPI_JQUERY_URL = "None" # workaround for jQuery conflict
+
+RAVEN_CONFIG = {
+    'dsn': 'https://bdd1868a423340acbfb1a17d557b8312:da41c8aa10b6430587de1f59a16ebe9c@app.getsentry.com/32300',
+}

@@ -5,7 +5,7 @@ This manual assumes that one has working postgresql and apache installations.
 1. Clone the code
 
 		cd /opt
-		git clone https://xp-dev.com/git/kandu
+		git clone https://github.com/Kandu-community/kandu-core.git
 
 2. Prepare the dev environment to build all necessary packages/libraries:
 

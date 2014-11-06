@@ -1,3 +1,9 @@
+#License
+
+This code is released under the GPL
+
+
+
 # Deployment
 
 This manual assumes that one has working postgresql and apache installations.

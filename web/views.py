@@ -37,6 +37,16 @@ class ModelFromUrlMixin(object):
 	model_url_kwarg = 'model_name'
 	inlines_also = False
 
+	def parent_field_for_inline(self, inline_model):
+		try:
+			return next( 
+				field.name for field in inline_model._meta.fields 
+				if isinstance(field, ForeignKey) and field.rel.to == self.model and 
+				field.name != 'baseformmodel_ptr_id' 
+			)
+		except StopIteration:
+			raise ValueError('Inline form "%s" doesn\'t have a foreign key to it\'s parent "%s"' % (inline_model.verbose_name(), self.model.verbose_name()))
+
 	def dispatch(self, *args, **kwargs):
 		try:
 			self.model = getattr(forms.models, self.kwargs[self.model_url_kwarg])
@@ -50,7 +60,7 @@ class ModelFromUrlMixin(object):
 
 				class FormModelInline(InlineFormSet):
 					model = inline_model
-					fk_name = next( field.name for field in inline_model._meta.fields if isinstance(field, ForeignKey) and field.rel.to == self.model and field.name != 'baseformmodel_ptr_id' )
+					fk_name = self.parent_field_for_inline(inline_model)
 					exclude = ('user',)
 					extra = 1 # since we got dynamic "add another"
 

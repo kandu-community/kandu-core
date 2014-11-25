@@ -1,7 +1,7 @@
 from itertools import izip
 
 from mixins import *
-from fields import load_field, get_field_class
+from fields import load_field, get_field_class, ForeignKey
 
 
 def load_form(json_object, parent):
@@ -84,7 +84,9 @@ class InlinesContainer(ContainerMixin, TreeMixin, Base):
 		return self._parent._inlines
 
 	def insertChild(self):
-		self._parent._inlines.append(Form(name='New inline form', parent=self))
+		inline_form = Form(name='New inline form', parent=self)
+		inline_form._fields.append(ForeignKey(name='parent', to=self._parent.name, parent=inline_form))
+		self._parent._inlines.append(inline_form)
 		return self._parent._inlines[-1]
 
 	def removeChildren(self, node):

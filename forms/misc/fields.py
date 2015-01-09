@@ -9,7 +9,7 @@ def get_field_class(datatype):
 	try:
 		FieldClass = globals()[class_name]
 	except KeyError as error:
-		raise ValueError('Unknown type %r of field %r' % ())
+		raise ValueError('Unknown type %r of field' % error)
 	return FieldClass
 
 def load_field(json_object, parent=None):
@@ -34,7 +34,7 @@ class Field(TreeMixin, DjangoRenderMixin, JSONRenderMixin, Base):
 	def __init__(self, *args, **kwargs):
 		try:
 			self.name = kwargs['name']
-		except KeyError as error:
+		except KeyError:
 			raise ValueError('Field is missing \'name\' parameter. This info might help you locate the field: %r' % kwargs)
 
 		self.type = self.get_type()

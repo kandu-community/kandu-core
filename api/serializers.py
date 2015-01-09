@@ -62,7 +62,7 @@ class CustomModelSerializer(serializers.ModelSerializer):
 			if model_field.help_text is not None:
 				kwargs['help_text'] = model_field.help_text
 
-			kwargs['choices'] = model_field.flatchoices
+			kwargs['choices'] = model_field.get_choices()
 			if model_field.null:
 				kwargs['empty'] = None
 			return MultiSelectField(**kwargs)

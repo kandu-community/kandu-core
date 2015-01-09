@@ -8,7 +8,7 @@
 <script type="text/javascript">
    $(function() {
 		{% for inline in inlines %}
-		$('fieldset.form-inline .inline-tr').formset({
+		$('fieldset.form-inline#{{ inline.prefix }} .inline-tr').formset({
 			prefix: '{{ inline.prefix }}',
 			deleteCssClass: 'delete-row btn btn-danger',
 			addCssClass: 'add-row btn btn-primary',
@@ -84,7 +84,7 @@
 				<h2>{{ inline.0.instance.verbose_name }}</h2>
 			</header>
 			<div role="content">
-					<fieldset class="form-inline">
+					<fieldset class="form-inline" id="{{ inline.prefix }}">
 				<div class="widget-body no-padding">
 					<table class="table">
 						<tr>

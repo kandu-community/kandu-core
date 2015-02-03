@@ -200,7 +200,7 @@ class BaseFormList(StaffOmnividenceMixin, ListView):
 
 class MapView(MapMixin, ListView):
 	template_name = 'web/map_view.html'
-	max_objects = 10
+	max_objects = 500
 
 	def get_queryset(self):
 		ip_address = self.request.META.get('REMOTE_ADDR', None)

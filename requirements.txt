@@ -1,7 +1,7 @@
 django==1.6.2
 Pillow
 psycopg2
-djangorestframework
+git+https://github.com/tomchristie/django-rest-framework.git@e45e0f056782cf6406a106add5c11803dcb24e30#egg=djangorestframework
 django-bootstrap3==4.4.1
 south
 django-model-utils

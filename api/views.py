@@ -28,6 +28,7 @@ class ModelFromUrlMixin(object):
 	def initial(self, request, *args, **kwargs):
 		try:
 			self.model = getattr(forms.models, self.kwargs[self.model_url_kwarg])
+			self.queryset = self.model.objects.all() # Django REST demands this -_-
 		except KeyError:
 			pass
 		except AttributeError:

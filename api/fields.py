@@ -24,8 +24,14 @@ class CoordinatesField(fields.CharField):
 
 		return Point(longitude, lattitude)
 
-class MultiSelectField(fields.ChoiceField):
+class MultiSelectField(fields.MultipleChoiceField):
 	type_label = 'multiple choice (multi-select)'
+
+	def to_internal_value(self, data):
+		return list(data)
+
+	def to_representation(self, value):
+		return value
 
 	def validate(self, value):
 		if value in validators.EMPTY_VALUES:

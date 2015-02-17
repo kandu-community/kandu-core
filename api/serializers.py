@@ -1,5 +1,7 @@
+import rest_framework
 from rest_framework import serializers
 from rest_framework.reverse import reverse
+from rest_framework.fields import MultipleChoiceField
 from django.contrib.gis.db.models import GeometryField as model_GeometryField
 from django.contrib.sites.models import get_current_site
 
@@ -27,11 +29,15 @@ class CustomFieldMapping(dict):
 	def __getitem__(self, key):
 		if issubclass(key, model_GeometryField):
 			return CoordinatesField
+		elif issubclass(key, model_MultiSelectField):
+			return MultiSelectField
 		else:
 			return super(CustomFieldMapping, self).__getitem__(key)
 
 	def __contains__(self, key):
 		if issubclass(key, model_GeometryField):
+			return True
+		elif issubclass(key, model_MultiSelectField):
 			return True
 		else:
 			return super(CustomFieldMapping, self).__contains__(key)		
@@ -41,9 +47,12 @@ class CustomModelSerializer(serializers.ModelSerializer):
 	Adds MultiSelectField to default mapping.
 	'''
 
-	field_mapping = CustomFieldMapping(serializers.ModelSerializer.field_mapping)
+	if rest_framework.__version__.startswith('2'):
+		field_mapping = CustomFieldMapping(serializers.ModelSerializer.field_mapping)
+	else:
+		serializer_field_mapping = CustomFieldMapping(serializers.ModelSerializer.serializer_field_mapping)
 
-	def get_field(self, model_field):
+	def get_field(self, model_field): # NOTE: this is for djangorestframework 2.x
 		if isinstance(model_field, model_MultiSelectField):
 			kwargs = {}
 
@@ -68,3 +77,9 @@ class CustomModelSerializer(serializers.ModelSerializer):
 			return MultiSelectField(**kwargs)
 		else:
 			return super(CustomModelSerializer, self).get_field(model_field)
+
+	def build_standard_field(self, field_name, model_field):
+		field_class, field_kwargs = super(CustomModelSerializer, self).build_standard_field(field_name, model_field)
+		if isinstance(model_field, model_MultiSelectField):
+			field_class = MultiSelectField
+		return field_class, field_kwargs

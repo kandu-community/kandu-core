@@ -17,7 +17,7 @@ from gmapi import maps
 from gmapi.forms.widgets import GoogleMap
 import autocomplete_light
 from django.db import models
-from django.contrib.gis.geoip import GeoIP
+from django.contrib.gis.geoip import GeoIP, GeoIPException
 from django.contrib.gis.db.models import PointField
 from django.contrib.gis.measure import Distance
 from django.contrib.gis.geos import Point
@@ -205,8 +205,11 @@ class MapView(MapMixin, ListView):
 	def get_queryset(self):
 		ip_address = self.request.META.get('REMOTE_ADDR', None)
 
-		gi = GeoIP(settings.STATIC_ROOT)
-		location = gi.lon_lat(ip_address)
+		try:
+			gi = GeoIP(settings.STATIC_ROOT)
+			location = gi.lon_lat(ip_address)
+		except GeoIPException:
+			location = None
 
 		object_list = []
 		for form_name, form_model in get_form_models(for_user=self.request.user):

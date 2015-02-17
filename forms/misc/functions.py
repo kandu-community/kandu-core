@@ -132,7 +132,7 @@ def config_to_models(config_file):
 from django.db.models import *
 from django.contrib.gis.db.models import PointField, GeoManager
 from misc import BaseFormModel
-from multiselectfield import MultiSelectField
+from fields import MultiSelectField
 from django.contrib.gis.geos import Point
 ''']
 

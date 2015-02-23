@@ -9,8 +9,8 @@ import inspect
 
 
 def generate_name(verbose_name):
-	no_spaces = re.sub(r'\s', r'_', verbose_name.strip())
-	return re.sub(r'[^_\w\d]', r'', no_spaces)
+	only_spaces = re.sub(r'[^\s\w\d]', r'', verbose_name.strip())
+	return re.sub(r'\s+', r'_', only_spaces)
 
 def get_available_fields():
 	import fields

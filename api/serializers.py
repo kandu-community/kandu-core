@@ -1,7 +1,6 @@
 import rest_framework
 from rest_framework import serializers
 from rest_framework.reverse import reverse
-from rest_framework.fields import MultipleChoiceField
 from django.contrib.gis.db.models import GeometryField as model_GeometryField
 from django.contrib.sites.models import get_current_site
 

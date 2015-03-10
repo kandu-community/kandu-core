@@ -38,6 +38,9 @@ try:
 			return field_name
 
 		def save(self, *args, **kwargs):
+			if not self.id:
+				super(BaseFormModel, self).save(*args, **kwargs)
+
 			for field in self.__class__._meta.fields:
 				if isinstance(field, django_fields.DjangoIdField):
 					setattr(self, field.name, field.generate_value(self))

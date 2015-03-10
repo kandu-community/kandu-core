@@ -14,6 +14,7 @@ class Form(TreeMixin, JSONRenderMixin, Base):
 	is_editable = False
 	is_creatable = True
 	show_on_map = False
+	cache_submissions_offline = False
 
 	_fields = None
 	_inlines = None
@@ -75,6 +76,7 @@ class Form(TreeMixin, JSONRenderMixin, Base):
 		schema['is_creatable'] = 'Checkbox'
 		schema['show_on_map'] = 'Checkbox'
 		schema['user_groups'] = 'List'
+		schema['cache_submissions_offline'] = 'Checkbox'
 		return schema
 
 class InlinesContainer(ContainerMixin, TreeMixin, Base):

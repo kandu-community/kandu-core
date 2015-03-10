@@ -37,7 +37,7 @@ def write_label_fields(fields, form_object):
 def write_plain_fields(form_object):
 	output = ''
 
-	for field_name in ['show_on_map', 'is_editable', 'is_creatable']:
+	for field_name in ['show_on_map', 'is_editable', 'is_creatable', 'cache_submissions_offline']:
 		try:
 			output += u"\t{name} = {value}\n".format(value=form_object[field_name], name=field_name)
 		except KeyError:

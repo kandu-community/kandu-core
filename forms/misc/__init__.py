@@ -17,6 +17,7 @@ try:
 
 		objects = InheritanceManager()
 
+		cache_submissions_offline = False
 		show_on_map = False
 		is_editable = False
 		is_creatable = True

@@ -14,6 +14,7 @@ class BaseFormSerializer(serializers.ModelSerializer):
 
 	url = serializers.SerializerMethodField('instance_url')
 	description = serializers.SerializerMethodField('instance_unicode')
+	cache_submissions_offline = serializers.ReadOnlyField()
 
 	def instance_model_name(self, obj):
 		return obj.model_name()

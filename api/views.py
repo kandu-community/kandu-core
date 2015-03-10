@@ -77,7 +77,7 @@ class BaseFormList(StaffOmnividenceMixin, generics.ListAPIView):
 	List of all forms submitted by the current user.
 	'''
 
-	model = BaseFormModel
+	queryset = BaseFormModel.objects.all()
 	paginate_by = 20
 	permission_classes = (permissions.IsAuthenticated,)
 	serializer_class = BaseFormSerializer

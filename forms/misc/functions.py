@@ -73,10 +73,11 @@ def write_model(verbose_name, form_object):
 
 allowed_extra_args = ['help_text', 'max_length', 'to', 'choices']
 
-def write_field(field_object, form_name):
+def write_field(field_object, form_name, form_object=None):
 	from fields import load_field
+	from forms import load_form
 	try:
-		return load_field(field_object).render_django()
+		return load_field(field_object, parent=load_form(form_object)).render_django()
 	except ValueError as error:
 		raise ValueError('Form %r: %s' % (form_name, str(error)))
 
@@ -94,7 +95,7 @@ def create_model(form_object, collected_output, counter):
 
 	visible_when = {}
 	for field_object in form_object['fields']:
-		output += write_field(field_object, form_object['name'])
+		output += write_field(field_object, form_object['name'], form_object)
 		
 		if field_object.has_key('visible_when'):
 			visible_when[field_object['name']] = field_object.get('visible_when')
@@ -132,7 +133,7 @@ def config_to_models(config_file):
 from django.db.models import *
 from django.contrib.gis.db.models import PointField, GeoManager
 from misc import BaseFormModel
-from fields import MultiSelectField
+from fields import MultiSelectField, DjangoIdField
 from django.contrib.gis.geos import Point
 ''']
 
@@ -177,7 +178,7 @@ def config_update_wrapper():
 			except CommandError as error:
 				raise ValueError(str(error))
 
-	except ValueError as error: # something went wrong
+	except (ValueError, NameError) as error: # something went wrong
 		with open(models_filename, 'w') as models_file:
 			models_file.write(models_old_str) # rolling back models.py to initial state
 		try:

@@ -7,7 +7,7 @@ south
 django-model-utils
 django-multiselectfield
 hg+https://bitbucket.org/dbinit/django-gmapi#egg=django-gmapi-new
-git+https://github.com/yourlabs/django-autocomplete-light@stable/2.x.x#egg=autocomplete_light
+django-autocomplete-light
 django-extra-views
 sorl-thumbnail
 raven

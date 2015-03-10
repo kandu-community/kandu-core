@@ -4,7 +4,7 @@ from mixins import *
 from fields import load_field, get_field_class, ForeignKey
 
 
-def load_form(json_object, parent):
+def load_form(json_object, parent=None):
 	return Form(parent=parent, **json_object)
 
 class Form(TreeMixin, JSONRenderMixin, Base):

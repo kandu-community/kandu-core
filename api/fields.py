@@ -23,7 +23,7 @@ class CoordinatesField(CharField):
 			return None
 
 		if isinstance(data, basestring):
-			lattitude, longitude = map(float, data.split(','))
+			lattitude, longitude = map(float, data.lstrip('[').rstrip(']').split(','))
 		else:
 			lattitude, longitude = data
 

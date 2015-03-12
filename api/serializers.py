@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 from forms.misc import BaseFormModel
 from multiselectfield import MultiSelectField as model_MultiSelectField
-from fields import MultiSelectField, CoordinatesField
+from fields import MultiSelectField, CoordinatesField, NonStrictChoiceField
 
 class BaseFormSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -56,6 +56,8 @@ class CustomModelSerializer(serializers.ModelSerializer):
 	'''
 	Adds MultiSelectField to default mapping.
 	'''
+
+	serializer_choice_field = NonStrictChoiceField
 
 	if rest_framework.__version__.startswith('2'):
 		field_mapping = CustomFieldMapping(serializers.ModelSerializer.field_mapping)

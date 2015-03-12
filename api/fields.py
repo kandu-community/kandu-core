@@ -35,6 +35,13 @@ class CoordinatesField(CharField):
 	def to_internal_value(self, data):
 		return self.from_native(data)
 
+class NonStrictChoiceField(rest_ChoiceField):
+	def to_representation(self, value):
+		try:
+			return super(NonStrictChoiceField, self).to_representation(value)
+		except KeyError:
+			return None
+
 class MultiSelectField(rest_ChoiceField):
 	type_label = 'multiple choice (multi-select)'
 

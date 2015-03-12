@@ -1,11 +1,11 @@
 import json
 from django.core import exceptions, validators
 from django.contrib.gis.geos import Point
-from rest_framework.fields import CharField
+from rest_framework.fields import CharField, ChoiceField
 try:
-	from rest_framework.fields import MultipleChoiceField as rest_ChoiceField
+	from rest_framework.fields import MultipleChoiceField as rest_MultipleChoiceField
 except ImportError: # django rest framework < 3.x
-	from rest_framework.fields import ChoiceField as rest_ChoiceField
+	from rest_framework.fields import ChoiceField as rest_MultipleChoiceField
 
 
 class CoordinatesField(CharField):
@@ -35,14 +35,14 @@ class CoordinatesField(CharField):
 	def to_internal_value(self, data):
 		return self.from_native(data)
 
-class NonStrictChoiceField(rest_ChoiceField):
+class NonStrictChoiceField(ChoiceField):
 	def to_representation(self, value):
 		try:
 			return super(NonStrictChoiceField, self).to_representation(value)
 		except KeyError:
 			return None
 
-class MultiSelectField(rest_ChoiceField):
+class MultiSelectField(rest_MultipleChoiceField):
 	type_label = 'multiple choice (multi-select)'
 
 	def to_internal_value(self, data):

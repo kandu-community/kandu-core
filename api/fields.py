@@ -29,6 +29,12 @@ class CoordinatesField(CharField):
 
 		return Point(longitude, lattitude)
 
+	def to_representation(self, value):
+		return self.to_native(value)
+
+	def to_internal_value(self, data):
+		return self.from_native(data)
+
 class MultiSelectField(rest_ChoiceField):
 	type_label = 'multiple choice (multi-select)'
 

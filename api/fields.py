@@ -46,10 +46,13 @@ class MultiSelectField(rest_MultipleChoiceField):
 	type_label = 'multiple choice (multi-select)'
 
 	def to_internal_value(self, data):
-		return list(data)
+		return list(super(MultiSelectField, self).to_internal_value(data))
 
 	def to_representation(self, value):
-		return value
+		return set([
+			self.choice_strings_to_values[unicode(item)] for item in value
+			if unicode(item) in self.choice_strings_to_values # ignore invalid options
+		])
 
 	def validate(self, value):
 		if value in validators.EMPTY_VALUES:

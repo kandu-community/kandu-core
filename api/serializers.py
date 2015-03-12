@@ -35,21 +35,22 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CustomFieldMapping(dict):
+	actual_mapping = {
+		model_GeometryField: CoordinatesField,
+		model_MultiSelectField: MultiSelectField
+	}
+
 	def __getitem__(self, key):
-		if issubclass(key, model_GeometryField):
-			return CoordinatesField
-		elif issubclass(key, model_MultiSelectField):
-			return MultiSelectField
-		else:
+		try:
+			return self.actual_mapping[key]
+		except KeyError:
 			return super(CustomFieldMapping, self).__getitem__(key)
 
 	def __contains__(self, key):
-		if issubclass(key, model_GeometryField):
-			return True
-		elif issubclass(key, model_MultiSelectField):
+		if key in self.actual_mapping:
 			return True
 		else:
-			return super(CustomFieldMapping, self).__contains__(key)		
+			return super(CustomFieldMapping, self).__contains__(key)	
 
 class CustomModelSerializer(serializers.ModelSerializer):
 	'''

@@ -3,6 +3,7 @@ from rest_framework import serializers
 from rest_framework.reverse import reverse
 from django.contrib.gis.db.models import GeometryField as model_GeometryField
 from django.contrib.sites.models import get_current_site
+from django.contrib.auth.models import User
 
 from forms.misc import BaseFormModel
 from multiselectfield import MultiSelectField as model_MultiSelectField
@@ -24,6 +25,14 @@ class BaseFormSerializer(serializers.ModelSerializer):
 
 	def instance_url(self, obj):
 		return reverse('api_detail', kwargs={'model_name': obj.model_name(), 'pk': obj.pk}, request=self.context['request'])
+
+
+class UserSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = User
+		exclude = ('user_permissions', 'password')
+		depth = 1
+
 
 class CustomFieldMapping(dict):
 	def __getitem__(self, key):

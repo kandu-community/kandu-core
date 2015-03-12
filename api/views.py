@@ -15,7 +15,7 @@ from forms.misc import BaseFormModel
 from forms.utils import get_form_models, search_in_queryset
 import forms.models
 from permissions import IsOwnerOrStaff, HasPermission
-from serializers import BaseFormSerializer, CustomModelSerializer
+from serializers import BaseFormSerializer, CustomModelSerializer, UserSerializer
 
 class ModelFromUrlMixin(object):
 	'''
@@ -43,11 +43,12 @@ class ReadOnlyAndInlinesMixin(object):
 		class Meta:
 			model = self.model
 			read_only_fields = self.read_only_fields
-			depth = 1 if self.request.method in ('GET', 'OPTIONS') else 0 # NOTE: kinda dirty hack, better to override serializer instead
 
 		attrs = {
 			'Meta': Meta
 		}
+		if self.request.method == 'GET':
+			attrs['user'] = UserSerializer(read_only=True)
 		if self.model.inlines:
 			for inline_name in self.model.inlines:
 				class InlineSerializer(serializers.ModelSerializer):

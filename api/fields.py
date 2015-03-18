@@ -1,5 +1,6 @@
 import json
 from django.core import exceptions, validators
+from rest_framework.utils import html
 from django.contrib.gis.geos import Point
 from rest_framework.fields import CharField, ChoiceField
 try:
@@ -45,7 +46,16 @@ class NonStrictChoiceField(ChoiceField):
 class MultiSelectField(rest_MultipleChoiceField):
 	type_label = 'multiple choice (multi-select)'
 
+	def get_value(self, dictionary):
+		if html.is_html_input(dictionary): # NOTE: with form/urlencoded we get [u'opt,opt'] for some reason, gotta work around
+			return dictionary.getlist(self.field_name)[0]
+		else:
+			return super(MultiSelectField, self).get_value(dictionary)
+
 	def to_internal_value(self, data):
+		if isinstance(data, basestring):
+			data = data.split(',')
+
 		return list(super(MultiSelectField, self).to_internal_value(data))
 
 	def to_representation(self, value):

@@ -38,6 +38,8 @@ try:
 			return field_name
 
 		def save(self, *args, **kwargs):
+			kwargs.pop('force_insert', None)
+
 			if not self.id:
 				super(BaseFormModel, self).save(*args, **kwargs)
 

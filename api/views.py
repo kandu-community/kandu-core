@@ -96,9 +96,12 @@ class FormList(ModelFromUrlMixin, ReadOnlyAndInlinesMixin, StaffOmnividenceMixin
 	permission_classes = (permissions.IsAuthenticated, HasPermission)
 	model_serializer_class = CustomModelSerializer
 
-	def pre_save(self, obj):
+	def pre_save(self, obj): # NOTE: for REST framework 2.x
 		obj.user = self.request.user
 		super(FormList, self).pre_save(obj)
+
+	def perform_create(self, serializer): # for REST framework 3.x
+		serializer.save(user=self.request.user)
 
 class FormSearch(ModelFromUrlMixin, ReadOnlyAndInlinesMixin, StaffOmnividenceMixin, generics.ListAPIView):
 	paginate_by = 20

@@ -48,7 +48,10 @@ class MultiSelectField(rest_MultipleChoiceField):
 
 	def get_value(self, dictionary):
 		if html.is_html_input(dictionary): # NOTE: with form/urlencoded we get [u'opt,opt'] for some reason, gotta work around
-			return dictionary.getlist(self.field_name)[0]
+			try:
+				return dictionary.getlist(self.field_name)[0]
+			except IndexError:
+				return super(MultiSelectField, self).get_value(dictionary)
 		else:
 			return super(MultiSelectField, self).get_value(dictionary)
 

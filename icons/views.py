@@ -4,5 +4,5 @@ from models import Icon
 from serializers import IconSerializer
 
 class IconList(generics.ListAPIView):
-	model = Icon
+	queryset = Icon.objects.all()
 	serializer_class = IconSerializer

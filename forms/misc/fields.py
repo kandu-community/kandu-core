@@ -206,7 +206,7 @@ class Choice(DefaultStringMixin, ChoicesMixin, Field):
 	max_length = 200
 	_django_class = 'CharField'
 
-class MultiChoice(DefaultStringMixin, ChoicesMixin, Field):
+class MultiChoice(DefaultStringMixin, NullValueMixin, ChoicesMixin, Field):
 	max_length = 200
 	_django_class = 'MultiSelectField'
 

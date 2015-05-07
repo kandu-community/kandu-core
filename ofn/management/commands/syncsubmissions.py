@@ -25,7 +25,7 @@ class Command(BaseCommand):
         submissions = model.objects.all().order_by('-created_at')
 
         for submission in submissions:
-            baseform = forms.models.BaseFormModel.objects.get(pk=submission.baseformmodel_ptr_id)
-            user = User.objects.get(pk=baseform.user_id)
+            user = submission.baseformmodel_ptr.user
             
             # Do stuff here with submission and user.profile.ofn_token
+            print submission, user

@@ -2,3 +2,4 @@
 live-edit.py
 .idea/*
 forms/models.py
+config.pickle

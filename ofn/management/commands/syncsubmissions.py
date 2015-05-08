@@ -71,7 +71,7 @@ class Command(BaseCommand):
                     local.delete()
 
         # Create new local products on the remote
-        for local in Product.objects.get(remote_id=None):
+        for local in Product.objects.filter(remote_id=None):
             self.create_remote_product(local)
 
     def create_remote_product(self, local):

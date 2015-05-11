@@ -168,6 +168,14 @@
                 </ul>
             </nav>
         </aside>
+
+        <script>
+        $(function(){
+            $('[src^="http:"]').each(function(){
+                $(this).attr('src', $(this).attr('src').replace('http:', ''));
+            });
+        });
+        </script>
  
         <!-- MAIN PANEL -->
         <div id="main">     

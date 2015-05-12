@@ -1,5 +1,6 @@
 # coding:utf-8
 
+import json
 import os
 import re
 import requests
@@ -70,27 +71,34 @@ class Command(BaseCommand):
                     print 'Deleting %s' % local.remote_id
                     local.delete()
 
+        # Create a new local product for transmission
+        # product = Product(user=user, name='New Amazing Crop', price=25, primary_taxon_id=1)
+        # product.save()
+
         # Create new local products on the remote
         for local in Product.objects.filter(remote_id=None):
-            self.create_remote_product(local)
+            self.create_remote_product(user, local)
+            print 'Created %s' % local.remote_id
 
-    def create_remote_product(self, local):
+    def create_remote_product(self, user, local):
         # r = requests.get(self.api_endpoint('products/new'), headers=headers)
         # [u'id', u'name', u'description', u'price', u'available_on', u'permalink', u'count_on_hand', u'meta_description', u'meta_keywords', u'taxon_ids']
         # u'required_attributes': [u'name', u'price', u'supplier', u'primary_taxon', u'tax_category_id', u'variant_unit', u'variant_unit_scale', u'variant_unit_name']
 
+        headers = { 'X-Spree-Token': user.profile.token }
+
         data = {
-            'product[name]': 'Name',
-            'product[price]': 1,
-            'product[supplier]': 1,
-            'product[primary_taxon]': 'Primary Taxon',
-            'product[tax_category_id]': None,
-            'product[variant_unit]': 'per item',
-            'product[variant_unit_scale]': 'umm',
-            'product[variant_unit_name]': 'uhh'
+            'product[name]': local.name,
+            'product[price]': local.price,
+            'product[supplier_id]': user.profile.supplier_id,
+            'product[primary_taxon_id]': local.primary_taxon_id,
         }
 
-        requests.post(self.api_endpoint('products'), headers=headers, data=data)
+        result = requests.post(self.api_endpoint('products'), headers=headers, data=data)
+        json = result.json()
+
+        local.remote_id = json['id']
+        local.save()
 
     def add_arguments(self, parser):
         parser.add_argument('form_name', nargs=1)

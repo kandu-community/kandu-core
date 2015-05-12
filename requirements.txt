@@ -12,3 +12,4 @@ django-extra-views
 sorl-thumbnail
 raven
 requests
+django-dotenv

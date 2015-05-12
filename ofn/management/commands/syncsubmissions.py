@@ -82,8 +82,7 @@ class Command(BaseCommand):
 
     def create_remote_product(self, user, local):
         # r = requests.get(self.api_endpoint('products/new'), headers=headers)
-        # [u'id', u'name', u'description', u'price', u'available_on', u'permalink', u'count_on_hand', u'meta_description', u'meta_keywords', u'taxon_ids']
-        # u'required_attributes': [u'name', u'price', u'supplier', u'primary_taxon', u'tax_category_id', u'variant_unit', u'variant_unit_scale', u'variant_unit_name']
+        # print r.json()
 
         headers = { 'X-Spree-Token': user.profile.token }
 

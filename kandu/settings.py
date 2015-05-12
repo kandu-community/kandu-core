@@ -7,11 +7,14 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
+import os
+
+# Read in the dotenv environment
+import dotenv
+dotenv.read_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -49,7 +52,8 @@ INSTALLED_APPS = (
     'web',
     'api',
     'icons',
-    'config_editor'
+    'config_editor',
+    'ofn',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -74,7 +78,7 @@ DATABASES = {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'kandu',
         'USER': 'kandu',
-        'PASSWORD': 'kandu'
+        'PASSWORD': 'kandu12'
     }
 }
 
@@ -102,8 +106,8 @@ CONFIG_FILE = os.path.join(BASE_DIR, 'config.json')
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-STATIC_ROOT = '/home/inomma/webapps/kandu_static/'
-MEDIA_ROOT = '/home/inomma/webapps/kandu_media/'
+STATIC_ROOT = '/home/marlinf/Projects/ofn/kandu/static/'
+MEDIA_ROOT = '/home/marlinf/Projects/ofn/kandu/media/'
 
 TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
 
@@ -149,9 +153,15 @@ LOGGING = {
     }
 }
 
-GEOIP_LIBRARY_PATH = "/home/inomma/lib/libGeoIP.so"
+GEOIP_LIBRARY_PATH = "/usr/lib/x86_64-linux-gnu/libGeoIP.so.1.6.0"
 GMAPI_JQUERY_URL = "None" # workaround for jQuery conflict
 
 RAVEN_CONFIG = {
     'dsn': 'https://bdd1868a423340acbfb1a17d557b8312:da41c8aa10b6430587de1f59a16ebe9c@app.getsentry.com/32300',
+}
+
+OFN = {
+    'url': 'http://localhost:3000',
+    'taxonomy_id': 1,
+    'token': os.getenv('OFN_TOKEN')
 }

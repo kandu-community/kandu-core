@@ -1,5 +1,6 @@
 *.pyc
 live-edit.py
+.env
 .idea/*
 forms/models.py
 config.pickle

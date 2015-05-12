@@ -19,5 +19,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, '..', 'local_media', 'static')
 GEOIP_LIBRARY_PATH = None
 
 RAVEN_CONFIG = {
-	'dsn': 'disabled'
+    'dsn': 'disabled'
 }

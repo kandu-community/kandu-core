@@ -15,3 +15,6 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     primary_taxon_id = models.IntegerField(null=True)
     last_modified = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return self.name

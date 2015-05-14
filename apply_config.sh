@@ -20,7 +20,10 @@ then
 	rm -rf $KANDUHOME/forms/models.py
 fi
 
-python $KANDUHOME/manage.py config_update && python $KANDUHOME/manage.py schemamigration forms --auto && python $KANDUHOME/manage.py migrate
+python $KANDUHOME/manage.py generate_form &&
+python $KANDUHOME/manage.py config_update &&
+python $KANDUHOME/manage.py schemamigration forms --auto &&
+python $KANDUHOME/manage.py migrate
 
 if [ $STATE == 0 ]
 then 

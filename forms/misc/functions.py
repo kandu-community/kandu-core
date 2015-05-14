@@ -60,7 +60,12 @@ def write_visibility_dependencies(aggregate):
 	return u"\tvisibility_dependencies = %s\n" % aggregate_processed
 
 def write_model(verbose_name, form_object):
-	output = u"class {name}(BaseFormModel):\n\tclass Meta:\n\t\tverbose_name = u'{verbose_name}'\n\tobjects = GeoManager()\n".format(
+        db_table = form_object.get('db_table', '')
+        if db_table:
+            db_table = u"\n\t\tdb_table = u'{db_table}'".format(db_table=db_table)
+
+	output = u"class {name}(BaseFormModel):\n\tclass Meta:{db_table}\n\t\tverbose_name = u'{verbose_name}'\n\tobjects = GeoManager()\n".format(
+		db_table=db_table,
 		name=generate_name(verbose_name), 
 		verbose_name=verbose_name
 	)
@@ -96,10 +101,10 @@ def create_model(form_object, collected_output, counter):
 	visible_when = {}
 	for field_object in form_object['fields']:
 		output += write_field(field_object, form_object['name'], form_object)
-		
+
 		if field_object.has_key('visible_when'):
 			visible_when[field_object['name']] = field_object.get('visible_when')
-
+                        
 	output += write_visibility_dependencies(visible_when)
 	output += write_label_fields(form_object['fields'], form_object)
 
@@ -151,7 +156,7 @@ def config_update_wrapper():
 	from django.core.management import call_command
 	from django.core.management.base import CommandError
 	# from utils import clear_app_cache
-	
+
 	models_filename = os.path.join(settings.BASE_DIR, 'forms', 'models.py')
 	try:
 		with open(models_filename, 'r') as models_file:

@@ -17,8 +17,9 @@ class Base(object): # workaround for "object.__init__() takes no parameters"
 			if hasattr(self, name):
 				setattr(self, name, value)
 			else:
-				from fields import Field
-				raise ValueError('Unknown parameter %r for %s %r' % (name, 'field' if isinstance(self, Field) else 'form', kwargs['name']))
+                                if name != 'db_table':
+                                        from fields import Field
+                                        raise ValueError('Unknown parameter %r for %s %r' % (name, 'field' if isinstance(self, Field) else 'form', kwargs['name']))
 
 class DjangoRenderMixin(object):
 	def get_django_args(self):

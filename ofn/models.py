@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.contrib.gis.db.models import GeoManager
 from django.forms import widgets
+
+from forms.misc import BaseFormModel
 
 class Profile(models.Model):
     user = models.OneToOneField(User)
@@ -14,7 +17,7 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     primary_taxon_id = models.IntegerField(null=True)
-    last_modified = models.DateTimeField(auto_now=True)
+    last_modified = models.DateTimeField()
 
     def __unicode__(self):
         return self.name

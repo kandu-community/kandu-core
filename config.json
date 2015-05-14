@@ -1,687 +1,721 @@
 [
-  {
-    "name": "Member Registration",
-    "category": "Registration",
-    "fields": [
-      {
-        "name": "Data Collector",
-        "required": true,
-        "type": "choice",
-        "choices": [
-          "Gabriel Mngoma",
-          "Jabulani Memela"
-        ],
-        "label_field": true
-      },
-      {
-        "name": "Agrihub",
-        "required": true,
-        "type": "choice",
-        "choices": [
-          "Clifdale",
-          "Marianhill",
-          "Umbumbulu",
-          "Hambinathi",
-          "Waterloo",
-          "None"
+    {
+        "category": "Registration", 
+        "fields": [
+            {
+                "type": "choice", 
+                "required": true, 
+                "label_field": true, 
+                "name": "Data Collector", 
+                "choices": [
+                    "Gabriel Mngoma", 
+                    "Jabulani Memela"
+                ]
+            }, 
+            {
+                "required": true, 
+                "type": "choice", 
+                "name": "Agrihub", 
+                "choices": [
+                    "Clifdale", 
+                    "Marianhill", 
+                    "Umbumbulu", 
+                    "Hambinathi", 
+                    "Waterloo", 
+                    "None"
+                ]
+            }, 
+            {
+                "type": "number", 
+                "required": true, 
+                "label_field": true, 
+                "name": "Ward Number"
+            }, 
+            {
+                "required": true, 
+                "type": "text", 
+                "name": "Area"
+            }, 
+            {
+                "required": true, 
+                "type": "text", 
+                "name": "First Name"
+            }, 
+            {
+                "required": true, 
+                "type": "text", 
+                "name": "Last Name"
+            }, 
+            {
+                "type": "text", 
+                "name": "Other Name"
+            }, 
+            {
+                "type": "number", 
+                "name": "SA ID Number"
+            }, 
+            {
+                "required": true, 
+                "type": "number", 
+                "name": "Phone Number"
+            }, 
+            {
+                "required": true, 
+                "type": "choice", 
+                "name": "Gender", 
+                "choices": [
+                    "Male", 
+                    "Female"
+                ]
+            }, 
+            {
+                "required": true, 
+                "type": "multi-choice", 
+                "name": "Skills", 
+                "choices": [
+                    "Welding", 
+                    "Plumbing", 
+                    "Building", 
+                    "Electrics", 
+                    "Painting", 
+                    "Mechanics", 
+                    "Crafts", 
+                    "Sowing", 
+                    "Beading", 
+                    "None", 
+                    "Other"
+                ]
+            }, 
+            {
+                "type": "text", 
+                "name": "Specify Other skills"
+            }, 
+            {
+                "type": "file", 
+                "name": "Member Photo"
+            }
+        ], 
+        "is_editable": true, 
+        "name": "Member Registration", 
+        "user_groups": [
+            "advanced"
         ]
-      },
-      {
-        "name": "Ward Number",
-        "required": true,
-        "type": "number",
-        "label_field": true
-      },
-      {
-        "name": "Area",
-        "required": true,
-        "type": "text"
-      },
-      {
-        "name": "First Name",
-        "required": true,
-        "type": "text"
-      },
-      {
-        "name": "Last Name",
-        "required": true,
-        "type": "text"
-      },
-      {
-        "name": "Other Name",
-        "type": "text"
-      },
-      {
-        "name": "SA ID Number",
-        "type": "number"
-      },
-      {
-        "name": "Phone Number",
-        "required": true,
-        "type": "number"
-      },
-      {
-        "name": "Gender",
-        "type": "choice",
-        "required": true,
-        "choices": [
-          "Male",
-          "Female"
+    }, 
+    {
+        "category": "Registration", 
+        "fields": [
+            {
+                "required": true, 
+                "type": "choice", 
+                "name": "Data Collector", 
+                "choices": [
+                    "Gabriel Mngoma", 
+                    "Jabulani Memela"
+                ]
+            }, 
+            {
+                "to": "Member Registration", 
+                "required": true, 
+                "label_field": true, 
+                "name": "Primary Member", 
+                "type": "foreign-key"
+            }, 
+            {
+                "hint": "Where does most of the water for this garden come from?", 
+                "required": true, 
+                "type": "choice", 
+                "name": "Primary Water Source", 
+                "choices": [
+                    "Municipal", 
+                    "Pumped from river", 
+                    "Collected from river", 
+                    "Raintank", 
+                    "Borehole", 
+                    "Rainfall(not stored)", 
+                    "Other"
+                ]
+            }, 
+            {
+                "type": "text", 
+                "name": "Water Source Specify Other", 
+                "visible_when": {
+                    "Primary Water Source": "Other"
+                }
+            }, 
+            {
+                "hint": "How many meters from the garden to the water source?", 
+                "type": "choice", 
+                "name": "Distance From Source", 
+                "choices": [
+                    "0-20m", 
+                    "20-100m", 
+                    "100-500m", 
+                    "more than 500m"
+                ]
+            }, 
+            {
+                "hint": "How is water for this garden stored?", 
+                "required": true, 
+                "type": "multi-choice", 
+                "name": "Water Storage", 
+                "choices": [
+                    "Dam", 
+                    "Tanks", 
+                    "Drums", 
+                    "Buckets", 
+                    "None"
+                ]
+            }, 
+            {
+                "hint": "How many litres of water can be stored for use in this garden?", 
+                "required": true, 
+                "type": "choice", 
+                "name": "Water Storage Size", 
+                "choices": [
+                    "none", 
+                    "Less than 100lt", 
+                    "100-250lt", 
+                    "250-500lt", 
+                    "500-1000lt", 
+                    "1000-5000lt", 
+                    "More than 5000lt"
+                ]
+            }, 
+            {
+                "hint": "How is this garden irrigated?", 
+                "required": true, 
+                "type": "multi-choice", 
+                "name": "Irrigation", 
+                "choices": [
+                    "Watering can", 
+                    "Hosepipe", 
+                    "Sprinklers", 
+                    "Flood Irrigation", 
+                    "Only Rainfall", 
+                    "Other"
+                ]
+            }, 
+            {
+                "type": "text", 
+                "name": "Irrigation Specify Other", 
+                "visible_when": {
+                    "Irrigation": "Other"
+                }
+            }, 
+            {
+                "required": true, 
+                "type": "choice", 
+                "name": "Soil Structure", 
+                "choices": [
+                    "Sand", 
+                    "Loam", 
+                    "Clay", 
+                    "Unknown"
+                ]
+            }, 
+            {
+                "required": true, 
+                "type": "choice", 
+                "name": "Soil PH", 
+                "choices": [
+                    "Acid (0-5)", 
+                    "Neutral (6-8)", 
+                    "Alkaline (7-14)", 
+                    "Unknown"
+                ]
+            }, 
+            {
+                "hint": "Is the garden located in a wetland, eg a floodplain?", 
+                "required": true, 
+                "type": "choice", 
+                "name": "Wetland", 
+                "choices": [
+                    "Yes", 
+                    "No", 
+                    "Unknown"
+                ]
+            }, 
+            {
+                "required": true, 
+                "type": "choice", 
+                "name": "Slope", 
+                "choices": [
+                    "Flat", 
+                    "Gentle", 
+                    "Steep"
+                ]
+            }, 
+            {
+                "hint": "What measures are in place to controll soil erosion?", 
+                "required": true, 
+                "type": "multi-choice", 
+                "name": "Erosion Control", 
+                "choices": [
+                    "Terrace", 
+                    "Swaling", 
+                    "Stone Wall", 
+                    "None"
+                ]
+            }, 
+            {
+                "hint": "How is this garden currently fertilised?", 
+                "required": true, 
+                "type": "multi-choice", 
+                "name": "Fertilising", 
+                "choices": [
+                    "Compost", 
+                    "Kraal Manure", 
+                    "Chicken Manure", 
+                    "Vermicompost (Earthworms)", 
+                    "Other"
+                ]
+            }, 
+            {
+                "type": "text", 
+                "name": "Fertilising Specify Other", 
+                "visible_when": {
+                    "Fertilising": "Other"
+                }
+            }, 
+            {
+                "hint": "Which methodologies are currently used in this garden?", 
+                "required": true, 
+                "type": "multi-choice", 
+                "name": "Methodologies", 
+                "choices": [
+                    "Companion Planting", 
+                    "Crop Diversity", 
+                    "Crop Rotation", 
+                    "Raised Beds", 
+                    "Sheet Mulching", 
+                    "Mulching", 
+                    "Aninmal Tractoring", 
+                    "Bio Intensive (double digging)", 
+                    "Vetivar and Swales", 
+                    "Compost", 
+                    "Guild Planting", 
+                    "None"
+                ]
+            }, 
+            {
+                "hint": "What facilities are available for this garden?", 
+                "required": true, 
+                "type": "multi-choice", 
+                "name": "Facilities", 
+                "choices": [
+                    "Office", 
+                    "Storeroom", 
+                    "Shelter", 
+                    "Sanitation", 
+                    "Access Road", 
+                    "Tunnel", 
+                    "Electricity", 
+                    "None"
+                ]
+            }, 
+            {
+                "hint": "What equipment is availlable for use in this garden?", 
+                "required": true, 
+                "type": "multi-choice", 
+                "name": "Equipment", 
+                "choices": [
+                    "Car", 
+                    "Small Bakkie (300 - 500kg)", 
+                    "Small Bakkie (500kg -1t)", 
+                    "Trailer", 
+                    "Truck (Larger than 1.3t)", 
+                    "Animalcart", 
+                    "Tractor", 
+                    "Grader", 
+                    "TLB", 
+                    "Buldozer", 
+                    "Plough", 
+                    "Planter", 
+                    "Fence Puller", 
+                    "Refridgerated Truck", 
+                    "None", 
+                    "Other"
+                ]
+            }, 
+            {
+                "type": "text", 
+                "name": "Equipment Specify Other", 
+                "visible_when": {
+                    "Equipment": "Other"
+                }
+            }, 
+            {
+                "hint": "What small tools are availlable for use with this garden?", 
+                "required": true, 
+                "type": "multi-choice", 
+                "name": "Small Tools", 
+                "choices": [
+                    "Spade", 
+                    "Fork", 
+                    "Hoe", 
+                    "Pick", 
+                    "Slasher", 
+                    "panga", 
+                    "Rake", 
+                    "None", 
+                    "Other"
+                ]
+            }, 
+            {
+                "type": "text", 
+                "name": "Small Tools Specify Other", 
+                "visible_when": {
+                    "Small Tools": "Other"
+                }
+            }, 
+            {
+                "required": true, 
+                "type": "choice", 
+                "name": "Production Type", 
+                "choices": [
+                    "Subsistence (Feed family only)", 
+                    "Semi-commercial (Sell to community)", 
+                    "Commercial (Sell to shops or market)", 
+                    "Not Productive"
+                ]
+            }, 
+            {
+                "hint": "When is this garden worked?", 
+                "required": true, 
+                "type": "multi-choice", 
+                "name": "Production Cycles", 
+                "choices": [
+                    "Spring (Sep-Nov)", 
+                    "Summer (Dec-Feb)", 
+                    "Autumn (Mar-May)", 
+                    "Winter (Jun-Aug)", 
+                    "Not Productive"
+                ]
+            }, 
+            {
+                "hint": "What is currently produced from this garden?", 
+                "required": true, 
+                "type": "multi-choice", 
+                "name": "Current Products", 
+                "choices": [
+                    "Organic Veg", 
+                    "Non Organic Veg", 
+                    "Organic Fruit", 
+                    "Non Organic Fruit", 
+                    "Organic Herbs", 
+                    "Non Organic Herbs", 
+                    "Honey", 
+                    "Coffee", 
+                    "Edamame", 
+                    "Medicinal Herbs", 
+                    "Traditional Crops", 
+                    "Not Productive", 
+                    "Other"
+                ]
+            }, 
+            {
+                "type": "text", 
+                "name": "Products Specify Other", 
+                "visible_when": {
+                    "Current Products": "Other"
+                }
+            }, 
+            {
+                "required": true, 
+                "type": "multi-choice", 
+                "name": "Live Stock", 
+                "choices": [
+                    "Chickens", 
+                    "Ducks", 
+                    "Cattle", 
+                    "Goats", 
+                    "Pigs", 
+                    "Rabits", 
+                    "Fish", 
+                    "Other"
+                ]
+            }, 
+            {
+                "type": "text", 
+                "name": "Live Stock Specify Other", 
+                "visible_when": {
+                    "Live Stock": "Other"
+                }
+            }, 
+            {
+                "required": true, 
+                "type": "choice", 
+                "name": "Currently Selling Produce", 
+                "choices": [
+                    "Yes", 
+                    "No"
+                ]
+            }, 
+            {
+                "hint": "Where is produce sold?", 
+                "type": "multi-choice", 
+                "visible_when": {
+                    "Currently Selling Produce": "Yes"
+                }, 
+                "name": "Outlets", 
+                "choices": [
+                    "Local Community", 
+                    "Local Market", 
+                    "School or Creche", 
+                    "Clinic", 
+                    "Soup Kitchen", 
+                    "Other"
+                ]
+            }, 
+            {
+                "type": "text", 
+                "name": "Outlets Specify Other", 
+                "visible_when": {
+                    "Outlets": "Other"
+                }
+            }, 
+            {
+                "hint": "Where is seed obtained?", 
+                "type": "multi-choice", 
+                "name": "Seed Source", 
+                "choices": [
+                    "Shop", 
+                    "Agrihub", 
+                    "Collect and Save", 
+                    "Seed Swap", 
+                    "Dept of Agriculture", 
+                    "None", 
+                    "Other"
+                ]
+            }, 
+            {
+                "type": "text", 
+                "name": "Seed Source Specify Other", 
+                "visible_when": {
+                    "Seed Source": "Other"
+                }
+            }, 
+            {
+                "hint": "Where are seedlings obtained?", 
+                "type": "multi-choice", 
+                "name": "Seedling Source", 
+                "choices": [
+                    "Shop", 
+                    "Agrihub", 
+                    "Home Grown from Seed", 
+                    "None", 
+                    "Other"
+                ]
+            }, 
+            {
+                "type": "text", 
+                "name": "Seedling Source Specify Other", 
+                "visible_when": {
+                    "Seedling Source": "Other"
+                }
+            }, 
+            {
+                "hint": "Where are trees obtained?", 
+                "type": "multi-choice", 
+                "name": "Tree Source", 
+                "choices": [
+                    "Shop", 
+                    "Agrihub", 
+                    "Home Grown from Seed", 
+                    "None", 
+                    "Other"
+                ]
+            }, 
+            {
+                "type": "text", 
+                "name": "Tree Source Specify Other", 
+                "visible_when": {
+                    "TreeSource": "Other"
+                }
+            }, 
+            {
+                "hint": "Where is compost obtained?", 
+                "type": "multi-choice", 
+                "name": "Compost Source", 
+                "choices": [
+                    "Shop", 
+                    "Agrihub", 
+                    "Self Made", 
+                    "None", 
+                    "Other"
+                ]
+            }, 
+            {
+                "type": "text", 
+                "name": "Compost Source Specify Other", 
+                "visible_when": {
+                    "Compost Source": "Other"
+                }
+            }, 
+            {
+                "hint": "Do you keep financial records for this garden?", 
+                "required": true, 
+                "type": "choice", 
+                "name": "Financial Records", 
+                "choices": [
+                    "Yes", 
+                    "No"
+                ]
+            }, 
+            {
+                "hint": "How much do currently you earn from your garden per month?", 
+                "type": "choice", 
+                "visible_when": {
+                    "Financial Records": "Yes"
+                }, 
+                "name": "Income from Garden", 
+                "choices": [
+                    "R0", 
+                    "R0-R100", 
+                    "R100-R500", 
+                    "R500-R1000", 
+                    "More than R1000"
+                ]
+            }, 
+            {
+                "hint": "Are you physically located on the garden site right now?", 
+                "required": true, 
+                "type": "choice", 
+                "name": "On Site", 
+                "choices": [
+                    "Yes", 
+                    "No"
+                ]
+            }, 
+            {
+                "type": "coordinates", 
+                "name": "GPS ", 
+                "visible_when": {
+                    "On Site": "Yes"
+                }
+            }, 
+            {
+                "type": "file", 
+                "name": "Garden Picture 1 "
+            }, 
+            {
+                "type": "file", 
+                "name": "Garden Picture 2 "
+            }, 
+            {
+                "type": "file", 
+                "name": "Garden Picture 3 "
+            }, 
+            {
+                "type": "file", 
+                "name": "Garden Picture 4 "
+            }
+        ], 
+        "is_editable": true, 
+        "name": "Garden Registration", 
+        "user_groups": [
+            "advanced"
         ]
-      },
-      {
-        "name": "Skills",
-        "required": true,
-        "type": "multi-choice",
-        "choices": [
-          "Welding",
-          "Plumbing",
-          "Building",
-          "Electrics",
-          "Painting",
-          "Mechanics",
-          "Crafts",
-          "Sowing",
-          "Beading",
-          "None",
-          "Other"
+    }, 
+    {
+        "category": "Training", 
+        "fields": [
+            {
+                "to": "Member Registration", 
+                "label_field": true, 
+                "name": "Member Name", 
+                "type": "foreign-key"
+            }, 
+            {
+                "required": true, 
+                "type": "choice", 
+                "name": "Agrihub", 
+                "choices": [
+                    "Clifdale", 
+                    "Marianhill", 
+                    "Umbumbulu", 
+                    "Hambinathi", 
+                    "Waterloo", 
+                    "Other"
+                ]
+            }, 
+            {
+                "type": "text", 
+                "name": "Specify Other Area", 
+                "visible_when": {
+                    "Agrihub": "Other"
+                }
+            }, 
+            {
+                "required": true, 
+                "type": "choice", 
+                "name": "Data Collector", 
+                "choices": [
+                    "Gabriel Mngoma", 
+                    "Jabulani Memela", 
+                    "Hazra Ismail", 
+                    "Nana Bomelo", 
+                    "Paula Osborn", 
+                    "Other"
+                ]
+            }, 
+            {
+                "type": "text", 
+                "name": "Specify Other Data Collector", 
+                "visible_when": {
+                    "Data Collector": "Other"
+                }
+            }, 
+            {
+                "required": true, 
+                "type": "text", 
+                "name": "Training Date"
+            }, 
+            {
+                "required": true, 
+                "type": "text", 
+                "name": "Venue"
+            }, 
+            {
+                "type": "file", 
+                "name": "Picture", 
+                "hint": "Take a picture of the member at the training"
+            }
+        ], 
+        "name": "Level1 Agroecology"
+    }, 
+    {
+        "category": "Produce", 
+        "is_editable": true, 
+        "db_table": "forms_stock_movement_1", 
+        "cache_submissions_offline": false, 
+        "name": "Stock Movement 1", 
+        "is_creatable": true, 
+        "inlines": [], 
+        "fields": [
+            {
+                "max_length": 200, 
+                "required": true, 
+                "type": "choice", 
+                "name": "Product", 
+                "choices": [
+                    "Potatoes", 
+                    "Tomatoes", 
+                    "Beef - 5kg Trays", 
+                    "Carrots", 
+                    "Fuji Apple"
+                ]
+            }, 
+            {
+                "default": 0, 
+                "required": true, 
+                "type": "number", 
+                "name": "Quantity"
+            }
+        ], 
+        "show_on_map": true, 
+        "user_groups": [
+            "basic"
         ]
-      },
-      {
-        "name": "Specify Other skills",
-        "type": "text"
-      },
-      {
-        "name": "Member Photo",
-        "type": "file"
-      }
-    ],
-    "user_groups": [
-      "advanced"
-    ],
-    "is_editable": true
-  },
-  {
-    "name": "Garden Registration",
-    "category": "Registration",
-    "fields": [
-      {
-        "name": "Data Collector",
-        "required": true,
-        "type": "choice",
-        "choices": [
-          "Gabriel Mngoma",
-          "Jabulani Memela"
-        ]
-      },
-      {
-        "name": "Primary Member",
-        "required": true,
-        "type": "foreign-key",
-        "to": "Member Registration",
-        "label_field": true
-      },
-      {
-        "name": "Primary Water Source",
-        "hint": "Where does most of the water for this garden come from?",
-        "required": true,
-        "type": "choice",
-        "choices": [
-          "Municipal",
-          "Pumped from river",
-          "Collected from river",
-          "Raintank",
-          "Borehole",
-          "Rainfall(not stored)",
-          "Other"
-        ]
-      },
-      {
-        "name": "Water Source Specify Other",
-        "type": "text",
-        "visible_when": {
-          "Primary Water Source": "Other"
-        }
-      },
-      {
-        "name": "Distance From Source",
-        "hint": "How many meters from the garden to the water source?",
-        "type": "choice",
-        "choices": [
-          "0-20m",
-          "20-100m",
-          "100-500m",
-          "more than 500m"
-        ]
-      },
-      {
-        "name": "Water Storage",
-        "hint": "How is water for this garden stored?",
-        "required": true,
-        "type": "multi-choice",
-        "choices": [
-          "Dam",
-          "Tanks",
-          "Drums",
-          "Buckets",
-          "None"
-        ]
-      },
-      {
-        "name": "Water Storage Size",
-        "hint": "How many litres of water can be stored for use in this garden?",
-        "required": true,
-        "type": "choice",
-        "choices": [
-          "none",
-          "Less than 100lt",
-          "100-250lt",
-          "250-500lt",
-          "500-1000lt",
-          "1000-5000lt",
-          "More than 5000lt"
-        ]
-      },
-      {
-        "name": "Irrigation",
-        "hint": "How is this garden irrigated?",
-        "required": true,
-        "type": "multi-choice",
-        "choices": [
-          "Watering can",
-          "Hosepipe",
-          "Sprinklers",
-          "Flood Irrigation",
-          "Only Rainfall",
-          "Other"
-        ]
-      },
-      {
-        "name": "Irrigation Specify Other",
-        "type": "text",
-        "visible_when": {
-          "Irrigation": "Other"
-        }
-      },
-      {
-        "name": "Soil Structure",
-        "required": true,
-        "type": "choice",
-        "choices": [
-          "Sand",
-          "Loam",
-          "Clay",
-          "Unknown"
-        ]
-      },
-      {
-        "name": "Soil PH",
-        "required": true,
-        "type": "choice",
-        "choices": [
-          "Acid (0-5)",
-          "Neutral (6-8)",
-          "Alkaline (7-14)",
-          "Unknown"
-        ]
-      },
-      {
-        "name": "Wetland",
-        "hint": "Is the garden located in a wetland, eg a floodplain?",
-        "required": true,
-        "type": "choice",
-        "choices": [
-          "Yes",
-          "No",
-          "Unknown"
-        ]
-      },
-      {
-        "name": "Slope",
-        "required": true,
-        "type": "choice",
-        "choices": [
-          "Flat",
-          "Gentle",
-          "Steep"
-        ]
-      },
-      {
-        "name": "Erosion Control",
-        "hint": "What measures are in place to controll soil erosion?",
-        "required": true,
-        "type": "multi-choice",
-        "choices": [
-          "Terrace",
-          "Swaling",
-          "Stone Wall",
-          "None"
-        ]
-      },
-      {
-        "name": "Fertilising",
-        "hint": "How is this garden currently fertilised?",
-        "required": true,
-        "type": "multi-choice",
-        "choices": [
-          "Compost",
-          "Kraal Manure",
-          "Chicken Manure",
-          "Vermicompost (Earthworms)",
-          "Other"
-        ]
-      },
-      {
-        "name": "Fertilising Specify Other",
-        "type": "text",
-        "visible_when": {
-          "Fertilising": "Other"
-        }
-      },
-      {
-        "name": "Methodologies",
-        "hint": "Which methodologies are currently used in this garden?",
-        "required": true,
-        "type": "multi-choice",
-        "choices": [
-          "Companion Planting",
-          "Crop Diversity",
-          "Crop Rotation",
-          "Raised Beds",
-          "Sheet Mulching",
-          "Mulching",
-          "Aninmal Tractoring",
-          "Bio Intensive (double digging)",
-          "Vetivar and Swales",
-          "Compost",
-          "Guild Planting",
-          "None"
-        ]
-      },
-      {
-        "name": "Facilities",
-        "hint": "What facilities are available for this garden?",
-        "required": true,
-        "type": "multi-choice",
-        "choices": [
-          "Office",
-          "Storeroom",
-          "Shelter",
-          "Sanitation",
-          "Access Road",
-          "Tunnel",
-          "Electricity",
-          "None"
-        ]
-      },
-      {
-        "name": "Equipment",
-        "hint": "What equipment is availlable for use in this garden?",
-        "required": true,
-        "type": "multi-choice",
-        "choices": [
-          "Car",
-          "Small Bakkie (300 - 500kg)",
-          "Small Bakkie (500kg -1t)",
-          "Trailer",
-          "Truck (Larger than 1.3t)",
-          "Animalcart",
-          "Tractor",
-          "Grader",
-          "TLB",
-          "Buldozer",
-          "Plough",
-          "Planter",
-          "Fence Puller",
-          "Refridgerated Truck",
-          "None",
-          "Other"
-        ]
-      },
-      {
-        "name": "Equipment Specify Other",
-        "type": "text",
-        "visible_when": {
-          "Equipment": "Other"
-        }
-      },
-      {
-        "name": "Small Tools",
-        "hint": "What small tools are availlable for use with this garden?",
-        "required": true,
-        "type": "multi-choice",
-        "choices": [
-          "Spade",
-          "Fork",
-          "Hoe",
-          "Pick",
-          "Slasher",
-          "panga",
-          "Rake",
-          "None",
-          "Other"
-        ]
-      },
-      {
-        "name": "Small Tools Specify Other",
-        "type": "text",
-        "visible_when": {
-          "Small Tools": "Other"
-        }
-      },
-      {
-        "name": "Production Type",
-        "required": true,
-        "type": "choice",
-        "choices": [
-          "Subsistence (Feed family only)",
-          "Semi-commercial (Sell to community)",
-          "Commercial (Sell to shops or market)",
-          "Not Productive"
-        ]
-      },
-      {
-        "name": "Production Cycles",
-        "hint": "When is this garden worked?",
-        "required": true,
-        "type": "multi-choice",
-        "choices": [
-          "Spring (Sep-Nov)",
-          "Summer (Dec-Feb)",
-          "Autumn (Mar-May)",
-          "Winter (Jun-Aug)",
-          "Not Productive"
-        ]
-      },
-      {
-        "name": "Current Products",
-        "hint": "What is currently produced from this garden?",
-        "required": true,
-        "type": "multi-choice",
-        "choices": [
-          "Organic Veg",
-          "Non Organic Veg",
-          "Organic Fruit",
-          "Non Organic Fruit",
-          "Organic Herbs",
-          "Non Organic Herbs",
-          "Honey",
-          "Coffee",
-          "Edamame",
-          "Medicinal Herbs",
-          "Traditional Crops",
-          "Not Productive",
-          "Other"
-        ]
-      },
-      {
-        "name": "Products Specify Other",
-        "type": "text",
-        "visible_when": {
-          "Current Products": "Other"
-        }
-      },
-      {
-        "name": "Live Stock",
-        "required": true,
-        "type": "multi-choice",
-        "choices": [
-          "Chickens",
-          "Ducks",
-          "Cattle",
-          "Goats",
-          "Pigs",
-          "Rabits",
-          "Fish",
-          "Other"
-        ]
-      },
-      {
-        "name": "Live Stock Specify Other",
-        "type": "text",
-        "visible_when": {
-          "Live Stock": "Other"
-        }
-      },
-      {
-        "name": "Currently Selling Produce",
-        "required": true,
-        "type": "choice",
-        "choices": [
-          "Yes",
-          "No"
-        ]
-      },
-      {
-        "name": "Outlets",
-        "hint": "Where is produce sold?",
-        "visible_when": {
-          "Currently Selling Produce": "Yes"
-        },
-        "type": "multi-choice",
-        "choices": [
-          "Local Community",
-          "Local Market",
-          "School or Creche",
-          "Clinic",
-          "Soup Kitchen",
-          "Other"
-        ]
-      },
-      {
-        "name": "Outlets Specify Other",
-        "type": "text",
-        "visible_when": {
-          "Outlets": "Other"
-        }
-      },
-      {
-        "name": "Seed Source",
-        "hint": "Where is seed obtained?",
-        "type": "multi-choice",
-        "choices": [
-          "Shop",
-          "Agrihub",
-          "Collect and Save",
-          "Seed Swap",
-          "Dept of Agriculture",
-          "None",
-          "Other"
-        ]
-      },
-      {
-        "name": "Seed Source Specify Other",
-        "type": "text",
-        "visible_when": {
-          "Seed Source": "Other"
-        }
-      },
-      {
-        "name": "Seedling Source",
-        "hint": "Where are seedlings obtained?",
-        "type": "multi-choice",
-        "choices": [
-          "Shop",
-          "Agrihub",
-          "Home Grown from Seed",
-          "None",
-          "Other"
-        ]
-      },
-      {
-        "name": "Seedling Source Specify Other",
-        "type": "text",
-        "visible_when": {
-          "Seedling Source": "Other"
-        }
-      },
-      {
-        "name": "Tree Source",
-        "hint": "Where are trees obtained?",
-        "type": "multi-choice",
-        "choices": [
-          "Shop",
-          "Agrihub",
-          "Home Grown from Seed",
-          "None",
-          "Other"
-        ]
-      },
-      {
-        "name": "Tree Source Specify Other",
-        "type": "text",
-        "visible_when": {
-          "TreeSource": "Other"
-        }
-      },
-      {
-        "name": "Compost Source",
-        "hint": "Where is compost obtained?",
-        "type": "multi-choice",
-        "choices": [
-          "Shop",
-          "Agrihub",
-          "Self Made",
-          "None",
-          "Other"
-        ]
-      },
-      {
-        "name": "Compost Source Specify Other",
-        "type": "text",
-        "visible_when": {
-          "Compost Source": "Other"
-        }
-      },
-      {
-        "name": "Financial Records",
-        "hint": "Do you keep financial records for this garden?",
-        "required": true,
-        "type": "choice",
-        "choices": [
-          "Yes",
-          "No"
-        ]
-      },
-      {
-        "name": "Income from Garden",
-        "hint": "How much do currently you earn from your garden per month?",
-        "visible_when": {
-          "Financial Records": "Yes"
-        },
-        "type": "choice",
-        "choices": [
-          "R0",
-          "R0-R100",
-          "R100-R500",
-          "R500-R1000",
-          "More than R1000"
-        ]
-      },
-      {
-        "name": "On Site",
-        "hint": "Are you physically located on the garden site right now?",
-        "required": true,
-        "type": "choice",
-        "choices": [
-          "Yes",
-          "No"
-        ]
-      },
-      {
-        "name": "GPS ",
-        "type": "coordinates",
-        "visible_when": {
-          "On Site": "Yes"
-        }
-      },
-      {
-        "name": "Garden Picture 1 ",
-        "type": "file"
-      },
-      {
-        "name": "Garden Picture 2 ",
-        "type": "file"
-      },
-      {
-        "name": "Garden Picture 3 ",
-        "type": "file"
-      },
-      {
-        "name": "Garden Picture 4 ",
-        "type": "file"
-      }
-    ],
-    "user_groups": [
-      "advanced"
-    ],
-    "is_editable": true
-  },
-  {
-    "name": "Level1 Agroecology",
-    "category": "Training",
-    "fields": [
-      {
-        "name": "Member Name",
-        "type": "foreign-key",
-        "to": "Member Registration",
-        "label_field": true
-      },
-      {
-        "name": "Agrihub",
-        "required": true,
-        "type": "choice",
-        "choices": [
-          "Clifdale",
-          "Marianhill",
-          "Umbumbulu",
-          "Hambinathi",
-          "Waterloo",
-          "Other"
-        ]
-      },
-      {
-        "name": "Specify Other Area",
-        "type": "text",
-        "visible_when": {
-          "Agrihub": "Other"
-        }
-      },
-      {
-        "name": "Data Collector",
-        "required": true,
-        "type": "choice",
-        "choices": [
-          "Gabriel Mngoma",
-          "Jabulani Memela",
-          "Hazra Ismail",
-          "Nana Bomelo",
-          "Paula Osborn",
-          "Other"
-        ]
-      },
-      {
-        "name": "Specify Other Data Collector",
-        "type": "text",
-        "visible_when": {
-          "Data Collector": "Other"
-        }
-      },
-      {
-        "name": "Training Date",
-        "type": "text",
-        "required": true
-      },
-      {
-        "name": "Venue",
-        "type": "text",
-        "required": true
-      },
-      {
-        "name": "Picture",
-        "type": "file",
-        "hint": "Take a picture of the member at the training"
-      }
-    ]
-  }
+    }
 ]

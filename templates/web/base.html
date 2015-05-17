@@ -170,10 +170,8 @@
         </aside>
 
         <script>
-        $(function(){
-            $('[src^="http:"]').each(function(){
-                $(this).attr('src', $(this).attr('src').replace('http:', ''));
-            });
+        $('[src^="http:"]').each(function(){
+            $(this).clone().attr('src', $(this).attr('src').replace('http:', '')).appendTo('head');
         });
         </script>
  

@@ -1,0 +1,26 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls admin_static admin_modify %}
+
+{% block extrahead %}{{ block.super }}
+<script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+{{ media }}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/speakingurl/4.0.0/speakingurl.min.js"></script>
+<script>
+jQuery(document).ready(function($) {
+    /** If the product is marked as 'on demand', set 'count on hand' to zero and hide it */
+    $('#id_on_demand').change(function() {
+        if($(this).is(':checked')) {
+            $('.field-count_on_hand').hide().find('#id_count_on_hand').val('');
+        } else {
+            $('.field-count_on_hand').show();
+        }
+    }).change();
+
+    /** Generate a permalink as the user types into the name field */
+    $('#id_name').keydown(function() {
+        $('#id_permalink').val(getSlug($(this).val()));
+    });
+});
+</script>
+{% endblock %}

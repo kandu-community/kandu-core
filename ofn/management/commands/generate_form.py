@@ -39,11 +39,11 @@ class Command(BaseCommand):
 
         form_schema = {
             'category': 'Produce',
-            'db_table': 'forms_stock_movement_%s' % user.id,
-            'name': 'Stock Movement %s' % user.id,
+            'name': 'Stock Movement',
             'is_creatable': True,
             'fields': [
                 {
+                    "label_field": True,
                     "name": "Product",
                     "required": True,
                     "choices": product_choices,
@@ -51,6 +51,7 @@ class Command(BaseCommand):
                     "type": "choice",
                 },
                 {
+                    "label_field": True,
                     "default": 0,
                     "required": True,
                     "name": "Quantity",
@@ -67,9 +68,3 @@ class Command(BaseCommand):
         }
 
         return form_schema
-
-        # model = getattr(forms.models, form_name)
-        # submissions = model.objects.all().order_by('-created_at')
-
-        # for submission in submissions:
-        #     user = submission.baseformmodel_ptr.user

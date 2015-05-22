@@ -18,6 +18,27 @@ from forms.misc import config_update_wrapper
 
 from ofn.models import Product
 
+product_fields = (
+    'permalink',
+    'name',
+    'count_on_hand',
+    'on_demand',
+    'price',
+    'cost_price',
+    'primary_taxon_id',
+    'updated_at',
+)
+
+variant_fields = (
+    'sku',
+    'unit_value',
+    'unit_description',
+    'count_on_hand',
+    'on_demand',
+    'price',
+    'cost_price',
+    'updated_at',
+)
 
 class Command(BaseCommand):
     help = 'Synchronize products with OFN'
@@ -61,26 +82,26 @@ class Command(BaseCommand):
 
                 remote_updated_at = iso8601.parse_date(remote['updated_at'])
 
-                if remote_updated_at == local.last_modified:
+                if remote_updated_at == local.updated_at:
                     print 'Products are the same local %s = remote %s' % (local.id, remote['id'])
                 else:
-                    if local.pk is None or remote_updated_at > local.last_modified:
+                    if local.pk is None or remote_updated_at > local.updated_at:
                         print 'Remote is newer, updating local'
 
                         # Update local, remote side updated more recently
                         local.name = remote['name']
                         local.permalink = remote['permalink']
-                        local.last_modified = remote['updated_at']
+                        local.updated_at = remote['updated_at']
                         local.save()
                     else:
-                        if local.last_modified > remote_updated_at:
+                        if local.updated_at > remote_updated_at:
                             print 'Local is newer, updating remote'
                             # Update remote, local side updated more recently
                             data = self.create_data(user, local, 'PUT')
                             result = requests.post(self.api_endpoint('products/' + str(remote['id'])), headers=headers, data=data)
                             json = result.json()
 
-                            local.last_modified = iso8601.parse_date(json['updated_at'])
+                            local.updated_at = iso8601.parse_date(json['updated_at'])
                             local.save()
 
         # Loop through the local products for this user
@@ -92,25 +113,13 @@ class Command(BaseCommand):
                     local.delete()
 
         # Create a new local product for transmission
-        # product = Product(user=user, name='Argle Bargle', permalink='argle-bargle', price=25, primary_taxon_id=1, last_modified=datetime.now())
+        # product = Product(user=user, name='Argle Bargle', permalink='argle-bargle', price=25, primary_taxon_id=1, updated_at=datetime.now())
         # product.save()
 
         # Create new local products on the remote
         for local in user.product_set.filter(remote_id=None):
             self.create_remote_product(user, local)
             print 'Created %s' % local.remote_id
-
-    def create_data(self, user, local, method):
-        data = {
-            '_method': method,
-            'product[name]': local.name,
-            'product[permalink]': local.permalink,
-            'product[price]': local.price,
-            'product[supplier_id]': user.profile.supplier_id,
-            'product[primary_taxon_id]': local.primary_taxon_id,
-            'product[updated_at]': local.last_modified,
-        }
-        return data
 
     def create_remote_product(self, user, local):
         headers = { 'X-Spree-Token': user.profile.token }
@@ -119,26 +128,53 @@ class Command(BaseCommand):
         # r = requests.get(self.api_endpoint('products/new'), headers=headers)
         # print r.json()
 
-        data = self.create_data(user, local, 'POST')
+        data = {
+            'product[name]': local.name,
+            'product[permalink]': local.permalink,
+            'product[count_on_hand]': local.count_on_hand,
+            'product[on_demand]': local.on_demand,
+            'product[price]': local.price,
+            'product[cost_price]': local.cost_price,
+            'product[supplier_id]': user.profile.supplier_id,
+            'product[primary_taxon_id]': local.primary_taxon_id,
+            'product[updated_at]': local.updated_at,
+        }
+
         result = requests.post(self.api_endpoint('products'), headers=headers, data=data)
         json = result.json()
 
         local.remote_id = json['id']
-        local.last_modified = iso8601.parse_date(json['updated_at'])
+        local.updated_at = iso8601.parse_date(json['updated_at'])
         local.save()
 
-    def add_arguments(self, parser):
-        parser.add_argument('form_name', nargs=1)
+    def create_remote_variant(self, user, local):
+        headers = { 'X-Spree-Token': user.profile.token }
+
+        # The following will show you the attributes for posting a new product
+        # product_remote_id = 1
+        # r = requests.get(self.api_endpoint('products/%s/variants/new' % product_remote_id), headers=headers)
+        # print r.json()
+
+        data = {
+            'variant[name]': local.name,
+            'variant[permalink]': local.permalink,
+            'variant[count_on_hand]': local.count_on_hand,
+            'variant[on_demand]': local.on_demand,
+            'variant[price]': local.price,
+            'variant[cost_price]': local.cost_price,
+            'variant[supplier_id]': user.profile.supplier_id,
+            'variant[primary_taxon_id]': local.primary_taxon_id,
+            'variant[updated_at]': local.updated_at,
+        }
+
+        result = requests.post(self.api_endpoint('products/%s/variants'), headers=headers, data=data)
+        json = result.json()
+
+        local.remote_id = json['id']
+        local.updated_at = iso8601.parse_date(json['updated_at'])
+        local.save()
 
     def handle(self, *args, **options):
         for user in User.objects.all():
             if user.profile.token:
                 self.sync_products(user)
-
-        form_name = args[0]
-
-        # model = getattr(forms.models, form_name)
-        # submissions = model.objects.all().order_by('-created_at')
-
-        # for submission in submissions:
-        #     user = submission.baseformmodel_ptr.user

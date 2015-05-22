@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from ofn.models import Profile, Product
+from ofn.models import Profile, Product, Variant
 
 class ProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -48,9 +48,15 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
 
+class VariantInline(admin.TabularInline):
+    model = Variant
+    readonly_fields = ('remote_id', 'updated_at')
+
 class ProductAdmin(admin.ModelAdmin):
+    inlines = (VariantInline,)
     form = ProductForm
     ordering = ('name',)
-    list_display = ('name', 'price')
+    list_display = ('name',)
+    readonly_fields = ('remote_id', 'updated_at')
 
 admin.site.register(Product, ProductAdmin)

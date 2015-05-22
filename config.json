@@ -687,29 +687,30 @@
     {
         "category": "Produce", 
         "is_editable": true, 
-        "db_table": "forms_stock_movement_1", 
         "cache_submissions_offline": false, 
-        "name": "Stock Movement 1", 
+        "name": "Stock Movement", 
         "is_creatable": true, 
         "inlines": [], 
         "fields": [
             {
-                "max_length": 200, 
-                "required": true, 
-                "type": "choice", 
                 "name": "Product", 
+                "required": true, 
                 "choices": [
                     "Potatoes", 
                     "Tomatoes", 
                     "Beef - 5kg Trays", 
                     "Carrots", 
                     "Fuji Apple"
-                ]
+                ], 
+                "max_length": 200, 
+                "label_field": true, 
+                "type": "choice"
             }, 
             {
                 "default": 0, 
-                "required": true, 
                 "type": "number", 
+                "required": true, 
+                "label_field": true, 
                 "name": "Quantity"
             }
         ], 

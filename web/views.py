@@ -64,6 +64,14 @@ class ModelFromUrlMixin(object):
 					exclude = ('user',)
 					extra = 1 # since we got dynamic "add another"
 
+					def formfield_callback(self, model_field):
+						from django.db.models import DateField
+
+						if isinstance(model_field, DateField):
+							return model_field.formfield(widget=DatepickerWidget)
+						else:
+							return model_field.formfield()
+
 				self.inlines.append(FormModelInline)
 
 		return super(ModelFromUrlMixin, self).dispatch(*args, **kwargs)

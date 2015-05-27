@@ -11,15 +11,28 @@ jQuery(document).ready(function($) {
     /** If the product is marked as 'on demand', set 'count on hand' to zero and hide it */
     $('#id_on_demand').change(function() {
         if($(this).is(':checked')) {
-            $('.field-count_on_hand').hide().find('#id_count_on_hand').val('');
+            $('fieldset.module.aligned .field-count_on_hand').hide().find('#id_count_on_hand').val('');
         } else {
-            $('.field-count_on_hand').show();
+            $('fieldset.module.aligned .field-count_on_hand').show();
         }
     }).change();
 
     /** Generate a permalink as the user types into the name field */
     $('#id_name').keydown(function() {
         $('#id_permalink').val(getSlug($(this).val()));
+    });
+
+    /** If there's a variant row from the DB, set 'count on hand' to zero and hide it and 'on_demand' */
+    if($('.dynamic-variant-set.has_original')) {
+        $('fieldset.module.aligned .field-count_on_hand').hide().find('#id_count_on_hand').val('');
+        $('fieldset.module.aligned .field-on_demand').hide();
+    }
+
+    /** Make 'count_on_hand' read-only (don't hide) in variant rows if 'on_demand' is checked */
+    $('.dynamic-variant_set .field-on_demand input').change(function() {
+        var $tr = $(this).closest('tr');
+        var checked = $(this).prop('checked');
+        $tr.find('.field-count_on_hand input').prop('readonly', checked).val('');
     });
 });
 </script>

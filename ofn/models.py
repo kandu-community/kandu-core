@@ -45,7 +45,7 @@ class Variant(models.Model):
 
     sku = models.CharField(max_length=255, blank=True)
 
-    unit_value = models.FloatField()
+    unit_value = models.FloatField(null=True)
     unit_description = models.CharField(max_length=255, blank=True)
 
     # If on_demand is True, count_on_hand becomes NULL
@@ -53,7 +53,7 @@ class Variant(models.Model):
     on_demand = models.BooleanField(default=False)
 
     price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    cost_price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    cost_price = models.DecimalField(max_digits=8, decimal_places=2, default=0, null=True)
 
     updated_at = models.DateTimeField()
 

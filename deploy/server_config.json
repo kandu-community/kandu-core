@@ -1,0 +1,9 @@
+{
+	"DATABASE": {
+	    "NAME": "{env.project_name}",
+	    "USER": "kandu",
+	    "PASSWORD": "{env.database_password}"
+	},
+	"STATIC_ROOT": "{env.project_root}-static",
+	"MEDIA_ROOT": "{env.project_root}-media"
+}

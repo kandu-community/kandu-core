@@ -1,19 +1,21 @@
 # Deployment
 
+Automatic deployment and update is possible with Fabric script. To use it, you need to have at least `fabric`, `fabtools` and `jinja2` Python packages installed.
+
 To automatically deploy to a completely new empty server, use
 
 		fab setup:host=demo.kandu.co.za
 
 If you need to switch an existing server, which was been updated manually up to this point, to automatic update process, use
 
-		fab migrate_existing_server_at:host=demo.kandu.co.za,database_password=EgftsDh
-		fab move_files_to_new_location_at:host=demo.kandu.co.za
+		fab migrate_existing_server_on:host=demo.kandu.co.za,database_password=EgftsDh
+		fab move_files_to_new_location_on:host=demo.kandu.co.za
 
 To update code on a server, use
 
-		feb update_code_at:host=demo.kandu.co.za
+		feb update_code_on:host=demo.kandu.co.za
 
-You can also get rid of the need to enter password every time by pushing your SSH key to the server:
+You can also get rid of the need to enter the password every time by pushing your SSH key to server:
 
 		fab push_keys_to:host=demo.kandu.co.za
 

@@ -61,7 +61,7 @@ def setup(existing_server=False, database_password=None):
 				if not existing_server:
 					run('echo "from django.contrib.auth.models import User; User.objects.create_superuser(\'%s\', \'admin@example.com\', \'%s\')" | python manage.py shell' % (env.user, database_password))
 
-			run('chmod 777 -R %s' % env.code_root)
+			run('chmod 0755 -R %s' % env.project_root)
 			run('mkdir -p %s/%s-media' % (env.project_root, env.project_name))
 
 			configure_apache(existing_server)
@@ -85,7 +85,7 @@ def update_code_on():
 
 
 @task
-def migrate_existing_server_at(database_password=None):
+def migrate_existing_server_on(database_password=None):
 	if not database_password:
 		exit('Supply the current database password, please. For example, `fab migrate_existing_server_at:host=demo.kandu.co.za,database_password=EgftsDh`')
 
@@ -102,7 +102,7 @@ def push_keys_to():
 
 
 @task
-def move_files_to_new_location_at():
+def move_files_to_new_location_on():
 	old_project_root = '/opt'
 	old_code_root = os.path.join(old_project_root, env.project_name)
 
@@ -110,8 +110,8 @@ def move_files_to_new_location_at():
 	run('cp %s/forms/migrations/* %s/forms/migrations' % (old_code_root, env.code_root))
 	run('cp %s/config.json %s' % (old_code_root, env.code_root))
 
-	run('mv %s/%s-media/files %s/%s-media' % (old_project_root, env.project_name, env.project_root, env.project_name))
-	run('mv %s/%s-media/icons %s/%s-media' % (old_project_root, env.project_name, env.project_root, env.project_name))
+	run('cp -R %s/%s-media/icons %s/%s-media' % (old_project_root, env.project_name, env.project_root, env.project_name))
+	# run('mv %s/%s-media/files %s/%s-media' % (old_project_root, env.project_name, env.project_root, env.project_name))
 
 
 def install_system_deps():

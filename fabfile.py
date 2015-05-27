@@ -62,6 +62,7 @@ def setup(existing_server=False, database_password=None):
 					run('echo "from django.contrib.auth.models import User; User.objects.create_superuser(\'%s\', \'admin@example.com\', \'%s\')" | python manage.py shell' % (env.user, database_password))
 
 			run('chmod 777 -R %s' % env.code_root)
+			run('mkdir -p %s/%s-media' % (env.project_root, env.project_name))
 
 			configure_apache(existing_server)
 			sudo('service httpd restart')
@@ -92,12 +93,25 @@ def migrate_existing_server_at(database_password=None):
 
 
 @task
-def push_key_to():
+def push_keys_to():
     keyfile = '/tmp/%s.pub' % env.user
     run('mkdir -p ~/.ssh && chmod 700 ~/.ssh')
     put('~/.ssh/id_rsa.pub', keyfile)
     run('cat %s >> ~/.ssh/authorized_keys' % keyfile)
     run('rm %s' % keyfile)
+
+
+@task
+def move_files_to_new_location_at():
+	old_project_root = '/opt'
+	old_code_root = os.path.join(old_project_root, env.project_name)
+
+	run('cp %s/forms/models.py %s/forms/' % (old_code_root, env.code_root))
+	run('cp %s/forms/migrations/* %s/forms/migrations' % (old_code_root, env.code_root))
+	run('cp %s/config.json %s' % (old_code_root, env.code_root))
+
+	run('mv %s/%s-media/files %s/%s-media' % (old_project_root, env.project_name, env.project_root, env.project_name))
+	run('mv %s/%s-media/icons %s/%s-media' % (old_project_root, env.project_name, env.project_root, env.project_name))
 
 
 def install_system_deps():

@@ -1,4 +1,3 @@
-
 # Deployment
 
 To automatically deploy to a completely new empty server, use
@@ -8,6 +7,7 @@ To automatically deploy to a completely new empty server, use
 If you need to switch an existing server, which was been updated manually up to this point, to automatic update process, use
 
 		fab migrate_existing_server_at:host=demo.kandu.co.za,database_password=EgftsDh
+		fab move_files_to_new_location_at:host=demo.kandu.co.za
 
 To update code on a server, use
 
@@ -15,7 +15,7 @@ To update code on a server, use
 
 You can also get rid of the need to enter password every time by pushing your SSH key to the server:
 
-		fab push_key_to:host=demo.kandu.co.za
+		fab push_keys_to:host=demo.kandu.co.za
 
 
 ## Manual deployment

@@ -65,12 +65,15 @@ ROOT_URLCONF = 'kandu.urls'
 
 WSGI_APPLICATION = 'kandu.wsgi.application'
 
+import json
+server_config = json.load(open('server_config.json'))
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
-import dj_database_url
-DATABASES = {'default': dj_database_url.config(default='postgres://localhost')}
+database_config = {'ENGINE': 'django.contrib.gis.db.backends.postgis'}
+database_config.update(server_config['DATABASE'])
+DATABASES = {'default': database_config}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -97,8 +100,8 @@ CONFIG_FILE = os.path.join(BASE_DIR, 'config.json')
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT =  os.environ.get('MEDIA_ROOT', os.path.join(BASE_DIR, 'mediafiles'))
-MEDIA_URL = os.environ.get('MEDIA_URL', '/media/')
+STATIC_ROOT = server_config.get('STATIC_ROOT', '/opt/kandu-static/')
+MEDIA_ROOT =  server_config.get('MEDIA_ROOT', '/opt/kandu-media/')
 
 TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
 
@@ -144,9 +147,9 @@ LOGGING = {
     }
 }
 
-GEOIP_LIBRARY_PATH = "/home/inomma/lib/libGeoIP.so"
+GEOIP_LIBRARY_PATH = server_config.get('GEOIP_LIBRARY_PATH', '/usr/lib64/libGeoIP.so')
 GMAPI_JQUERY_URL = "None" # workaround for jQuery conflict
-GMAPI_MAPS_URL = '//maps.google.com/maps/api/js?sensor=false'
+GMAPI_MAPS_URL = '//maps.google.com/maps/api/js?sensor=false' # a protocol-relative url, to support both http and https
 
 RAVEN_CONFIG = {
     'dsn': 'https://bdd1868a423340acbfb1a17d557b8312:da41c8aa10b6430587de1f59a16ebe9c@app.getsentry.com/32300',

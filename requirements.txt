@@ -11,4 +11,5 @@ django-autocomplete-light
 django-extra-views
 sorl-thumbnail
 raven
-dj-database-url
+fabric
+fabtools

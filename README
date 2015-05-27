@@ -1,4 +1,24 @@
+
 # Deployment
+
+To automatically deploy to a completely new empty server, use
+
+		fab setup:host=demo.kandu.co.za
+
+If you need to switch an existing server, which was been updated manually up to this point, to automatic update process, use
+
+		fab migrate_existing_server_at:host=demo.kandu.co.za,database_password=EgftsDh
+
+To update code on a server, use
+
+		feb update_code_at:host=demo.kandu.co.za
+
+You can also get rid of the need to enter password every time by pushing your SSH key to the server:
+
+		fab push_key_to:host=demo.kandu.co.za
+
+
+## Manual deployment
 
 This manual assumes that one has working postgresql and apache installations.
 
@@ -94,8 +114,6 @@ This manual assumes that one has working postgresql and apache installations.
 Unfortunately, it's not possible to write a universal
 step-by-step manual for any Linux distro/installation.
 This manual has been writen for CentOS 6 installed on odk.kandu.co.za
-
-Configure the DATABASES setting and run `python manage.py syncdb`.
 
 In order to "file" fields to work, set MEDIA_ROOT according to your environment.
 

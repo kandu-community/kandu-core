@@ -6,11 +6,12 @@ from fabtools import python
 from fabric.operations import *
 from fabric.context_managers import shell_env
 
+env.user = 'narek'
+
 # project settings:
 env.project_name = 'kandu'
-env.project_root = '~'
+env.project_root = '/home/' + env.user
 env.source_repo = 'https://kandu:1qaz2wsx@xp-dev.com/git/kandu'
-env.user = 'narek'
 
 env.virtualenv_path = os.path.join(env.project_root, env.project_name + '-venv')
 env.code_root = os.path.join(env.project_root, env.project_name)
@@ -22,7 +23,9 @@ def setup(existing_server=False, database_password=None):
 	env.database_password = database_password or generate_password()
 
 	with cd(env.project_root):
-		run('git clone %s %s' % (env.source_repo, env.project_name))
+		if not files.exists(env.code_root):
+			run('git clone %s %s' % (env.source_repo, env.project_name))
+
 		with cd(env.code_root):
 			if not existing_server: install_system_deps()
 
@@ -43,14 +46,14 @@ def setup(existing_server=False, database_password=None):
 
 				if existing_server:
 					if env.database_password != database_password: # need to change the password
-						sudo('psql -U postgres -c "alter user kandu with password %s;"' % env.database_password)
+						sudo('psql -U postgres -c "alter user kandu with password \'%s\';"' % env.database_password)
 				else:
 					run('psql -U postgres -c "CREATE ROLE kandu WITH PASSWORD \'%s\' NOSUPERUSER CREATEDB NOCREATEROLE LOGIN;"' % database_password)
 					run('psql -U postgres -c "CREATE DATABASE %s WITH OWNER=kandu TEMPLATE=template0 ENCODING=\'utf-8\';"' % env.project_name)
 					run('psql %s -U postgres -c "CREATE EXTENSION postgis;"' % env.project_name)
 					run('psql %s -U postgres -c "CREATE EXTENSION postgis_topology;"' % env.project_name)
 
-				files.upload_template('deploy/server_config.json', './server_config.json', {'env': env})
+				files.upload_template('deploy/server_config.json', 'server_config.json', {'env': env}, use_jinja=True)
 
 				run('python manage.py syncdb --migrate --noinput')
 				run('python manage.py collectstatic --noinput')
@@ -58,10 +61,13 @@ def setup(existing_server=False, database_password=None):
 				if not existing_server:
 					run('echo "from django.contrib.auth.models import User; User.objects.create_superuser(\'%s\', \'admin@example.com\', \'%s\')" | python manage.py shell' % (env.user, database_password))
 
-			configure_apache(existing_server)
-			run('service httpd restart')
+			run('chmod 777 -R %s' % env.code_root)
 
-			print 'Deployment to %s is done.\nDjango superuser has\n\tusername: %s\n\tpassword:%s' % (env.host, env.user, database_password)
+			configure_apache(existing_server)
+			sudo('service httpd restart')
+
+			if not existing_server:
+				print 'Deployment to %s is done.\nDjango superuser has\n\tusername: %s\n\tpassword: %s' % (env.host, env.user, database_password)
 
 
 @task
@@ -73,8 +79,8 @@ def update_code_on():
 			run('pip install -r requirements.txt')
 			run('python manage.py collectstatic --noinput')
 
-	run('service httpd restart')
-	# run('touch wsgi.py')
+	# run('service httpd restart')
+	run('touch wsgi.py')
 
 
 @task
@@ -114,7 +120,7 @@ def configure_apache(existing_server=False):
 		with cd('mod_wsgi-3.5'):
 			sudo('./configure --with-python=%s/bin/python2.7' % env.virtualenv_path)
 
-	files.upload_template('deploy/vhosts.conf', '/etc/httpd/conf.d/vhosts.conf', {'env': env}, user_sudo=True)
+	files.upload_template('deploy/vhosts.conf', '/etc/httpd/conf.d/vhosts.conf', {'env': env}, use_sudo=True, use_jinja=True)
 
 
 def generate_password():

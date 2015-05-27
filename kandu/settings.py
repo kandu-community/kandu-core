@@ -66,7 +66,7 @@ ROOT_URLCONF = 'kandu.urls'
 WSGI_APPLICATION = 'kandu.wsgi.application'
 
 import json
-server_config = json.load(open('server_config.json'))
+server_config = json.load(open(os.path.join(BASE_DIR, 'server_config.json')))
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases

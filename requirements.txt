@@ -13,3 +13,4 @@ sorl-thumbnail
 raven
 fabric
 fabtools
+jinja2

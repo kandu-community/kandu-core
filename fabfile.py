@@ -110,8 +110,8 @@ def move_files_to_new_location_on():
 	run('cp %s/forms/migrations/* %s/forms/migrations' % (old_code_root, env.code_root))
 	run('cp %s/config.json %s' % (old_code_root, env.code_root))
 
-	run('cp -R %s/%s-media/icons %s/%s-media' % (old_project_root, env.project_name, env.project_root, env.project_name))
-	# run('mv %s/%s-media/files %s/%s-media' % (old_project_root, env.project_name, env.project_root, env.project_name))
+	run('cp -R %s/%s-media/icons %s/%s-media' % (old_project_root, env.project_name, env.project_root, env.project_name), warn_only=True)
+	run('mv %s/%s-media/files %s/%s-media' % (old_project_root, env.project_name, env.project_root, env.project_name), warn_only=True)
 
 
 def install_system_deps():

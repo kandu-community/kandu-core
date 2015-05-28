@@ -19,7 +19,7 @@ env.virtualenv = 'source %s/bin/activate' % env.virtualenv_path
 
 
 @task
-def setup(existing_server=False, database_password=None):
+def setup(existing_server=False, database_password=None, https=False):
 	env.database_password = database_password or generate_password()
 
 	with cd(env.project_root):
@@ -61,10 +61,10 @@ def setup(existing_server=False, database_password=None):
 				if not existing_server:
 					run('echo "from django.contrib.auth.models import User; User.objects.create_superuser(\'%s\', \'admin@example.com\', \'%s\')" | python manage.py shell' % (env.user, database_password))
 
-			run('chmod 0755 -R %s' % env.project_root)
+			run('chmod 0755 -R %s' % env.project_root, warn_only=True)
 			run('mkdir -p %s/%s-media' % (env.project_root, env.project_name))
 
-			configure_apache(existing_server)
+			configure_apache(existing_server, https)
 			sudo('service httpd restart')
 
 			if not existing_server:
@@ -111,7 +111,7 @@ def move_files_to_new_location_on():
 	run('cp %s/config.json %s' % (old_code_root, env.code_root))
 
 	run('cp -R %s/%s-media/icons %s/%s-media' % (old_project_root, env.project_name, env.project_root, env.project_name), warn_only=True)
-	run('mv %s/%s-media/files %s/%s-media' % (old_project_root, env.project_name, env.project_root, env.project_name), warn_only=True)
+	sudo('mv %s/%s-media/files %s/%s-media' % (old_project_root, env.project_name, env.project_root, env.project_name), warn_only=True)
 
 
 def install_system_deps():
@@ -127,14 +127,14 @@ def install_system_deps():
 			if not res.succeeded:
 				utils.abort('Looks like host %s is not supported by this script: it has neither yum or apt-get.\nApplication code is at %s, no other changes were made. Goodbye.' % (env.host, env.code_root))
 
-def configure_apache(existing_server=False):
+def configure_apache(existing_server=False, https=False):
 	if not existing_server:
 		run('wget https://github.com/GrahamDumpleton/mod_wsgi/archive/3.5.tar.gz -O mod_wsgi-3.5.tar.gz', quiet=True)
 		run('tar zxvf mod_wsgi-3.5.tar.gz')
 		with cd('mod_wsgi-3.5'):
 			sudo('./configure --with-python=%s/bin/python2.7' % env.virtualenv_path)
 
-	files.upload_template('deploy/vhosts.conf', '/etc/httpd/conf.d/vhosts.conf', {'env': env}, use_sudo=True, use_jinja=True)
+	files.upload_template('deploy/vhosts.conf', '/etc/httpd/conf.d/vhosts.conf', {'env': env, 'support_https': https}, use_sudo=True, use_jinja=True)
 
 
 def generate_password():

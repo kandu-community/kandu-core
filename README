@@ -11,11 +11,15 @@ If you need to switch an existing server, which was been updated manually up to 
 		fab migrate_existing_server_on:host=demo.kandu.co.za,database_password=EgftsDh
 		fab move_files_to_new_location_on:host=demo.kandu.co.za
 
-To update code on a server, use
+To setup a server with HTTPS support, add https argument, for example
+
+		fab migrate_existing_server_on:host=demo.kandu.co.za,database_password=EgftsDh,https=True
+
+To update code on the server, use
 
 		feb update_code_on:host=demo.kandu.co.za
 
-You can also get rid of the need to enter the password every time by pushing your SSH key to server:
+You can also get rid of the need to enter the password every time by pushing your SSH key to the server:
 
 		fab push_keys_to:host=demo.kandu.co.za
 

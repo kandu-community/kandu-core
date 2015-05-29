@@ -13,7 +13,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         forms = []
         for user in User.objects.all():
-            if user.profile.token:
+            if hasattr(user, 'profile') and user.profile.token:
                 forms.append(self.generate_form(user))
 
         config = []

@@ -12,12 +12,12 @@ class ProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args,**kwargs)
 
-        params = { 'token': self.instance.token }
-        r = requests.get(settings.OFN['url'] + '/api/enterprises/managed', params=params)
+        # params = { 'token': self.instance.token }
+        # r = requests.get(settings.OFN['url'] + '/api/enterprises/managed', params=params)
         
-        if r.status_code == 200:
-            choices = [[ int(e['id']), e['name'] ] for e in r.json()]
-            self.fields['supplier_id'] = forms.IntegerField(widget=forms.Select(choices=choices), label='Supplier')
+        # if r.status_code == 200:
+        #     choices = [[ int(e['id']), e['name'] ] for e in r.json()]
+        #     self.fields['supplier_id'] = forms.IntegerField(widget=forms.Select(choices=choices), label='Supplier')
 
     class Meta:
         model = Profile
@@ -38,12 +38,12 @@ class ProductForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProductForm, self).__init__(*args, **kwargs)
 
-        params = { 'token': settings.OFN['token'] }
-        r = requests.get(settings.OFN['url'] + '/api/taxonomies/%s' % settings.OFN['taxonomy_id'] + '/taxons', params=params)
+        # params = { 'token': settings.OFN['token'] }
+        # r = requests.get(settings.OFN['url'] + '/api/taxonomies/%s' % settings.OFN['taxonomy_id'] + '/taxons', params=params)
         
-        if r.status_code == 200:
-            choices = [[ int(e['id']), e['name'] ] for e in r.json()]
-            self.fields['primary_taxon_id'] = forms.IntegerField(widget=forms.Select(choices=choices), label='Taxon')
+        # if r.status_code == 200:
+        #     choices = [[ int(e['id']), e['name'] ] for e in r.json()]
+        #     self.fields['primary_taxon_id'] = forms.IntegerField(widget=forms.Select(choices=choices), label='Taxon')
 
     class Meta:
         model = Product

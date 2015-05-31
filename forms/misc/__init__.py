@@ -8,6 +8,8 @@ try:
 	from model_utils.managers import InheritanceManager
 	from django.core.urlresolvers import reverse
 
+	from .. import fields as django_fields
+
 
 	class BaseFormModel(Model):
 		user = ForeignKey(User, related_name='user')
@@ -15,6 +17,7 @@ try:
 
 		objects = InheritanceManager()
 
+		cache_submissions_offline = False
 		show_on_map = False
 		is_editable = False
 		is_creatable = True
@@ -33,6 +36,17 @@ try:
 			except StopIteration:
 				return None
 			return field_name
+
+		def save(self, *args, **kwargs):
+			kwargs.pop('force_insert', None)
+
+			if not self.id:
+				super(BaseFormModel, self).save(*args, **kwargs)
+
+			for field in self.__class__._meta.fields:
+				if isinstance(field, django_fields.DjangoIdField):
+					setattr(self, field.name, field.generate_value(self))
+			return super(BaseFormModel, self).save(*args, **kwargs)
 
 		@classmethod
 		def verbose_name(cls):

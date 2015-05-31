@@ -15,7 +15,7 @@ from forms.misc import BaseFormModel
 from forms.utils import get_form_models, search_in_queryset
 import forms.models
 from permissions import IsOwnerOrStaff, HasPermission
-from serializers import BaseFormSerializer, CustomModelSerializer
+from serializers import BaseFormSerializer, CustomModelSerializer, UserSerializer
 
 class ModelFromUrlMixin(object):
 	'''
@@ -28,6 +28,7 @@ class ModelFromUrlMixin(object):
 	def initial(self, request, *args, **kwargs):
 		try:
 			self.model = getattr(forms.models, self.kwargs[self.model_url_kwarg])
+			self.queryset = self.model.objects.all() # Django REST demands this -_-
 		except KeyError:
 			pass
 		except AttributeError:
@@ -42,11 +43,12 @@ class ReadOnlyAndInlinesMixin(object):
 		class Meta:
 			model = self.model
 			read_only_fields = self.read_only_fields
-			depth = 1 if self.request.method in ('GET', 'OPTIONS') else 0 # NOTE: kinda dirty hack, better to override serializer instead
 
 		attrs = {
 			'Meta': Meta
 		}
+		if self.request.method == 'GET':
+			attrs['user'] = UserSerializer(read_only=True)
 		if self.model.inlines:
 			for inline_name in self.model.inlines:
 				class InlineSerializer(serializers.ModelSerializer):
@@ -76,7 +78,7 @@ class BaseFormList(StaffOmnividenceMixin, generics.ListAPIView):
 	List of all forms submitted by the current user.
 	'''
 
-	model = BaseFormModel
+	queryset = BaseFormModel.objects.all()
 	paginate_by = 20
 	permission_classes = (permissions.IsAuthenticated,)
 	serializer_class = BaseFormSerializer
@@ -94,9 +96,12 @@ class FormList(ModelFromUrlMixin, ReadOnlyAndInlinesMixin, StaffOmnividenceMixin
 	permission_classes = (permissions.IsAuthenticated, HasPermission)
 	model_serializer_class = CustomModelSerializer
 
-	def pre_save(self, obj):
+	def pre_save(self, obj): # NOTE: for REST framework 2.x
 		obj.user = self.request.user
 		super(FormList, self).pre_save(obj)
+
+	def perform_create(self, serializer): # for REST framework 3.x
+		serializer.save(user=self.request.user)
 
 class FormSearch(ModelFromUrlMixin, ReadOnlyAndInlinesMixin, StaffOmnividenceMixin, generics.ListAPIView):
 	paginate_by = 20

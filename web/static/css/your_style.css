@@ -17,3 +17,7 @@
  * - BODY
  * - CUSTOM STYLES
  */
+
+#login h4.paragraph-header {
+	font-size: 55px !important;
+}

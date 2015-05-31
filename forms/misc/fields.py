@@ -42,6 +42,13 @@ class Field(TreeMixin, DjangoRenderMixin, JSONRenderMixin, Base):
 
 		super(Field, self).__init__(*args, **kwargs)
 
+	def get_django_args(self):
+		self.validate()
+		return super(Field, self).get_django_args()
+
+	def validate(self):
+		pass
+
 	@classmethod
 	def get_type(cls):
 		class_name = cls.__name__
@@ -199,7 +206,7 @@ class Choice(DefaultStringMixin, ChoicesMixin, Field):
 	max_length = 200
 	_django_class = 'CharField'
 
-class MultiChoice(DefaultStringMixin, ChoicesMixin, Field):
+class MultiChoice(DefaultStringMixin, NullValueMixin, ChoicesMixin, Field):
 	max_length = 200
 	_django_class = 'MultiSelectField'
 
@@ -220,4 +227,34 @@ class Coordinates(NullValueMixin, Field):
 		if not django_args.get('default', None):
 			from django.contrib.gis.geos import Point
 			django_args['default'] = Point(0,0)
+		return django_args
+
+class IdField(DefaultStringMixin, Field):
+	max_length = 100
+	_django_class = 'DjangoIdField'
+	from_fields = list()
+
+	def validate(self):
+		actual_fields = [field.name for field in self.parent_form()._fields]
+		for field_name in self.from_fields:
+			if field_name not in actual_fields:
+				raise ValueError('"from_fields" of "%s" field mentions "%s", but there is no such field' 
+					% (self.name, field_name))
+
+	def render_schema(self):
+		schema = super(IdField, self).render_schema()
+		# schema['from_fields'] = {
+		# 	'type': 'List',
+		# 	'itemType': {
+		# 		'type': 'Select', 
+		# 		'options': [field.name for field in self.parent_form()._fields]
+		# 	}
+		# }
+		schema['from_fields'] = 'List'
+		return schema
+
+	def get_django_args(self):
+		django_args = super(IdField, self).get_django_args()
+		django_args['from_fields'] = [generate_name(verbose_name) for verbose_name in self.from_fields]
+		django_args['editable'] = False
 		return django_args

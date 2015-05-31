@@ -64,6 +64,8 @@ ROOT_URLCONF = 'kandu.urls'
 
 WSGI_APPLICATION = 'kandu.wsgi.application'
 
+import dotenv
+dotenv.read_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -71,9 +73,9 @@ WSGI_APPLICATION = 'kandu.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'kandu',
-        'USER': 'kandu',
-        'PASSWORD': 'kandu'
+        'NAME': os.environ.get('DB_NAME', 'kandu'),
+        'USER': os.environ.get('DB_USER', 'kandu'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', '')
     }
 }
 
@@ -101,8 +103,9 @@ CONFIG_FILE = os.path.join(BASE_DIR, 'config.json')
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-STATIC_ROOT = '/home/inomma/webapps/kandu_static/'
-MEDIA_ROOT = '/home/inomma/webapps/kandu_media/'
+
+STATIC_ROOT = os.environ.get('STATIC_ROOT', '/opt/kandu-static/')
+MEDIA_ROOT =  os.environ.get('MEDIA_ROOT', '/opt/kandu-media/')
 
 TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
 
@@ -123,7 +126,10 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-    )
+    ),
+    'PAGINATE_BY': 10,                 # Default to 10
+    'PAGINATE_BY_PARAM': 'page_size',  # Allow client to override, using `?page_size=xxx`.
+    'MAX_PAGINATE_BY': 1000             # Maximum limit allowed when using `?page_size=xxx`.
 }
 
 import sys
@@ -145,8 +151,9 @@ LOGGING = {
     }
 }
 
-GEOIP_LIBRARY_PATH = "/home/inomma/lib/libGeoIP.so"
+GEOIP_LIBRARY_PATH = os.environ.get('GEOIP_LIBRARY_PATH', '/usr/lib64/libGeoIP.so')
 GMAPI_JQUERY_URL = "None" # workaround for jQuery conflict
+GMAPI_MAPS_URL = '//maps.google.com/maps/api/js?sensor=false' # a protocol-relative url, to support both http and https
 
 RAVEN_CONFIG = {
     'dsn': 'https://bdd1868a423340acbfb1a17d557b8312:da41c8aa10b6430587de1f59a16ebe9c@app.getsentry.com/32300',

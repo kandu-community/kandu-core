@@ -30,9 +30,9 @@
     "image/x-icon">
     <link href="/static/img/favicon/favicon.ico" rel="icon" type="image/x-icon">
     <!-- GOOGLE FONT -->
-    <link href=
-    "http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700"
-    rel="stylesheet"><!-- Specifying a Webpage Icon for Web Clip 
+    <link href="/static/css/opensans.css" rel="stylesheet">
+    <!-- <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700" rel="stylesheet"> -->
+    <!-- Specifying a Webpage Icon for Web Clip 
          Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->
     <link href="/static/img/splash/sptouch-icon-iphone.png" rel="apple-touch-icon">
     <link href="/static/img/splash/touch-icon-ipad.png" rel="apple-touch-icon" sizes=
@@ -53,7 +53,8 @@
     rel="apple-touch-startup-image">
     <link href="/static/img/splash/iphone.png" media=
     "screen and (max-device-width: 320px)" rel="apple-touch-startup-image">
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+        <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script> -->
+        <script src="/static/js/jquery.min.js"></script>
         <script>
             if (!window.jQuery) {
                 document.write('<script src="/static/js/jquery-2.0.2.min.js"><\/script>');
@@ -193,7 +194,8 @@
         {% include 'autocomplete_light/static.html' %}
 
         <!-- Link to Google CDN's jQuery + jQueryUI; fall back to local -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+        <script src="/static/js/jquery-ui.min.js"></script>
+        <!-- <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script> -->
         <script>
             if (!window.jQuery.ui) {
                 document.write('<script src="js/libs/jquery-ui-1.10.3.min.js"><\/script>');
@@ -243,7 +245,7 @@
         <![endif]-->
 
         <!-- MAIN APP JS FILE -->
-        <script src="/static/js/app.js"></script>
+        <script src="/static/js/application.js"></script>
 
         <!-- PAGE RELATED PLUGIN(S) 
         <script src="..."></script>-->
@@ -259,6 +261,8 @@
         })
 
         </script>
+
+        <script src="/static/js/app.js"></script>
     	{% endblock %}
     </body>
 </html>

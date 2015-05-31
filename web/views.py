@@ -17,7 +17,7 @@ from gmapi import maps
 from gmapi.forms.widgets import GoogleMap
 import autocomplete_light
 from django.db import models
-from django.contrib.gis.geoip import GeoIP
+from django.contrib.gis.geoip import GeoIP, GeoIPException
 from django.contrib.gis.db.models import PointField
 from django.contrib.gis.measure import Distance
 from django.contrib.gis.geos import Point
@@ -63,6 +63,14 @@ class ModelFromUrlMixin(object):
 					fk_name = self.parent_field_for_inline(inline_model)
 					exclude = ('user',)
 					extra = 1 # since we got dynamic "add another"
+
+					def formfield_callback(self, model_field):
+						from django.db.models import DateField
+
+						if isinstance(model_field, DateField):
+							return model_field.formfield(widget=DatepickerWidget)
+						else:
+							return model_field.formfield()
 
 				self.inlines.append(FormModelInline)
 
@@ -200,13 +208,16 @@ class BaseFormList(StaffOmnividenceMixin, ListView):
 
 class MapView(MapMixin, ListView):
 	template_name = 'web/map_view.html'
-	max_objects = 10
+	max_objects = 500
 
 	def get_queryset(self):
 		ip_address = self.request.META.get('REMOTE_ADDR', None)
 
-		gi = GeoIP(settings.STATIC_ROOT)
-		location = gi.lon_lat(ip_address)
+		try:
+			gi = GeoIP(settings.STATIC_ROOT)
+			location = gi.lon_lat(ip_address)
+		except GeoIPException:
+			location = None
 
 		object_list = []
 		for form_name, form_model in get_form_models(for_user=self.request.user):

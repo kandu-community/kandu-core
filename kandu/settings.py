@@ -65,15 +65,20 @@ ROOT_URLCONF = 'kandu.urls'
 
 WSGI_APPLICATION = 'kandu.wsgi.application'
 
-import json
-server_config = json.load(open(os.path.join(BASE_DIR, 'server_config.json')))
+import dotenv
+dotenv.read_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
-database_config = {'ENGINE': 'django.contrib.gis.db.backends.postgis'}
-database_config.update(server_config['DATABASE'])
-DATABASES = {'default': database_config}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.environ.get('DB_NAME', 'kandu'),
+        'USER': os.environ.get('DB_USER', 'kandu'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', '')
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -100,8 +105,8 @@ CONFIG_FILE = os.path.join(BASE_DIR, 'config.json')
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = server_config.get('STATIC_ROOT', '/opt/kandu-static/')
-MEDIA_ROOT =  server_config.get('MEDIA_ROOT', '/opt/kandu-media/')
+STATIC_ROOT = os.environ.get('STATIC_ROOT', '/opt/kandu-static/')
+MEDIA_ROOT =  os.environ.get('MEDIA_ROOT', '/opt/kandu-media/')
 
 TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
 
@@ -147,7 +152,7 @@ LOGGING = {
     }
 }
 
-GEOIP_LIBRARY_PATH = server_config.get('GEOIP_LIBRARY_PATH', '/usr/lib64/libGeoIP.so')
+GEOIP_LIBRARY_PATH = os.environ.get('GEOIP_LIBRARY_PATH', '/usr/lib64/libGeoIP.so')
 GMAPI_JQUERY_URL = "None" # workaround for jQuery conflict
 GMAPI_MAPS_URL = '//maps.google.com/maps/api/js?sensor=false' # a protocol-relative url, to support both http and https
 

@@ -5,6 +5,7 @@ from fabric import utils
 from fabtools import python
 from fabric.operations import *
 from fabric.context_managers import shell_env
+import jinja2
 
 env.user = 'narek'
 
@@ -16,7 +17,8 @@ env.source_repo = 'https://kandu:1qaz2wsx@xp-dev.com/git/kandu'
 env.virtualenv_path = os.path.join(env.project_root, env.project_name + '-venv')
 env.code_root = os.path.join(env.project_root, env.project_name)
 env.virtualenv = 'source %s/bin/activate' % env.virtualenv_path
-
+env.static_root = env.code_root + '-static'
+env.media_root = env.code_root + '-media'
 
 @task
 def setup(existing_server=False, database_password=None, https=False):
@@ -53,7 +55,7 @@ def setup(existing_server=False, database_password=None, https=False):
 					run('psql %s -U postgres -c "CREATE EXTENSION postgis;"' % env.project_name)
 					run('psql %s -U postgres -c "CREATE EXTENSION postgis_topology;"' % env.project_name)
 
-				files.upload_template('deploy/server_config.json', 'server_config.json', {'env': env}, use_jinja=True)
+				files.upload_template('.env.dist', '.env', {'env': env}, use_jinja=True)
 
 				run('python manage.py syncdb --migrate --noinput')
 				run('python manage.py collectstatic --noinput')
@@ -112,6 +114,17 @@ def move_files_to_new_location_on():
 
 	run('cp -R %s/%s-media/icons %s/%s-media' % (old_project_root, env.project_name, env.project_root, env.project_name), warn_only=True)
 	sudo('mv %s/%s-media/files %s/%s-media' % (old_project_root, env.project_name, env.project_root, env.project_name), warn_only=True)
+
+
+@task
+def setup_locally(database_password=None):
+	env.database_password = database_password or ''
+	local_media_root = os.path.join('.', 'data', 'media')
+	local('mkdir -p %s' % local_media_root)
+	env.media_root = local_media_root
+	template = jinja2.Environment(loader=jinja2.FileSystemLoader('.')).get_template('.env.dist')     
+	with open('.env', 'w') as dotenv_file:
+		dotenv_file.write(template.render({'env': env}))
 
 
 def install_system_deps():

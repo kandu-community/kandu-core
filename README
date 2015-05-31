@@ -1,3 +1,11 @@
+# Development
+
+To setup a local development enviroment, run
+
+		fab setup_locally:database_password=EgftsDh
+
+As for now, it does a single thing: creates .env file.
+
 # Deployment
 
 Automatic deployment and update is possible with Fabric script. To use it, you need to have at least `fabric`, `fabtools` and `jinja2` Python packages installed.

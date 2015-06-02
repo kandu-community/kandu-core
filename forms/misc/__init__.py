@@ -53,7 +53,11 @@ try:
 			return cls._meta.verbose_name.title()
 
 		def label_fields_as_str(self):
-			return u', '.join( unicode(getattr(self, field_name)) for field_name in self.label_fields if hasattr(self, field_name) and getattr(self, field_name) != None )
+			try:
+				fields_str = u', '.join( unicode(getattr(self, field_name)) for field_name in self.label_fields if hasattr(self, field_name) and getattr(self, field_name) != None )
+				return fields_str if fields_str != '' else self.__class__.verbose_name()
+			except AttributeError:
+				return self.__class__.verbose_name()
 
 		def __unicode__(self):
 			try:

@@ -52,9 +52,12 @@ try:
 		def verbose_name(cls):
 			return cls._meta.verbose_name.title()
 
+		def label_fields_as_str(self):
+			return u', '.join( unicode(getattr(self, field_name)) for field_name in self.label_fields if hasattr(self, field_name) and getattr(self, field_name) != None )
+
 		def __unicode__(self):
 			try:
-				return u', '.join( unicode(getattr(self, field_name)) for field_name in self.label_fields if hasattr(self, field_name) and getattr(self, field_name) != None )
+				return self.__class__.verbose_name() + ': ' + self.label_fields_as_str()
 			except AttributeError:
 				return self.__class__.verbose_name()
 

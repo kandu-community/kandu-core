@@ -21,10 +21,10 @@
 					<td>
 						{% if filled_form.is_editable %}
 						<a href="{% url 'web_update' model_name=filled_form.model_name pk=filled_form.pk %}">
-							{{ filled_form }}
+							{{ filled_form.label_fields_as_str }}
 						</a>
 						{% else %}
-							{{ filled_form }}
+							{{ filled_form.label_fields_as_str }}
 						{% endif %}
 						<td>
 							{{ filled_form.verbose_name }}

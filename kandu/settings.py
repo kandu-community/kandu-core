@@ -153,7 +153,6 @@ LOGGING = {
 }
 
 GEOIP_LIBRARY_PATH = os.environ.get('GEOIP_LIBRARY_PATH', '/usr/lib64/libGeoIP.so')
-#GEOIP_LIBRARY_PATH = /usr/lib64/libGeoIP.so
 GMAPI_JQUERY_URL = "None" # workaround for jQuery conflict
 GMAPI_MAPS_URL = '//maps.google.com/maps/api/js?sensor=false' # a protocol-relative url, to support both http and https
 POSTGIS_VERSION = (2, 1, 3)

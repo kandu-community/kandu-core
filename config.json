@@ -683,5 +683,43 @@
             }
         ], 
         "name": "Level1 Agroecology"
+    }, 
+    {
+        "category": "Produce", 
+        "is_editable": true, 
+        "cache_submissions_offline": false, 
+        "name": "Stock", 
+        "is_creatable": true, 
+        "inlines": [], 
+        "fields": [
+            {
+                "name": "Product", 
+                "required": true, 
+                "choices": {
+                    "312_10": "Tomatoes - None ", 
+                    "311_9": "Potatoes - None ", 
+                    "312_12": "Tomatoes - 1.0 big bag", 
+                    "307_6": "Fuji Apple - None ", 
+                    "308_7": "Beef - 5kg Trays - None ", 
+                    "309_8": "Carrots - None ", 
+                    "310_11": "Fujiyama - 3000.0 ", 
+                    "310_14": "Fujiyama - 0.0 "
+                }, 
+                "max_length": 200, 
+                "label_field": true, 
+                "type": "choice"
+            }, 
+            {
+                "default": 0, 
+                "type": "number", 
+                "required": true, 
+                "label_field": true, 
+                "name": "Quantity"
+            }
+        ], 
+        "show_on_map": true, 
+        "user_groups": [
+            "basic"
+        ]
     }
 ]

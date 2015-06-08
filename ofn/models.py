@@ -35,7 +35,7 @@ class Product(models.Model):
     updated_at = models.DateTimeField()
 
     def __unicode__(self):
-        return self.name
+        return self.name.strip()
 
 class Variant(models.Model):
     product = models.ForeignKey(Product)
@@ -58,4 +58,4 @@ class Variant(models.Model):
     updated_at = models.DateTimeField()
 
     def __unicode__(self):
-        return self.unit_description
+        return '%s %s' % (self.unit_value, self.unit_description.strip())

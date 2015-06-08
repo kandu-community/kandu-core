@@ -23,7 +23,7 @@ class Command(BaseCommand):
             config = json.loads(source)
 
         # First remove any existing stock movement forms so we don't duplicate forms
-        new_config = [form for form in config if not form['name'].startswith('Stock Movement')]
+        new_config = [form for form in config if not form['name'].startswith('Stock')]
 
         # Slide the stock movement forms onto the end
         new_config.extend(forms)
@@ -33,20 +33,22 @@ class Command(BaseCommand):
             config_file.write(source)
 
     def generate_form(self, user):
-        product_choices = [ p.name for p in user.product_set.all() ]
-        product_choices.sort()
-        product_choices = list(set(product_choices))
+        variant_choices = {}
+
+        for p in user.product_set.all():
+            for v in p.variant_set.all():
+                variant_choices['%s_%s' % (p.id, v.id)] = '%s - %s' % (p, v)
 
         form_schema = {
             'category': 'Produce',
-            'name': 'Stock Movement',
+            'name': 'Stock',
             'is_creatable': True,
             'fields': [
                 {
                     "label_field": True,
                     "name": "Product",
                     "required": True,
-                    "choices": product_choices,
+                    "choices": variant_choices,
                     "max_length": 200,
                     "type": "choice",
                 },

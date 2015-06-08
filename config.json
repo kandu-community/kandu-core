@@ -3,9 +3,9 @@
         "category": "Registration", 
         "fields": [
             {
-                "type": "choice", 
-                "required": true, 
                 "label_field": true, 
+                "required": true, 
+                "type": "choice", 
                 "name": "Data Collector", 
                 "choices": [
                     "Gabriel Mngoma", 
@@ -26,9 +26,9 @@
                 ]
             }, 
             {
-                "type": "number", 
-                "required": true, 
                 "label_field": true, 
+                "required": true, 
+                "type": "number", 
                 "name": "Ward Number"
             }, 
             {
@@ -121,10 +121,6 @@
                 "type": "foreign-key"
             }, 
             {
-                "hint": "Where does most of the water for this garden come from?", 
-                "required": true, 
-                "type": "choice", 
-                "name": "Primary Water Source", 
                 "choices": [
                     "Municipal", 
                     "Pumped from river", 
@@ -133,7 +129,11 @@
                     "Borehole", 
                     "Rainfall(not stored)", 
                     "Other"
-                ]
+                ], 
+                "required": true, 
+                "type": "choice", 
+                "name": "Primary Water Source", 
+                "hint": "Where does most of the water for this garden come from?"
             }, 
             {
                 "type": "text", 
@@ -143,34 +143,30 @@
                 }
             }, 
             {
-                "hint": "How many meters from the garden to the water source?", 
-                "type": "choice", 
-                "name": "Distance From Source", 
                 "choices": [
                     "0-20m", 
                     "20-100m", 
                     "100-500m", 
                     "more than 500m"
-                ]
+                ], 
+                "type": "choice", 
+                "name": "Distance From Source", 
+                "hint": "How many meters from the garden to the water source?"
             }, 
             {
-                "hint": "How is water for this garden stored?", 
-                "required": true, 
-                "type": "multi-choice", 
-                "name": "Water Storage", 
                 "choices": [
                     "Dam", 
                     "Tanks", 
                     "Drums", 
                     "Buckets", 
                     "None"
-                ]
+                ], 
+                "required": true, 
+                "type": "multi-choice", 
+                "name": "Water Storage", 
+                "hint": "How is water for this garden stored?"
             }, 
             {
-                "hint": "How many litres of water can be stored for use in this garden?", 
-                "required": true, 
-                "type": "choice", 
-                "name": "Water Storage Size", 
                 "choices": [
                     "none", 
                     "Less than 100lt", 
@@ -179,13 +175,13 @@
                     "500-1000lt", 
                     "1000-5000lt", 
                     "More than 5000lt"
-                ]
+                ], 
+                "required": true, 
+                "type": "choice", 
+                "name": "Water Storage Size", 
+                "hint": "How many litres of water can be stored for use in this garden?"
             }, 
             {
-                "hint": "How is this garden irrigated?", 
-                "required": true, 
-                "type": "multi-choice", 
-                "name": "Irrigation", 
                 "choices": [
                     "Watering can", 
                     "Hosepipe", 
@@ -193,7 +189,11 @@
                     "Flood Irrigation", 
                     "Only Rainfall", 
                     "Other"
-                ]
+                ], 
+                "required": true, 
+                "type": "multi-choice", 
+                "name": "Irrigation", 
+                "hint": "How is this garden irrigated?"
             }, 
             {
                 "type": "text", 
@@ -225,15 +225,15 @@
                 ]
             }, 
             {
-                "hint": "Is the garden located in a wetland, eg a floodplain?", 
-                "required": true, 
-                "type": "choice", 
-                "name": "Wetland", 
                 "choices": [
                     "Yes", 
                     "No", 
                     "Unknown"
-                ]
+                ], 
+                "required": true, 
+                "type": "choice", 
+                "name": "Wetland", 
+                "hint": "Is the garden located in a wetland, eg a floodplain?"
             }, 
             {
                 "required": true, 
@@ -246,29 +246,29 @@
                 ]
             }, 
             {
-                "hint": "What measures are in place to controll soil erosion?", 
-                "required": true, 
-                "type": "multi-choice", 
-                "name": "Erosion Control", 
                 "choices": [
                     "Terrace", 
                     "Swaling", 
                     "Stone Wall", 
                     "None"
-                ]
-            }, 
-            {
-                "hint": "How is this garden currently fertilised?", 
+                ], 
                 "required": true, 
                 "type": "multi-choice", 
-                "name": "Fertilising", 
+                "name": "Erosion Control", 
+                "hint": "What measures are in place to controll soil erosion?"
+            }, 
+            {
                 "choices": [
                     "Compost", 
                     "Kraal Manure", 
                     "Chicken Manure", 
                     "Vermicompost (Earthworms)", 
                     "Other"
-                ]
+                ], 
+                "required": true, 
+                "type": "multi-choice", 
+                "name": "Fertilising", 
+                "hint": "How is this garden currently fertilised?"
             }, 
             {
                 "type": "text", 
@@ -278,10 +278,6 @@
                 }
             }, 
             {
-                "hint": "Which methodologies are currently used in this garden?", 
-                "required": true, 
-                "type": "multi-choice", 
-                "name": "Methodologies", 
                 "choices": [
                     "Companion Planting", 
                     "Crop Diversity", 
@@ -295,13 +291,13 @@
                     "Compost", 
                     "Guild Planting", 
                     "None"
-                ]
-            }, 
-            {
-                "hint": "What facilities are available for this garden?", 
+                ], 
                 "required": true, 
                 "type": "multi-choice", 
-                "name": "Facilities", 
+                "name": "Methodologies", 
+                "hint": "Which methodologies are currently used in this garden?"
+            }, 
+            {
                 "choices": [
                     "Office", 
                     "Storeroom", 
@@ -311,13 +307,13 @@
                     "Tunnel", 
                     "Electricity", 
                     "None"
-                ]
-            }, 
-            {
-                "hint": "What equipment is availlable for use in this garden?", 
+                ], 
                 "required": true, 
                 "type": "multi-choice", 
-                "name": "Equipment", 
+                "name": "Facilities", 
+                "hint": "What facilities are available for this garden?"
+            }, 
+            {
                 "choices": [
                     "Car", 
                     "Small Bakkie (300 - 500kg)", 
@@ -335,7 +331,11 @@
                     "Refridgerated Truck", 
                     "None", 
                     "Other"
-                ]
+                ], 
+                "required": true, 
+                "type": "multi-choice", 
+                "name": "Equipment", 
+                "hint": "What equipment is availlable for use in this garden?"
             }, 
             {
                 "type": "text", 
@@ -345,10 +345,6 @@
                 }
             }, 
             {
-                "hint": "What small tools are availlable for use with this garden?", 
-                "required": true, 
-                "type": "multi-choice", 
-                "name": "Small Tools", 
                 "choices": [
                     "Spade", 
                     "Fork", 
@@ -359,7 +355,11 @@
                     "Rake", 
                     "None", 
                     "Other"
-                ]
+                ], 
+                "required": true, 
+                "type": "multi-choice", 
+                "name": "Small Tools", 
+                "hint": "What small tools are availlable for use with this garden?"
             }, 
             {
                 "type": "text", 
@@ -380,23 +380,19 @@
                 ]
             }, 
             {
-                "hint": "When is this garden worked?", 
-                "required": true, 
-                "type": "multi-choice", 
-                "name": "Production Cycles", 
                 "choices": [
                     "Spring (Sep-Nov)", 
                     "Summer (Dec-Feb)", 
                     "Autumn (Mar-May)", 
                     "Winter (Jun-Aug)", 
                     "Not Productive"
-                ]
-            }, 
-            {
-                "hint": "What is currently produced from this garden?", 
+                ], 
                 "required": true, 
                 "type": "multi-choice", 
-                "name": "Current Products", 
+                "name": "Production Cycles", 
+                "hint": "When is this garden worked?"
+            }, 
+            {
                 "choices": [
                     "Organic Veg", 
                     "Non Organic Veg", 
@@ -411,7 +407,11 @@
                     "Traditional Crops", 
                     "Not Productive", 
                     "Other"
-                ]
+                ], 
+                "required": true, 
+                "type": "multi-choice", 
+                "name": "Current Products", 
+                "hint": "What is currently produced from this garden?"
             }, 
             {
                 "type": "text", 
@@ -452,12 +452,6 @@
                 ]
             }, 
             {
-                "hint": "Where is produce sold?", 
-                "type": "multi-choice", 
-                "visible_when": {
-                    "Currently Selling Produce": "Yes"
-                }, 
-                "name": "Outlets", 
                 "choices": [
                     "Local Community", 
                     "Local Market", 
@@ -465,7 +459,13 @@
                     "Clinic", 
                     "Soup Kitchen", 
                     "Other"
-                ]
+                ], 
+                "type": "multi-choice", 
+                "visible_when": {
+                    "Currently Selling Produce": "Yes"
+                }, 
+                "name": "Outlets", 
+                "hint": "Where is produce sold?"
             }, 
             {
                 "type": "text", 
@@ -475,9 +475,6 @@
                 }
             }, 
             {
-                "hint": "Where is seed obtained?", 
-                "type": "multi-choice", 
-                "name": "Seed Source", 
                 "choices": [
                     "Shop", 
                     "Agrihub", 
@@ -486,7 +483,10 @@
                     "Dept of Agriculture", 
                     "None", 
                     "Other"
-                ]
+                ], 
+                "type": "multi-choice", 
+                "name": "Seed Source", 
+                "hint": "Where is seed obtained?"
             }, 
             {
                 "type": "text", 
@@ -496,16 +496,16 @@
                 }
             }, 
             {
-                "hint": "Where are seedlings obtained?", 
-                "type": "multi-choice", 
-                "name": "Seedling Source", 
                 "choices": [
                     "Shop", 
                     "Agrihub", 
                     "Home Grown from Seed", 
                     "None", 
                     "Other"
-                ]
+                ], 
+                "type": "multi-choice", 
+                "name": "Seedling Source", 
+                "hint": "Where are seedlings obtained?"
             }, 
             {
                 "type": "text", 
@@ -515,16 +515,16 @@
                 }
             }, 
             {
-                "hint": "Where are trees obtained?", 
-                "type": "multi-choice", 
-                "name": "Tree Source", 
                 "choices": [
                     "Shop", 
                     "Agrihub", 
                     "Home Grown from Seed", 
                     "None", 
                     "Other"
-                ]
+                ], 
+                "type": "multi-choice", 
+                "name": "Tree Source", 
+                "hint": "Where are trees obtained?"
             }, 
             {
                 "type": "text", 
@@ -534,16 +534,16 @@
                 }
             }, 
             {
-                "hint": "Where is compost obtained?", 
-                "type": "multi-choice", 
-                "name": "Compost Source", 
                 "choices": [
                     "Shop", 
                     "Agrihub", 
                     "Self Made", 
                     "None", 
                     "Other"
-                ]
+                ], 
+                "type": "multi-choice", 
+                "name": "Compost Source", 
+                "hint": "Where is compost obtained?"
             }, 
             {
                 "type": "text", 
@@ -553,39 +553,39 @@
                 }
             }, 
             {
-                "hint": "Do you keep financial records for this garden?", 
-                "required": true, 
-                "type": "choice", 
-                "name": "Financial Records", 
                 "choices": [
                     "Yes", 
                     "No"
-                ]
+                ], 
+                "required": true, 
+                "type": "choice", 
+                "name": "Financial Records", 
+                "hint": "Do you keep financial records for this garden?"
             }, 
             {
-                "hint": "How much do currently you earn from your garden per month?", 
-                "type": "choice", 
-                "visible_when": {
-                    "Financial Records": "Yes"
-                }, 
-                "name": "Income from Garden", 
                 "choices": [
                     "R0", 
                     "R0-R100", 
                     "R100-R500", 
                     "R500-R1000", 
                     "More than R1000"
-                ]
+                ], 
+                "type": "choice", 
+                "visible_when": {
+                    "Financial Records": "Yes"
+                }, 
+                "name": "Income from Garden", 
+                "hint": "How much do currently you earn from your garden per month?"
             }, 
             {
-                "hint": "Are you physically located on the garden site right now?", 
-                "required": true, 
-                "type": "choice", 
-                "name": "On Site", 
                 "choices": [
                     "Yes", 
                     "No"
-                ]
+                ], 
+                "required": true, 
+                "type": "choice", 
+                "name": "On Site", 
+                "hint": "Are you physically located on the garden site right now?"
             }, 
             {
                 "type": "coordinates", 
@@ -688,20 +688,23 @@
         "category": "Produce", 
         "is_editable": true, 
         "cache_submissions_offline": false, 
-        "name": "Stock Movement", 
+        "name": "Stock", 
         "is_creatable": true, 
         "inlines": [], 
         "fields": [
             {
                 "name": "Product", 
                 "required": true, 
-                "choices": [
-                    "Potatoes", 
-                    "Tomatoes", 
-                    "Beef - 5kg Trays", 
-                    "Carrots", 
-                    "Fuji Apple"
-                ], 
+                "choices": {
+                    "312_10": "Tomatoes - None ", 
+                    "311_9": "Potatoes - None ", 
+                    "312_12": "Tomatoes - 1.0 big bag", 
+                    "307_6": "Fuji Apple - None ", 
+                    "308_7": "Beef - 5kg Trays - None ", 
+                    "309_8": "Carrots - None ", 
+                    "310_11": "Fujiyama - 3000.0 ", 
+                    "310_14": "Fujiyama - 0.0 "
+                }, 
                 "max_length": 200, 
                 "label_field": true, 
                 "type": "choice"

@@ -147,7 +147,7 @@ class Command(BaseCommand):
 
                     print '%s: Adding %s' % (remote_collection, local.remote_id)
 
-                if remote_updated_at and remote_updated_at == local.updated_at:
+                if remote_updated_at and remote_updated_at == local.updated_at and local.pk is not None:
                     print '%s: Records are the same local %s = remote %s' % (remote_collection, local.id, remote['id'])
                 else:
                     if local.pk is None or remote_updated_at and remote_updated_at > local.updated_at:
@@ -186,7 +186,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for user in User.objects.all():
-            if user.profile.token:
+            if hasattr(user, 'profile') and user.profile.token:
                 self.sync_remote(user, user.product_set, 'products')
 
                 variant_set = Variant.objects.filter(product__user=user)

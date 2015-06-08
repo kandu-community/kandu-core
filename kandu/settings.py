@@ -106,8 +106,8 @@ CONFIG_FILE = os.path.join(BASE_DIR, 'config.json')
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-STATIC_ROOT = '/home/marlinf/Projects/ofn/kandu/static/'
-MEDIA_ROOT = '/home/marlinf/Projects/ofn/kandu/media/'
+STATIC_ROOT = '/home/marlin/apps/kandu/static/'
+MEDIA_ROOT = '/home/marlin/apps/kandu/media/'
 
 TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
 
@@ -153,6 +153,7 @@ LOGGING = {
     }
 }
 
+POSTGIS_VERSION = (2, 1, 2)
 GEOIP_LIBRARY_PATH = "/usr/lib/x86_64-linux-gnu/libGeoIP.so.1.6.0"
 GMAPI_JQUERY_URL = "None" # workaround for jQuery conflict
 
@@ -161,7 +162,7 @@ RAVEN_CONFIG = {
 }
 
 OFN = {
-    'url': 'http://localhost:3000',
-    'taxonomy_id': 1,
+    'url': os.getenv('OFN_URL'),
+    'taxonomy_id': os.getenv('OFN_TAXONOMY_ID'),
     'token': os.getenv('OFN_TOKEN')
 }

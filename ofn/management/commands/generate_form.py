@@ -22,10 +22,10 @@ class Command(BaseCommand):
             source = config_file.read()
             config = json.loads(source)
 
-        # First remove any existing stock movement forms so we don't duplicate forms
-        new_config = [form for form in config if not form['name'].startswith('Stock')]
+        # First remove any existing stock forms so we don't duplicate forms
+        new_config = [form for form in config if form['name'] != 'Stock']
 
-        # Slide the stock movement forms onto the end
+        # Slide the stock forms onto the end
         new_config.extend(forms)
 
         with file(settings.CONFIG_FILE, 'wb') as config_file:

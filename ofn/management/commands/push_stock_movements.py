@@ -50,7 +50,7 @@ class Command(BaseCommand):
             result = requests.put(variant_endpoint, headers=headers, data=data)
             after = result.json()
 
-            print "%s - %s : %s -> %s" % (variant.product, variant, before['count_on_hand'], after['count_on_hand'])
+            # print "%s - %s : %s -> %s" % (variant.product, variant, before['count_on_hand'], after['count_on_hand'])
 
     def handle(self, *args, **options):
         for user in User.objects.all():

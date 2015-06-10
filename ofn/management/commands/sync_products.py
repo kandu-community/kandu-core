@@ -70,7 +70,6 @@ def put_remote(endpoint, user, params):
     headers = { 'X-Spree-Token': user.profile.token }
     params['_method'] = 'PUT'
     r = requests.put(endpoint, headers=headers, params=params)
-    print endpoint, r
 
 def post_remote(endpoint, user, params):
     headers = { 'X-Spree-Token': user.profile.token }
@@ -138,16 +137,12 @@ class Command(BaseCommand):
                     if remote_collection == 'products':
                         local = Product(user=user, remote_id=remote['id'], updated_at=updated_at)
                     else:
-                        product = user.product_set.get(remote_id=remote['product_id'])
-
-                        if product:
-                            local = Variant(product=product, remote_id=remote['id'], updated_at=updated_at)
-                        else:
-                            raise Exception('%s: Product does not exist' % remote_collection)
+                        product = user.product_set.filter(remote_id=remote['product_id']).first()
+                        local = Variant(product=product, remote_id=remote['id'], updated_at=updated_at)
 
                     print '%s: Adding %s' % (remote_collection, local.remote_id)
 
-                if remote_updated_at and remote_updated_at == local.updated_at:
+                if local.pk is not None and remote_updated_at and remote_updated_at == local.updated_at:
                     print '%s: Records are the same local %s = remote %s' % (remote_collection, local.id, remote['id'])
                 else:
                     if local.pk is None or remote_updated_at and remote_updated_at > local.updated_at:

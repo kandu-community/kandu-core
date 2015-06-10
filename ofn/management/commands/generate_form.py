@@ -37,7 +37,7 @@ class Command(BaseCommand):
 
         for p in user.product_set.all():
             for v in p.variant_set.all():
-                variant_choices['%s_%s' % (p.id, v.id)] = '%s - %s' % (p, v)
+                variant_choices[v.id] = '%s - %s' % (p, v)
 
         form_schema = {
             'category': 'Produce',

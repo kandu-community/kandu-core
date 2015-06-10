@@ -13,10 +13,10 @@ from django.core.management.base import BaseCommand, CommandError
 from django.core.management import call_command
 from django.conf import settings
 
-from forms.models import Stock_Movement
+from forms.models import Stock
 from forms.misc import config_update_wrapper
 
-from ofn.models import Product
+from ofn.models import Variant
 
 
 class Command(BaseCommand):
@@ -31,24 +31,26 @@ class Command(BaseCommand):
         # sm = Stock_Movement.objects.create(user=user, Product="Potatoes", Quantity=10)
         # sm.save()
 
-        stock_movements = Stock_Movement.objects.filter(user=user)
+        stock_movements = Stock.objects.filter(user=user)
 
         for stock_movement in stock_movements:
-            product = user.product_set.filter(name=stock_movement.Product).first()
-            # variant_endpoint = self.api_endpoint('products/%s/variants/1' % product.remote_id)
-            variant_endpoint = self.api_endpoint('products/6/variants/56')
+            # It's called Product, but it's actually a Variant.id
+            variant_id = stock_movement.Product
+            variant = Variant.objects.get(id=variant_id)
+
+            variant_endpoint = self.api_endpoint('products/%s/variants/%s' % (variant.product.remote_id, variant.remote_id))
 
             result = requests.get(variant_endpoint, headers=headers)
-            spree_variant = result.json()
-            print spree_variant
+            before = result.json()
 
             data = {
-                'variant[count_on_hand]': spree_variant['count_on_hand'] + stock_movement.Quantity
+                'variant[count_on_hand]': before['count_on_hand'] + stock_movement.Quantity
             }
 
             result = requests.put(variant_endpoint, headers=headers, data=data)
-            print result.json()
-            raise Exception('yo')
+            after = result.json()
+
+            print "%s - %s : %s -> %s" % (variant.product, variant, before['count_on_hand'], after['count_on_hand'])
 
     def handle(self, *args, **options):
         for user in User.objects.all():

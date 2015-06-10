@@ -137,12 +137,16 @@ class Command(BaseCommand):
                     if remote_collection == 'products':
                         local = Product(user=user, remote_id=remote['id'], updated_at=updated_at)
                     else:
-                        product = user.product_set.filter(remote_id=remote['product_id']).first()
-                        local = Variant(product=product, remote_id=remote['id'], updated_at=updated_at)
+                        product = user.product_set.get(remote_id=remote['product_id'])
+
+                        if product:
+                            local = Variant(product=product, remote_id=remote['id'], updated_at=updated_at)
+                        else:
+                            raise Exception('%s: Product does not exist' % remote_collection)
 
                     print '%s: Adding %s' % (remote_collection, local.remote_id)
 
-                if local.pk is not None and remote_updated_at and remote_updated_at == local.updated_at:
+                if remote_updated_at and remote_updated_at == local.updated_at and local.pk is not None:
                     print '%s: Records are the same local %s = remote %s' % (remote_collection, local.id, remote['id'])
                 else:
                     if local.pk is None or remote_updated_at and remote_updated_at > local.updated_at:
@@ -181,7 +185,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for user in User.objects.all():
-            if user.profile.token:
+            if hasattr(user, 'profile') and user.profile.token:
                 self.sync_remote(user, user.product_set, 'products')
 
                 variant_set = Variant.objects.filter(product__user=user)

@@ -17,8 +17,8 @@ class Product(models.Model):
     # Primary key on OFN, NULL if created locally and not synced
     remote_id = models.BigIntegerField(null=True)
 
-    permalink = models.CharField(max_length=255, unique=True)
-    name = models.CharField(max_length=255, unique=True)
+    permalink = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
 
     # If on_demand is True, count_on_hand becomes NULL
     # Overridden by variants if they exist
@@ -43,10 +43,7 @@ class Variant(models.Model):
     # Primary key on OFN, NULL if created locally and not synced
     remote_id = models.BigIntegerField(null=True)
 
-    sku = models.CharField(max_length=255, blank=True)
-
-    unit_value = models.FloatField(null=True)
-    unit_description = models.CharField(max_length=255, blank=True)
+    full_name = models.CharField(max_length=255, blank=True)
 
     # If on_demand is True, count_on_hand becomes NULL
     count_on_hand = models.BigIntegerField(blank=True, null=True)
@@ -58,4 +55,4 @@ class Variant(models.Model):
     updated_at = models.DateTimeField()
 
     def __unicode__(self):
-        return '%s %s' % (self.unit_value, self.unit_description.strip())
+        return self.full_name

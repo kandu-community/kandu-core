@@ -158,7 +158,6 @@ class AvailableForms(generics.GenericAPIView):
                 }
             for form_name, form_class in get_form_models(for_user=self.request.user) 
         ]
-        print forms_dicts
         return Response(forms_dicts)
 
 class DownloadConfig(generics.GenericAPIView):

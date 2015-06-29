@@ -55,8 +55,8 @@ class VariantInline(admin.TabularInline):
 class ProductAdmin(admin.ModelAdmin):
     inlines = (VariantInline,)
     form = ProductForm
-    ordering = ('name',)
-    list_display = ('name',)
+    ordering = ('user', 'name',)
+    list_display = ('user', 'name',)
     readonly_fields = ('remote_id', 'updated_at')
 
 admin.site.register(Product, ProductAdmin)

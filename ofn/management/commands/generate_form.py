@@ -22,8 +22,8 @@ class Command(BaseCommand):
             source = config_file.read()
             config = json.loads(source)
 
-        # First remove any existing stock forms so we don't duplicate forms
-        new_config = [form for form in config if form['name'] != 'Stock']
+        # First remove any existing produuce forms so we don't duplicate forms
+        new_config = [form for form in config if form['category'] != 'Produce']
 
         # Slide the stock forms onto the end
         new_config.extend(forms)
@@ -37,11 +37,11 @@ class Command(BaseCommand):
 
         for p in user.product_set.all():
             for v in p.variant_set.all():
-                variant_choices[v.id] = '%s - %s' % (p, v)
+                variant_choices[v.id] = '%s - %s' % (p.name, v.full_name)
 
         form_schema = {
             'category': 'Produce',
-            'name': 'Stock',
+            'name': '%s stock' % user.username,
             'is_creatable': True,
             'fields': [
                 {

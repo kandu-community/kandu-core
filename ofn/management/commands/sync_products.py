@@ -31,9 +31,7 @@ fields = {
     ),
 
     'variants': (
-        'sku',
-        'unit_value',
-        'unit_description',
+        'full_name',
         'count_on_hand',
         'on_demand',
         'price',
@@ -63,7 +61,6 @@ def update_local(local, remote, which_fields):
     if not local.updated_at:
         local.updated_at = datetime.now()
 
-    print vars(local)
     local.save()
 
 def put_remote(endpoint, user, params):
@@ -116,55 +113,58 @@ class Command(BaseCommand):
                 page = get_remote_page(endpoint, user, index + 1)
             
             for remote in page[remote_collection]:
-                # Add it to a dict by ID for use later
-                indexed[remote['id']] = remote
+                print remote
 
-                # Check if we have a local copy first
-                local = local_collection.filter(remote_id=remote['id']).first()
+                if remote['supplier_id'] == user.profile.supplier_id and remote['deleted_at'] is None:
+                    # Add it to a dict by ID for use later
+                    indexed[remote['id']] = remote
 
-                if remote['updated_at']:
-                    remote_updated_at = iso8601.parse_date(remote['updated_at'])
-                else:
-                    remote_updated_at = None
+                    # Check if we have a local copy first
+                    local = local_collection.filter(remote_id=remote['id']).first()
 
-                # If not, create one
-                if local is None:
-                    if remote_updated_at:
-                        updated_at = remote_updated_at
+                    if remote['updated_at']:
+                        remote_updated_at = iso8601.parse_date(remote['updated_at'])
                     else:
-                        updated_at = datetime.now()
+                        remote_updated_at = None
 
-                    if remote_collection == 'products':
-                        local = Product(user=user, remote_id=remote['id'], updated_at=updated_at)
-                    else:
-                        product = user.product_set.get(remote_id=remote['product_id'])
-
-                        if product:
-                            local = Variant(product=product, remote_id=remote['id'], updated_at=updated_at)
+                    # If not, create one
+                    if local is None:
+                        if remote_updated_at:
+                            updated_at = remote_updated_at
                         else:
-                            raise Exception('%s: Product does not exist' % remote_collection)
+                            updated_at = datetime.now()
 
-                    print '%s: Adding %s' % (remote_collection, local.remote_id)
+                        if remote_collection == 'products':
+                            local = Product(user=user, remote_id=remote['id'], updated_at=updated_at)
+                        else:
+                            product = user.product_set.get(remote_id=remote['product_id'])
 
-                if remote_updated_at and remote_updated_at == local.updated_at and local.pk is not None:
-                    print '%s: Records are the same local %s = remote %s' % (remote_collection, local.id, remote['id'])
-                else:
-                    if local.pk is None or remote_updated_at and remote_updated_at > local.updated_at:
-                        print '%s: Remote is newer, updating local' % remote_collection
-
-                        # Update local, remote updated more recently
-                        update_local(local, remote, remote_collection)
-                    else:
-                        if local.updated_at and (not remote_updated_at or local.updated_at > remote_updated_at):
-                            print '%s: Local is newer, updating remote' % remote_collection
-
-                            if remote_collection == 'products':
-                                record_endpoint = '%s/%s' % (endpoint, local.remote_id)
+                            if product:
+                                local = Variant(product=product, remote_id=remote['id'], updated_at=updated_at)
                             else:
-                                record_endpoint = api_endpoint('products/%s/variants/%s' % (local.product.remote_id, local.remote_id))
+                                raise Exception('%s: Product does not exist' % remote_collection)
 
-                            # Update remote, local side updated more recently
-                            put_remote(record_endpoint, user, create_data(local, remote_collection))
+                        print '%s: Adding %s' % (remote_collection, local.remote_id)
+
+                    if remote_updated_at and remote_updated_at == local.updated_at and local.pk is not None:
+                        print '%s: Records are the same local %s = remote %s' % (remote_collection, local.id, remote['id'])
+                    else:
+                        if local.pk is None or remote_updated_at and remote_updated_at > local.updated_at:
+                            print '%s: Remote is newer, updating local' % remote_collection
+
+                            # Update local, remote updated more recently
+                            update_local(local, remote, remote_collection)
+                        else:
+                            if local.updated_at and (not remote_updated_at or local.updated_at > remote_updated_at):
+                                print '%s: Local is newer, updating remote' % remote_collection
+
+                                if remote_collection == 'products':
+                                    record_endpoint = '%s/%s' % (endpoint, local.remote_id)
+                                else:
+                                    record_endpoint = api_endpoint('products/%s/variants/%s' % (local.product.remote_id, local.remote_id))
+
+                                # Update remote, local side updated more recently
+                                put_remote(record_endpoint, user, create_data(local, remote_collection))
 
         # Loop through the local set
         # and remove any not found in the remote set

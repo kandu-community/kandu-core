@@ -13,7 +13,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.core.management import call_command
 from django.conf import settings
 
-from forms.models import Stock
+from forms import models
 from forms.misc import config_update_wrapper
 
 from ofn.models import Variant
@@ -31,7 +31,9 @@ class Command(BaseCommand):
         # sm = Stock_Movement.objects.create(user=user, Product="Potatoes", Quantity=10)
         # sm.save()
 
-        stock_movements = Stock.objects.filter(user=user)
+        stock_klass = vars(models)['%s_stock' % user.username]
+
+        stock_movements = stock_klass.objects.filter(user=user)
 
         for stock_movement in stock_movements:
             # It's called Product, but it's actually a Variant.id
@@ -49,6 +51,13 @@ class Command(BaseCommand):
 
             result = requests.put(variant_endpoint, headers=headers, data=data)
             after = result.json()
+
+            variant.synced_at = datetime.now()
+            variant.save()
+
+            # Not sure how to hold onto state with this generated form, delete the data for now
+            # so it doesn't get reprocessed. Not ideal.
+            stock_movement.delete()
 
             # print "%s - %s : %s -> %s" % (variant.product, variant, before['count_on_hand'], after['count_on_hand'])
 

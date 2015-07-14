@@ -144,7 +144,8 @@ class MapMixin(object):
 						'position': maps.LatLng(lat, lng),
 					})
 
-					maps.event.addListener(marker, 'click', 'myobj.markerOver')
+					maps.event.addListener(marker, 'mouseover', 'myobj.markerOver')
+					maps.event.addListener(marker, 'mouseout', 'myobj.markerOut')
 					info = maps.InfoWindow({
 						'content': '<a href="{url}">{text}</a>'.format(
 							text = form_object.__unicode__(),

@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'autocomplete_light',
     'sorl.thumbnail',
     'raven.contrib.django.raven_compat',
+    'django_extensions',
     'forms',
     'web',
     'api',

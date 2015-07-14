@@ -18,10 +18,12 @@ urlpatterns = patterns('',
     url(r'^map/$', login_required(MapView.as_view()), name='web_map'),
 
     url(r'^$', login_required(BaseFormList.as_view()), name='web_list'),
+    url(r'^files/$', DownloadFormFilesView.as_view(), name='web_download_attached_files'),
     url(r'^(?P<model_name>\w+)/$', login_required(FormList.as_view()), name='web_list'),
-    url(r'^(?P<model_name>\w+)/create/', FormCreate.as_view(), name='web_create'),
-    url(r'^(?P<model_name>\w+)/(?P<pk>\d+)/update/', FormUpdate.as_view(), name='web_update'),
-    url(r'^(?P<model_name>\w+)/(?P<pk>\d+)/delete/', FormDelete.as_view(), name='web_delete'),
+    url(r'^(?P<model_name>\w+)/create/$', FormCreate.as_view(), name='web_create'),
+    url(r'^(?P<model_name>\w+)/(?P<pk>\d+)/update/$', FormUpdate.as_view(), name='web_update'),
+    url(r'^(?P<model_name>\w+)/(?P<pk>\d+)/delete/$', FormDelete.as_view(), name='web_delete'),
+    url(r'^(?P<model_name>\w+)/files/$', DownloadFormFilesView.as_view(), name='web_download_attached_files'),
 
     url(r'^search/redirect/', search_redirect, name='web_search_redirect'),
 

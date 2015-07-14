@@ -8,7 +8,7 @@
 </div> -->
 
 <div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+	<div class="col-sm-12 col-md-8 col-lg-6">
 		<table class="table table-striped table-bordered">
 			<thead>
 				<th>Data</th>
@@ -47,6 +47,17 @@
 			</tbody>
 		</table>
 	</div>
+	<div class="col-sm-12 col-md-4 col-lg-6">
+		{% if object_list_model.allows_bulk_download %}
+		<a href="{% url 'web_download_attached_files' model_name=object_list_model.model_name %}" class="btn btn-default">
+			<i class="fa fa-edit"></i> Download all images from {{ object_list_model.verbose_name }}
+		</a>
+		{% elif object_list_model == None %}
+		<a href="{% url 'web_download_attached_files' %}" class="btn btn-default">
+			<i class="fa fa-edit"></i> Download all images
+		</a>
+		{% endif %}
+	</div>
 </div>
 {% if is_paginated %}
 <div class="row">
@@ -58,6 +69,6 @@
 {% endblock %}
 {% block breadcrumbs %}
 	<ol class="breadcrumb">
-		<li>Forms</li> {% if object_list_model %}<li>{{ object_list_model.verbose_name }}</li>{% endif %}
+		<li><a href="{% url 'web_list' %}">Forms</a></li> {% if object_list_model %}<li>{{ object_list_model.verbose_name }}</li>{% endif %}
 	</ol>
 {% endblock %}

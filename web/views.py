@@ -22,7 +22,6 @@ from django.contrib.gis.db.models import PointField
 from django.contrib.gis.measure import Distance
 from django.contrib.gis.geos import Point
 from extra_views import InlineFormSet, CreateWithInlinesView, UpdateWithInlinesView
-from zipview.views import BaseZipView
 from itertools import chain
 from zipfile import ZipFile
 from io import BytesIO

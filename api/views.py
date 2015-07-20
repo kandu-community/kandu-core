@@ -10,6 +10,8 @@ from django.http import HttpResponse, Http404
 from django.db import models
 from django.contrib.gis.measure import Distance
 from django.contrib.gis.geos import Point
+from django.db.models import ForeignKey
+from copy import copy
 
 from forms.misc import BaseFormModel
 from forms.utils import get_form_models, search_in_queryset
@@ -39,9 +41,11 @@ class ModelFromUrlMixin(object):
 class ReadOnlyAndInlinesMixin(object):
 	read_only_fields = ('user',)
 
-	def get_serializer_class(self):
+	def get_serializer_class(self, model=None, depth=0):
+		self_model = model or self.model
+
 		class Meta:
-			model = self.model
+			model = self_model
 			read_only_fields = self.read_only_fields
 
 		attrs = {
@@ -49,8 +53,11 @@ class ReadOnlyAndInlinesMixin(object):
 		}
 		if self.request.method == 'GET':
 			attrs['user'] = UserSerializer(read_only=True)
-		if self.model.inlines:
-			for inline_name in self.model.inlines:
+			for foreign_key_field in (field for field in self_model._meta.fields if isinstance(field, ForeignKey)):
+				if not foreign_key_field.name in ['user', 'baseformmodel_ptr'] and depth < 1:
+					attrs[foreign_key_field.name] = self.get_serializer_class(foreign_key_field.rel.to, depth+1)()
+		if self_model.inlines:
+			for inline_name in self_model.inlines:
 				class InlineSerializer(serializers.ModelSerializer):
 				    class Meta:
 				        model = getattr(forms.models, inline_name)
@@ -59,10 +66,11 @@ class ReadOnlyAndInlinesMixin(object):
 				attrs[inline_name.lower() + '_set'] = InlineSerializer(many=True, read_only=True)
 
 		return type(
-			'DefaultSerializer',
+			self_model.__name__ + 'Serializer',
 			(self.model_serializer_class,),
 			attrs
 		)
+
 
 class StaffOmnividenceMixin(object):
 	def filter_queryset(self, queryset):

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#Script to be applied after making changes to config.json via the UI
+#Script to be applied after making changes to config.json
 #
 
 KANDUHOME='.'

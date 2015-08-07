@@ -12,5 +12,8 @@ django-extra-views
 sorl-thumbnail
 raven
 requests
+fabric
+fabtools
+jinja2
 django-dotenv
 iso8601

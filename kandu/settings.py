@@ -7,14 +7,11 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
-import os
-
-# Read in the dotenv environment
-import dotenv
-dotenv.read_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -53,7 +50,7 @@ INSTALLED_APPS = (
     'api',
     'icons',
     'config_editor',
-    'ofn',
+	'ofn',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -69,6 +66,8 @@ ROOT_URLCONF = 'kandu.urls'
 
 WSGI_APPLICATION = 'kandu.wsgi.application'
 
+import dotenv
+dotenv.read_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -76,9 +75,9 @@ WSGI_APPLICATION = 'kandu.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'kandu',
-        'USER': 'kandu',
-        'PASSWORD': 'kandu12'
+        'NAME': os.environ.get('DB_NAME', 'kandu'),
+        'USER': os.environ.get('DB_USER', 'kandu'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', '')
     }
 }
 
@@ -106,8 +105,9 @@ CONFIG_FILE = os.path.join(BASE_DIR, 'config.json')
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-STATIC_ROOT = '/home/marlin/apps/kandu/static/'
-MEDIA_ROOT = '/home/marlin/apps/kandu/media/'
+
+STATIC_ROOT = os.environ.get('STATIC_ROOT', '/opt/kandu-static/')
+MEDIA_ROOT =  os.environ.get('MEDIA_ROOT', '/opt/kandu-media/')
 
 TEMPLATE_DIRS = os.path.join(BASE_DIR, 'templates')
 
@@ -154,15 +154,9 @@ LOGGING = {
 }
 
 POSTGIS_VERSION = (2, 1, 2)
-GEOIP_LIBRARY_PATH = "/usr/lib/x86_64-linux-gnu/libGeoIP.so.1.6.0"
+GEOIP_LIBRARY_PATH = os.environ.get('GEOIP_LIBRARY_PATH', '/usr/lib64/libGeoIP.so')
 GMAPI_JQUERY_URL = "None" # workaround for jQuery conflict
 
 RAVEN_CONFIG = {
     'dsn': 'https://bdd1868a423340acbfb1a17d557b8312:da41c8aa10b6430587de1f59a16ebe9c@app.getsentry.com/32300',
-}
-
-OFN = {
-    'url': os.getenv('OFN_URL'),
-    'taxonomy_id': os.getenv('OFN_TAXONOMY_ID'),
-    'token': os.getenv('OFN_TOKEN')
 }

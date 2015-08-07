@@ -1,11 +1,53 @@
+#License
+
+This code is released under the GNU Affero General Public License 
+http://www.gnu.org/licenses/agpl-3.0.html
+
+
+
+
+# Development
+
+To setup a local development enviroment, run
+
+		fab setup_locally:database_password=EgftsDh
+
+As for now, it does a single thing: creates .env file.
+
 # Deployment
+
+Automatic deployment and update is possible with Fabric script. To use it, you need to have at least `fabric`, `fabtools` and `jinja2` Python packages installed.
+
+To automatically deploy to a completely new empty server, use
+
+		fab setup:host=demo.kandu.co.za
+
+If you need to switch an existing server, which was been updated manually up to this point, to automatic update process, use
+
+		fab migrate_existing_server_on:host=demo.kandu.co.za,database_password=EgftsDh
+		fab move_files_to_new_location_on:host=demo.kandu.co.za
+
+To setup a server with HTTPS support, add https argument, for example
+
+		fab migrate_existing_server_on:host=demo.kandu.co.za,database_password=EgftsDh,https=True
+
+To update code on the server, use
+
+		feb update_code_on:host=demo.kandu.co.za
+
+You can also get rid of the need to enter the password every time by pushing your SSH key to the server:
+
+		fab push_keys_to:host=demo.kandu.co.za
+
+
+## Manual deployment
 
 This manual assumes that one has working postgresql and apache installations.
 
 1. Clone the code
 
 		cd /opt
-		git clone https://xp-dev.com/git/kandu
+		git clone https://github.com/Kandu-community/kandu-core.git
 
 2. Prepare the dev environment to build all necessary packages/libraries:
 
@@ -94,8 +136,6 @@ This manual assumes that one has working postgresql and apache installations.
 Unfortunately, it's not possible to write a universal
 step-by-step manual for any Linux distro/installation.
 This manual has been writen for CentOS 6 installed on odk.kandu.co.za
-
-Configure the DATABASES setting and run `python manage.py syncdb`.
 
 In order to "file" fields to work, set MEDIA_ROOT according to your environment.
 

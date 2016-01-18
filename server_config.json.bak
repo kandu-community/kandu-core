@@ -1,0 +1,9 @@
+{
+	"DATABASE": {
+	    "NAME": "kandu",
+	    "USER": "kandu",
+	    "PASSWORD": "kandu23jh4k3j24h"
+	},
+	"STATIC_ROOT": "/home/narek/kandu-static",
+	"MEDIA_ROOT": "/home/narek/kandu-media"
+}

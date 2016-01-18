@@ -1,0 +1,6025 @@
+[
+  {
+    "category": "Surveys", 
+    "name": "Umhlathuze Socio-economic Survey 2014", 
+    "is_creatable": false, 
+    "fields": [
+      {
+        "type": "date", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Date"
+      }, 
+      {
+        "max_length": "300", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Settlement Name", 
+        "type": "text"
+      }, 
+      {
+        "max_length": "300", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Area", 
+        "type": "text"
+      }, 
+      {
+        "name": "House Number", 
+        "hint": "Please enter the house or site number", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "max_length": "300", 
+        "required": false, 
+        "label_field": false, 
+        "name": "GPS", 
+        "type": "coordinates"
+      }, 
+      {
+        "name": "Interviewer", 
+        "hint": "Name of the person conducting the interview", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Interviewee", 
+        "hint": "Name of the person being interviewed. ", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Household Head", 
+        "hint": "Are you the head of the household? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Relationship", 
+        "hint": "What is your relationship to the head of the household?", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Household Head": "No"
+        }, 
+        "type": "text"
+      }, 
+      {
+        "name": "Surname", 
+        "hint": "What is the head of the household's surname?", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": true, 
+        "type": "text"
+      }, 
+      {
+        "name": "First Name", 
+        "hint": "Head of household's first name", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": true, 
+        "type": "text"
+      }, 
+      {
+        "name": "Other Name", 
+        "hint": "Head of household's other name", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Gender", 
+        "hint": "Head of household's gender", 
+        "required": false, 
+        "choices": [
+          "Male", 
+          "Female"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Citizenship", 
+        "hint": "Of which country is the head of the household a citizen?", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Age", 
+        "hint": "Head of household's age", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "SA ID Number", 
+        "hint": "Enter the SA ID number of the head of the household", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Years Local", 
+        "hint": "How many years has the head of  the household lived in the area?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Dependents", 
+        "hint": "How many dependants does the head of household have?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Education Level", 
+        "required": false, 
+        "choices": [
+          "Some Primary School", 
+          "Completed Primary School", 
+          "Some High School", 
+          "Completed High School", 
+          "Trade", 
+          "Diploma/Degree"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Occupation", 
+        "hint": "what is the occupation of the head of household?", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Formally Employed", 
+        "hint": "Is the head of household formally employed, ie UIF number?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Full Time Employed", 
+        "hint": "Is the employment full time?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Formally Employed": "Yes"
+        }, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Subsidy Recipient", 
+        "hint": "Has the head of household ever applied for or received a housing or land reform subsidy? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Specify Subsidy", 
+        "hint": "Please specify details of the housing or land reform subsidy.", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Subsidy Recipient": "Yes"
+        }, 
+        "type": "text"
+      }, 
+      {
+        "name": "Title Deed", 
+        "hint": "Does the head of household have a title deed to any property? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Title Deed Details", 
+        "hint": "Please specify details of the title deed and propperty", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Title Deed": "Yes"
+        }, 
+        "type": "text"
+      }, 
+      {
+        "name": "Household Income", 
+        "hint": "What is the total monthly income of the household? Mix incomes are permissible. ", 
+        "required": false, 
+        "choices": [
+          "R0 - R1500", 
+          "R1501 - R2500", 
+          "R2501 - R3500", 
+          "Over R3500"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Income Sources", 
+        "hint": "Specify all sources of income for the household. ", 
+        "required": false, 
+        "choices": [
+          "Wages & Salaries", 
+          "Social Grants", 
+          "Informal Enterprise", 
+          "Other"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Other Income Sources", 
+        "hint": "Please specify other sources of household income. ", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Income Sources": "Other"
+        }, 
+        "type": "text"
+      }, 
+      {
+        "name": "Saving", 
+        "hint": "Is your household saving money?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Monthly Saving", 
+        "hint": "How much do you save per month?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "visible_when": {
+          "Saving": "Yes"
+        }, 
+        "type": "number"
+      }, 
+      {
+        "name": "Saving Methods", 
+        "hint": "How does the household save?", 
+        "required": false, 
+        "choices": [
+          "Stokvel", 
+          "Saving Club", 
+          "Bank", 
+          "Pension", 
+          "RA", 
+          "Other"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Saving": "Yes"
+        }, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Savings Usage", 
+        "hint": "What do you use the savings for?", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Saving": "Yes"
+        }, 
+        "type": "text"
+      }, 
+      {
+        "name": "Household Members", 
+        "hint": "How many members in the household excluding tennats?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "School Kids", 
+        "hint": "How many children attend school?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "School Distance", 
+        "hint": "How far is the school?", 
+        "required": false, 
+        "choices": [
+          "Close. Less than 20 minutes walk", 
+          "Average. 20 - 45 minutes walk", 
+          "Far. More than 45 minutes walk"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Preschool Kids", 
+        "hint": "How many children are of pre-school age (below 7)", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Preschool Distance", 
+        "required": false, 
+        "choices": [
+          "Close. Less than 20 minutes walk", 
+          "Average. 20 -45 minutes walk", 
+          "Far. More than 45 minutes walk"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Creche Attendants", 
+        "hint": "How many children attend creche?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Creche Distance", 
+        "hint": "How far is the creche?", 
+        "required": false, 
+        "choices": [
+          "Close. Less than 20 minutes walk", 
+          "average. 20 - 45 minutes walk", 
+          "Far. More than 45 minutes walk"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Special Needs Household", 
+        "hint": "Is there anyone in your household with special needs?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Disabled Household Members", 
+        "hint": "Are any members of your household disabled?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Disabled Number", 
+        "hint": "How many members of your household are disabled?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "visible_when": {
+          "Disabled Household Members": "Yes"
+        }, 
+        "type": "number"
+      }, 
+      {
+        "name": "Diseased Household Members", 
+        "hint": "Do any members of your household suffer from chronic disease? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Diseased Number", 
+        "hint": "How many members of your household suffer from chronic illness?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "visible_when": {
+          "Diseased Household Members": "Yes"
+        }, 
+        "type": "number"
+      }, 
+      {
+        "name": "structures", 
+        "hint": "How many structures on the site excluding VIP?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Main Structure Type", 
+        "hint": "Is the main structure/house on the site formal or informal?", 
+        "required": false, 
+        "choices": [
+          "Formal", 
+          "Informal"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Rooms", 
+        "hint": "How many rooms are in the main structure?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Structure Size", 
+        "hint": "Approximate square meters of the main structure", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Permission to Occupy", 
+        "hint": "Do you have permission to occupy the site?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Registered", 
+        "hint": "Is your permission to occupy registered? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Permission": "Yes"
+        }, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Allocator", 
+        "hint": "Who allocated you the land?", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Permission": "Yes"
+        }, 
+        "type": "text"
+      }, 
+      {
+        "name": "Tenants", 
+        "hint": "Do you have tenants?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Number of Tenants", 
+        "hint": "How many tenants are there on your site?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "visible_when": {
+          "Tenants": "Yes"
+        }, 
+        "type": "number"
+      }, 
+      {
+        "name": "Student Tenants", 
+        "hint": "How many of your tenants are students?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "visible_when": {
+          "Tenants": "Yes"
+        }, 
+        "type": "number"
+      }, 
+      {
+        "name": "Average Rent", 
+        "hint": "How much is the average rent per tenant?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "visible_when": {
+          "Tenants": "Yes"
+        }, 
+        "type": "number"
+      }, 
+      {
+        "name": "Tenant", 
+        "hint": "Are you a tenant? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Landlord", 
+        "hint": "Who is your landlord", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Tenant": "Yes"
+        }, 
+        "type": "text"
+      }, 
+      {
+        "name": "Water Access", 
+        "required": false, 
+        "choices": [
+          "Communal Stand Pipe", 
+          "Yard Tap", 
+          "House Connection", 
+          "River or Pit", 
+          "Water Tank"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Electricity", 
+        "hint": "Are you connected to the electricity?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Sanitation", 
+        "hint": "What sanitation do you have access to?", 
+        "required": false, 
+        "choices": [
+          "Own dug pit", 
+          "VIP Pit Latrine", 
+          "Flush toilet in house", 
+          "None"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Road Access", 
+        "hint": "Is there road access to the house?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Footpath Access", 
+        "hint": "Is there formal footpath access to the house?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Ambulance", 
+        "hint": "Do you have access to Ambulance Services?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Ambulance Rating", 
+        "hint": "Please rate the quality of the ambulance service. ", 
+        "required": false, 
+        "choices": [
+          "Good", 
+          "Bad"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Ambulance": "Yes"
+        }, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Fire Service", 
+        "default": "Do you have access to fire services?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Fire Service Rating", 
+        "hint": "Please rate the quality of the fire services.", 
+        "required": false, 
+        "choices": [
+          "Good", 
+          "Bad"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Fire Service": "Yes"
+        }, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Police", 
+        "hint": "Do you have access to police services?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Police Rating", 
+        "hint": "Please rate the quality of the police service", 
+        "required": false, 
+        "choices": [
+          "Good", 
+          "Bad"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Police": "Yes"
+        }, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Service Problem 1", 
+        "hint": "What is your biggest service problem?", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Service Problem 2", 
+        "hint": "What is your second biggest service problem?", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Service Problem 3", 
+        "hint": "What is your third biggest service problem?", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Willing to Move", 
+        "hint": "If your site is in a risk area, will you be willing to move to an alternative site?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Move or Stay", 
+        "hint": "Would you prefer to be developed where you are or to move to a new area?", 
+        "required": false, 
+        "choices": [
+          "Move", 
+          "Stay"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Business on Site", 
+        "hint": "Is there business conducted at your site?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Business Type", 
+        "required": false, 
+        "choices": [
+          "Airtime", 
+          "Spaza shop", 
+          "Taverns", 
+          "Fruit & Veg", 
+          "Hair Salon", 
+          "Electricity", 
+          "Other"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Business on Site": "Yes"
+        }, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Only Income", 
+        "hint": "Is your business your only source of income?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Business on Site": "Yes"
+        }, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Business Required", 
+        "hint": "As a consumer, what type of business are most urgently required in your area?", 
+        "required": false, 
+        "choices": [
+          "Bakery", 
+          "Butchery", 
+          "Catering", 
+          "Fruit & veg", 
+          "Hair Salon", 
+          "Motor vehicle Repair", 
+          "Panel Beater", 
+          "Prepaid Vouchers", 
+          "Supermarkets", 
+          "Other"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Services Access", 
+        "hint": "Do you have access to community services eg police, sports fields, etc?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Rate Health facilities", 
+        "hint": "Please rate the accessibility of health care facilities in your area.", 
+        "required": false, 
+        "choices": [
+          "Good - accessible and addequate", 
+          "Average", 
+          "Poor - inaccessible or inadequate "
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Services Access": "Yes"
+        }, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Rate Postal", 
+        "hint": "Please rate the accessibility and adequacy of the Post Office in your area", 
+        "required": false, 
+        "choices": [
+          "Good", 
+          "Average", 
+          "Poor"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Services Access": "Yes"
+        }, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Rate Schools", 
+        "hint": "Please rate the accessibility and adequacy of the schools in your area", 
+        "required": false, 
+        "choices": [
+          "Good", 
+          "Average", 
+          "Poor"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Services Access": "Yes"
+        }, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Rate Recreation", 
+        "hint": "Please rate the accessibility and adequacy of the parks and recreational facilities in your area", 
+        "required": false, 
+        "choices": [
+          "Good ", 
+          "Average", 
+          "Poor"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Services Access": "Yes"
+        }, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Rate Worship Sites", 
+        "hint": "Please rate the accessibility and adequacy of the Worship Sites in your area", 
+        "required": false, 
+        "choices": [
+          "Good", 
+          "Average", 
+          "Poor"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Services Access": "Yes"
+        }, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Rate Sports Field", 
+        "hint": "Please rate the accessibility and adequacy of the Sports Fields in your area", 
+        "required": false, 
+        "choices": [
+          "Good", 
+          "Average", 
+          "Poor"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Services Access": "Yes"
+        }, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Rate Police Station", 
+        "hint": "Please rate the accessibility and adequacy of the Police Station in your area", 
+        "required": false, 
+        "choices": [
+          "Good", 
+          "Average", 
+          "Poor"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Services Access": "Yes"
+        }, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Rate Community Hall", 
+        "hint": "Please rate the accessibility and adequacy of the Community Hall in your area", 
+        "required": false, 
+        "choices": [
+          "Good", 
+          "Average", 
+          "Poor"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Services Access": "Yes"
+        }, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Development Priority 1", 
+        "hint": "Please list your top development priority.", 
+        "required": false, 
+        "choices": [
+          "Access to water", 
+          "Access to electricity", 
+          "Improved roads", 
+          "Access to secure tenure ", 
+          "Access to employment", 
+          "Improved storm water control", 
+          "Access to schools", 
+          "Recreational facilities", 
+          "More shops", 
+          "Access to top-structure", 
+          "Access to postal services", 
+          "Improved footpaths", 
+          "Improved lighting", 
+          "Housing"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Development Priority 2", 
+        "hint": "Please list your seccond development priority.", 
+        "required": false, 
+        "choices": [
+          "Access to water", 
+          "Access to electricity", 
+          "Improved roads", 
+          "Access to secure tenure ", 
+          "Access to employment", 
+          "Improved storm water control", 
+          "Access to schools", 
+          "Recreational facilities", 
+          "More shops", 
+          "Access to top-structure", 
+          "Access to postal services", 
+          "Improved footpaths", 
+          "Improved lighting", 
+          "Housing"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Development Priority 3", 
+        "hint": "Please list your third development priority.", 
+        "required": false, 
+        "choices": [
+          "Access to water", 
+          "Access to electricity", 
+          "Improved roads", 
+          "Access to secure tenure ", 
+          "Access to employment", 
+          "Improved storm water control", 
+          "Access to schools", 
+          "Recreational facilities", 
+          "More shops", 
+          "Access to top-structure", 
+          "Access to postal services", 
+          "Improved footpaths", 
+          "Improved lighting", 
+          "Housing"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Development Priority 4", 
+        "hint": "Please list your fourth development priority.", 
+        "required": false, 
+        "choices": [
+          "Access to water", 
+          "Access to electricity", 
+          "Improved roads", 
+          "Access to secure tenure ", 
+          "Access to employment", 
+          "Improved storm water control", 
+          "Access to schools", 
+          "Recreational facilities", 
+          "More shops", 
+          "Access to top-structure", 
+          "Access to postal services", 
+          "Improved footpaths", 
+          "Improved lighting", 
+          "Housing"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Development Priority 5", 
+        "hint": "Please list your fith development priority.", 
+        "required": false, 
+        "choices": [
+          "Access to water", 
+          "Access to electricity", 
+          "Improved roads", 
+          "Access to secure tenure", 
+          "Access to employment", 
+          "Improved storm water control", 
+          "Access to schools", 
+          "Recreational facilities", 
+          "More shops", 
+          "Access to top-structure", 
+          "Access to postal services", 
+          "Improved footpaths", 
+          "Improved lighting", 
+          "Housing"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Additional Information", 
+        "hint": "Please enter any additional information which might be useful. ", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "max_length": 300, 
+        "required": false, 
+        "label_field": false, 
+        "name": "New field", 
+        "type": "id-field"
+      }
+    ], 
+    "user_groups": [
+      "legacy"
+    ], 
+    "is_editable": false, 
+    "inlines": [], 
+    "cache_submissions_offline": false, 
+    "show_on_map": false
+  }, 
+  {
+    "category": "Surveys", 
+    "name": "ECD Initial Survey", 
+    "is_creatable": true, 
+    "fields": [
+      {
+        "name": "Project Refference Number", 
+        "required": false, 
+        "choices": [
+          "952 Ilifa", 
+          "944 PSPPD ECD"
+        ], 
+        "max_length": "300", 
+        "label_field": true, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Survey Participation", 
+        "required": false, 
+        "choices": [
+          "Participate fully", 
+          "Participate partially ", 
+          "Not participating now", 
+          "Not Participating at all "
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "type": "date", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Survey Date"
+      }, 
+      {
+        "name": "Survey Time", 
+        "hint": "What is the time now? Please use the format hh:mm", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Type of Center", 
+        "required": false, 
+        "choices": [
+          " ECD  Centre", 
+          "Playgroup", 
+          "ECD Hub", 
+          "Toy library", 
+          "Other"
+        ], 
+        "max_length": "300", 
+        "label_field": true, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Specify other type", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Type of Center": "Other"
+        }, 
+        "type": "text"
+      }, 
+      {
+        "name": "Interviewer Name and Surname", 
+        "hint": "Enter the name and surname of the person conducting the interview", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Interviewer Cell Number", 
+        "hint": "Enter the number of the person conductin the interview", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Interviewee name and surname", 
+        "hint": "What is the name of the person being interviewed", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Interviewee Position", 
+        "hint": "What is your position at the facility", 
+        "required": false, 
+        "choices": [
+          "Owner", 
+          "Principal", 
+          "Supervisor", 
+          "Pracitioner", 
+          "Facilitator for playgroup", 
+          "Committee member", 
+          "ECD Hub", 
+          "Toy library"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Interviewee Cell Number", 
+        "hint": "enter the cell number of the person being interviewed", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "max_length": "300", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Alternate Contact Name and Surname", 
+        "type": "text"
+      }, 
+      {
+        "name": "Alternate Contact Position", 
+        "hint": "What is the alternate contact's position ath the facitlity?", 
+        "required": false, 
+        "choices": [
+          "Owner", 
+          "Principal", 
+          "Supervisor", 
+          "Pracitioner", 
+          "Facilitator for playgroup", 
+          "Committee member", 
+          "ECD Hub", 
+          "Toy library"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "max_length": "300", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Alternate Contact Cell Number", 
+        "type": "text"
+      }, 
+      {
+        "name": "Facility Name", 
+        "hint": "What is the name of the facility?", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": true, 
+        "type": "text"
+      }, 
+      {
+        "type": "file", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Centre Photo", 
+        "hint": "Take a picture of the front of the facility"
+      }, 
+      {
+        "name": "Province", 
+        "required": false, 
+        "choices": [
+          "KZN"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Municipality", 
+        "required": false, 
+        "choices": [
+          "eThekwini", 
+          "Amaoti", 
+          "eThekwini", 
+          "Umlazi", 
+          "Umzumbe", 
+          "Vulamehlo", 
+          "Msinga", 
+          "Umvoti"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "default": 0, 
+        "type": "number", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Ward Number"
+      }, 
+      {
+        "name": "Village Name", 
+        "hint": "Name of Area/ Village/ informal settlement", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Traditional Authority", 
+        "hint": " Insert  name or \"do not not know\"", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Unique ID", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": true, 
+        "from_fields": [
+          "Province", 
+          "Municipality", 
+          "Facility Name"
+        ], 
+        "type": "id-field"
+      }, 
+      {
+        "name": "Type of Area", 
+        "required": false, 
+        "choices": [
+          "Informal Settlement", 
+          "Township", 
+          "Peri Urban", 
+          "Rural"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "On site", 
+        "hint": "Are you currently located on site and wish to capture GPS coordinates?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "GPS", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "On site": "Yes"
+        }, 
+        "type": "coordinates"
+      }, 
+      {
+        "name": "Physical Address", 
+        "hint": "Enter the physical address of the center", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Postal Address", 
+        "hint": "Enter the postal address of the center.", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Operational Base", 
+        "hint": "Operational base of centre", 
+        "required": false, 
+        "choices": [
+          "Private home", 
+          "Dedicated ECD centre", 
+          "Church", 
+          "School", 
+          "Community centre/hall", 
+          "Clinic", 
+          "Other"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Specify Other Base", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Operational Base": "Other"
+        }, 
+        "type": "text"
+      }, 
+      {
+        "name": "Operating Days", 
+        "hint": "On which days is the center operational?", 
+        "required": false, 
+        "choices": [
+          "Monday", 
+          "Tuesday", 
+          "Wednesday", 
+          "Thursday", 
+          "Friday", 
+          "Satturday", 
+          "Sunday"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Starting Time", 
+        "hint": "At what time does the center usually start operating? PLease use format hh:mm", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Closing time", 
+        "hint": "At what time does the center ususaly close? Please use format hh:mm", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Operational Hours", 
+        "hint": "How many hours a day is the center operational for?", 
+        "default": 0, 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "decimal"
+      }, 
+      {
+        "name": "Center Ownership", 
+        "hint": "Who owns the ECD Centre?", 
+        "required": false, 
+        "choices": [
+          "Private individual", 
+          "Community based organisation", 
+          "Faithbased organisation", 
+          "Registered NPO", 
+          "Other", 
+          "Do not know "
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "NPO", 
+        "hint": "Is the facility  registered as an NPO? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "In progress"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "NPO Number", 
+        "hint": "What is the NPO Number?", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "NPO": "Yes"
+        }, 
+        "type": "text"
+      }, 
+      {
+        "name": "DSD Registered", 
+        "hint": "Is the ECD Centre registered with the DSD: Tick one:  unregistered,  in  process,  conditional registration, full registration? (evidenced by Form 12) ", 
+        "required": false, 
+        "choices": [
+          "Unregistered", 
+          "In process", 
+          "Conditional registration", 
+          "Full registration", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "type": "date", 
+        "required": false, 
+        "label_field": false, 
+        "name": "DSD Registration Date", 
+        "visible_when": {
+          "DSD Registered": "Full registration"
+        }
+      }, 
+      {
+        "name": "Conditional Reasons", 
+        "hint": "Indicate what was found to be inadequate: Indicate one or more: ", 
+        "required": false, 
+        "choices": [
+          "Inadequate staff", 
+          "Training", 
+          "Programme", 
+          " Equipment", 
+          "Nutrition", 
+          "Infrastructure", 
+          "Health and Safety", 
+          "Other", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "DSD Registered": "Conditional registration"
+        }, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "DSD Funded", 
+        "hint": "Does the DSD fund this ECD  project? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "I don't know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Number of Subsidies", 
+        "hint": "If so , how many children recieves subsidies? Add number", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "visible_when": {
+          "DSD Funded": "Yes"
+        }, 
+        "type": "number"
+      }, 
+      {
+        "name": "Governance Comittee", 
+        "hint": "Is there a Committee for the facility ?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Under establishment"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Minutes Availlable ", 
+        "hint": "If so ,are there minutes available?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Governance Comittee": "Yes"
+        }, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Comittee Work Training Received", 
+        "hint": "Have members of the management committee received \"committee work\" training ?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No ", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Governance Comittee": "Yes"
+        }, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Number of Meetings", 
+        "hint": "How many times in the last year did the staff and a group of parents meet to discuss the cr\u00e8che? ", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Parents Consulted", 
+        "hint": "Are parents\u2019 views taken into account when changes are made to the cr\u00e8che?", 
+        "required": false, 
+        "choices": [
+          "Yes, allways", 
+          "Yes, sometimes", 
+          "not very often", 
+          "hardly at all", 
+          "never", 
+          "do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Donor Support", 
+        "hint": "Does your centre receive any funding  or support from donors?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Donor Names", 
+        "hint": "IF yes, list the donors", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Donor Support": "Yes"
+        }, 
+        "type": "text"
+      }, 
+      {
+        "name": "Donor funding applications", 
+        "hint": "What do the donors fund?", 
+        "required": false, 
+        "choices": [
+          "building costs", 
+          "maintenance", 
+          "operational costs", 
+          "food", 
+          "training", 
+          "outdoor equipment", 
+          "educational equipment and toys", 
+          "other"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Donor Support": "Yes"
+        }, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Specify other funding application", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Specify other funding application": "other"
+        }, 
+        "type": "text"
+      }, 
+      {
+        "name": "NPO has Constitution", 
+        "hint": "Does the NPO have a constitition ?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Financials In Place", 
+        "hint": "Are there documented annual financial statements in place?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Comitted to Registration", 
+        "hint": "Do you wish to eventually improve your centre over time and formally register it with the DSD?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Staff willing to be trained", 
+        "hint": "Is the staff willing to undergo ECD practitioner and other training or mentorship to improve capacity?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Committee willing to be trained", 
+        "hint": "Is the management Committee willing to undergo training to improve their knowledge and skills", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Department and Entity Relationships", 
+        "hint": "Does the staff at the ECD Centre have contact with any govt dept? Y/N and   if so, which. ? Tick one or more ", 
+        "required": false, 
+        "choices": [
+          "Dept of Social Development", 
+          "Dept of Health", 
+          "Other Department", 
+          "Clinic", 
+          "Municipality", 
+          "None"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Principal Name", 
+        "hint": "Principal / Supervisor/ Owner: Indicate Name and surname", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "max_length": "300", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Principal cell Number", 
+        "type": "text"
+      }, 
+      {
+        "name": "Principal Highest Qualification", 
+        "required": false, 
+        "choices": [
+          "No school education", 
+          "Passed grade 7", 
+          "Passed grade 10", 
+          "Passed grade 12", 
+          "Obtained a diploma or degree", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Principal Training", 
+        "hint": "Have you attended any ECD skills training", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Highest Formal ECD Qaulification", 
+        "hint": "What is the highest Formal ECD qualification obtained?", 
+        "required": false, 
+        "choices": [
+          "NQF Level 1", 
+          "NQF Level 2", 
+          "NQF Level 3", 
+          "NQF Level 4", 
+          "NQF Level 5", 
+          "Higher", 
+          "Other", 
+          "Do not know", 
+          "None"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Number of ECD Practitioners", 
+        "hint": "Number of ECD practitioners / playgroup/ ECD Hub / Toy library facilitators", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Trained ECD practitioners", 
+        "hint": "Number of ECD practitioners / playgroup facilitators  who have received formal ECD training", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Practitioners NQF Level", 
+        "hint": "For each Practitioner  1, 2, 3, 4, none : indicate ECD Training NQF level none,1,2,3,4,5,higher, other  (Evidenced by certificate) ", 
+        "required": false, 
+        "max_length": "3000", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "default": 0, 
+        "type": "number", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Number of Kitchen workers"
+      }, 
+      {
+        "name": "Keep Enrollment Forms", 
+        "hint": "Does the ECD Centre / Playgroup keep Enrolment  / adminssion forms for their children?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Keep Staff Job Description", 
+        "hint": "Does the ECD Centre / Playgroup keep Job descriptions for staff ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Keep Incident Register", 
+        "hint": "Does the ECD Centre / Playgroup keepAccident / incident register for children ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Keep Staff Attendance Register", 
+        "hint": "Does the ECD center /playgroup keep a staff attendance register?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Keep Staff Development Plan", 
+        "hint": "Does the ECD /Playgroup keep a staf development plan?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Keep Child Attendance Register", 
+        "hint": "Does the ECD center /playgroup keep a child attendance register?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Keep Visitors Book", 
+        "hint": "Does the ECD center / Playgroup keep a visitors book?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Keep Medication Register", 
+        "hint": "Does the ECD center / playgroup keep a medication register for children?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Keep Receipt Book", 
+        "hint": "Does the ECD center / playgroup keep a receipt book?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Keep Fees Register", 
+        "hint": "Does the ECD  center / playgroup keep a fees register?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Keep Road To Health Register", 
+        "hint": "Does the ECD center / playgroup keep a road to health register?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Project Policies ", 
+        "hint": "Does the ECD project have policies for : Tick all applicable", 
+        "required": false, 
+        "choices": [
+          "health", 
+          "admission", 
+          "HIV/AIDS", 
+          "child abuse", 
+          "finances", 
+          "complaints procedures", 
+          "Do not know", 
+          "None"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Report Outside Abuse", 
+        "hint": "Does thefacility  report child abuse that happens outside the centre ?", 
+        "required": false, 
+        "choices": [
+          "Yes, would if aware", 
+          "Yes, have done", 
+          "Depends on nature of incident", 
+          "No, would probably not if heard", 
+          "No, have not in past when heard of incident", 
+          "Yes, would in future but have not done so in past", 
+          "Don\u2019t know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Babies Monthly Fee", 
+        "hint": "Fees for babies 0-2yrs per month", 
+        "required": false, 
+        "choices": [
+          "R0 - R50", 
+          "R51 - 100", 
+          "R101 - R150", 
+          "R151 - R200", 
+          "R201 - R250", 
+          "R251 - R500", 
+          " R500+", 
+          "No children of this age"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Todlers Monthly Fee", 
+        "hint": "Fees for children 3-5yrs", 
+        "required": false, 
+        "choices": [
+          "R0 - R50", 
+          "R51 - 100", 
+          "R101 - R150", 
+          "R151 - R200", 
+          "R201 - R250", 
+          "R251 - R500", 
+          "R501+", 
+          "No children of this age"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Children Monthly Fees", 
+        "hint": "Children Monthly Fees", 
+        "required": false, 
+        "choices": [
+          "R0 - R25", 
+          "R26 - R50", 
+          "R51 - R75", 
+          "R76 - R100", 
+          "R101 - R125", 
+          " R125+", 
+          "No children of this age"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Obvious Safety Threats", 
+        "hint": "Are there any obvious health and safety threats: tick one or more", 
+        "required": false, 
+        "choices": [
+          "open trenches", 
+          "exposed electrical wires", 
+          "sharp objects", 
+          "unfenced water body,", 
+          "buildings that may collapse", 
+          "exposed refuse / landfill", 
+          "exposure to railway line", 
+          "exposure busy road", 
+          "exposure to shebeen/ or other drug abuses", 
+          "unsafe pitlatrines,", 
+          "exposure to cooking area", 
+          "exposed water containers", 
+          "other", 
+          "none"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Other Safety Threat", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Obvious Safety Threats": "Other"
+        }, 
+        "type": "text"
+      }, 
+      {
+        "name": "Absence due to safety concerns", 
+        "hint": "re there children that you know of, whose parents want(ed) them to attend your child care facility but do/ did  not do so mainly because of a concern related to safety", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "200", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Parents Feel Safe", 
+        "hint": "Have any parents of children at your centre ever expressed any concerns about safety regarding the trips between their home and your centre (in the last year)?", 
+        "required": false, 
+        "choices": [
+          "Yes, many have", 
+          "Yes, a few have", 
+          "Yes, but only one parent", 
+          "No, none", 
+          "None that I can recall"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Parents safety issues", 
+        "hint": "If yes what was/were the safety issue(s)?  ", 
+        "required": false, 
+        "max_length": "3000", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Children feel safe", 
+        "hint": "Have any children at your centre ever expressed or indicated (e.g. through drawings) feeling unsafe during their trip to or from school (in the last year)?", 
+        "required": false, 
+        "choices": [
+          "Yes, many have", 
+          "Yes, a few have", 
+          "Yes, but only one child", 
+          "No, none", 
+          "None that I can recall."
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Childrens safety issues", 
+        "hint": "If yes what was/were the safety issue(s)?  ", 
+        "required": false, 
+        "max_length": "3000", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Harmfull Substances Stored Safe", 
+        "hint": "Are medicines , detergents and harmful substances stored in lockable  cupboard, and kept out of reach of children: ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "First Aid Trained Staff", 
+        "hint": "How many of the staff at the ECD centre have formal first aid training?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "First Aid Kit", 
+        "hint": "Does the ECD centre have a First Aid kit?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Chidren Attending", 
+        "hint": "How many children are current attending the facility?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Number Of Babies", 
+        "hint": "How many babies 0-2years", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Number Of Todlers", 
+        "hint": "How many children 3-5years", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "ECD Programme Displayed", 
+        "hint": "Is there a daily programme on the wall that is usually followed each day?", 
+        "required": false, 
+        "choices": [
+          "Yes on wall", 
+          "Yes but not on wall", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Programme Registered", 
+        "hint": "Is the ECD Programme registered with the DSD?(evidenced by Form 17 ) ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Underway", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Book Corner", 
+        "hint": "Is there a book corner?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Educational Toys", 
+        "hint": "Are there educational puzzles or toys (e.g. blocks, jigsaws, balls, shape sorter) for children", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Art Equipment", 
+        "hint": "Is  there drawing/painting equipment (i.e. things to write on e.g. paper or coloring in books and to write with e.g. crayons, pencils, paints etc.)", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Childrens Work Diplayed", 
+        "hint": "Are Children's work displayed?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Learning Posters", 
+        "hint": "Are there learning posters on the walls (e.g. 1,2,3; ABC etc)", 
+        "required": false, 
+        "choices": [
+          "Yes, many", 
+          "Yes, some", 
+          "Hardly any", 
+          "None"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Play Mat", 
+        "hint": " When you bring the children together for something like news time or story telling, would you say the space where they sit together (e.g. play mat or carpet) is:", 
+        "required": false, 
+        "choices": [
+          "just the right size for all to sit comfortabl", 
+          "a little bit too small but they all manage to fit somehow", 
+          "much too small", 
+          "too big or too open", 
+          "not sure"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Seperated Spaces", 
+        "hint": "Are there  separate 'spaces' or playrooms assigned for children of different age groups participating in different programmes? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Nutrition Breakfast", 
+        "hint": "Who provides breakfast:", 
+        "required": false, 
+        "choices": [
+          " ECD Centre", 
+          "Parents"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Nutrition Lunch", 
+        "hint": "Who provides lunch?", 
+        "required": false, 
+        "choices": [
+          "ECD Center", 
+          "Parents"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Meal Plan", 
+        "hint": "If the centre provides the food  - does the centre have an approved daily meal plan /menu  evidenced by meal plan on wall of kitchen ? ", 
+        "required": false, 
+        "choices": [
+          "Yes on wall", 
+          "Yes but not on wall", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Tennure", 
+        "hint": "Who owns the land?", 
+        "required": false, 
+        "choices": [
+          "Private individual", 
+          "ECD centre", 
+          "School", 
+          "Church", 
+          "Municipality", 
+          "Traditional authority", 
+          "Government department", 
+          "NPO/NGO", 
+          "Private entity/organisation", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Form of Ownership", 
+        "required": false, 
+        "choices": [
+          "Oral PTO", 
+          "Written PTO", 
+          "Title Deed", 
+          "Unregistred transaction", 
+          "Right to occupy", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Formal Lease", 
+        "hint": "If rented, has a formal lease been signed?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Site Size", 
+        "hint": "What is the estimated size of the site in meters squared? (width X length)", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Space To Extend", 
+        "hint": "Is there adequate space for an extension to the building?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Topography", 
+        "hint": "Describe the topography ", 
+        "required": false, 
+        "choices": [
+          "flat", 
+          "gentle slope", 
+          "steep slope"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Fenced", 
+        "hint": "Is the property fenced?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Partially"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Building Type", 
+        "required": false, 
+        "choices": [
+          "Formal", 
+          "Informal"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Building Plans", 
+        "hint": "Does the ECD Centre have  building plans?", 
+        "required": false, 
+        "choices": [
+          "yes for all", 
+          "yes for most", 
+          "no - don\u2019t think so", 
+          "do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Approved Plans", 
+        "hint": "Have  these plans been appproved by the municipality ?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Do not know"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Building Surface area", 
+        "hint": "What is the overall extent of building(s) Excluding outside toilets  (pace it out)   \u2026\u2026 m x \u2026\u2026m (external measurement) If more than one building, measure each and provide a total in meters squared", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Wall Type", 
+        "hint": "Indicate type of wall.", 
+        "required": false, 
+        "choices": [
+          "brick", 
+          "block", 
+          "wattle&daub", 
+          "corrugated metal sheets", 
+          "wood", 
+          "plastic", 
+          "other", 
+          "a mix"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Wall Problems", 
+        "hint": "Are there problems with the walls?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "None"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Problem Type", 
+        "hint": "If yes, tick appropriate problems (one or more)", 
+        "required": false, 
+        "choices": [
+          "cracks", 
+          "crumbling / collapsing", 
+          "base of wall eroded", 
+          "holes in wall", 
+          "dampness", 
+          "permeates wind and water", 
+          "other"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Other Wall Problem", 
+        "hint": "Specify Other", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Problem Type": "other"
+        }, 
+        "type": "text"
+      }, 
+      {
+        "name": "Roof Type", 
+        "hint": "Indicate type of roof", 
+        "required": false, 
+        "choices": [
+          "corrugated iron sheets", 
+          "tiles", 
+          "asbestos", 
+          "fibre cement", 
+          "thatched", 
+          "plastic", 
+          "canvas", 
+          "other"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Roof Problems", 
+        "hint": "Are there problems with the roof ?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "None"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Roof Problem Type", 
+        "hint": "If yes, tick appropriate problems", 
+        "required": false, 
+        "choices": [
+          "roof leaks", 
+          " roof sheets / tiles missing", 
+          "trusses or  rafters rotten", 
+          "other"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Floor Type", 
+        "hint": "Type of floor: select one or more ", 
+        "required": false, 
+        "choices": [
+          "earth", 
+          "dung", 
+          "concrete slab", 
+          "vinyl sheets", 
+          "vinyl tiles", 
+          "carpet", 
+          "wooden floor", 
+          "ceramic tiles"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "External Doors", 
+        "hint": "How many external doors? ", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Doors Condition", 
+        "hint": "Indicate the condition of the doors ", 
+        "required": false, 
+        "choices": [
+          "good", 
+          "average", 
+          "poor"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "External Opening windows", 
+        "hint": "How many external windows in the playrooms of the  ECD Centre that can open?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Cross Ventilation", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "default": 0, 
+        "type": "number", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Number Of Playrooms"
+      }, 
+      {
+        "name": "Kitchen Space", 
+        "hint": "Is there a dedicated space used only for food preparation?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Kitchen Seprated", 
+        "hint": "If so, are children separated from entering this space by some form of physical barrier?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Dedicated Milk Kitchen", 
+        "hint": "Is there a sperate milk kitchen for the preparation and washing of feeding bottles", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "KItchen Size", 
+        "hint": "What is the kitchen size in meters squared?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Sick Bay", 
+        "hint": "Is there a separate space for a sick bay?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Sick Bay Separation", 
+        "hint": "If so indicate how it is sepearated", 
+        "required": false, 
+        "choices": [
+          "by curtain", 
+          "by low partition", 
+          "separate room", 
+          "in office"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Dedicated Office Space", 
+        "hint": "Is there a dedicated space used only for office / adminstrative work. ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Separate Office ", 
+        "hint": "If so, is it a separate room?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Office Size", 
+        "hint": "What is the size of the office  in meters sqaured?(pace it out)", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Have Electricity", 
+        "hint": "Does the ECD Centre have electricity ? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Have Water", 
+        "hint": "Does the ECD Centre have water ? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Water Sources", 
+        "hint": "If so , how is water supplied?", 
+        "required": false, 
+        "choices": [
+          "municipal - tap on site", 
+          "municipal - communal standpipe", 
+          "municipal - delivery by truck", 
+          "rainwater tank", 
+          "own borehole", 
+          "natural spring", 
+          "river"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Sanitation Type", 
+        "hint": "Type of sanitation: tick one or more", 
+        "required": false, 
+        "choices": [
+          "muicipal water borne sewerage", 
+          "on site septic tank and soakaway", 
+          "on site municipal VIP", 
+          "on site informal pit latrine", 
+          "potties", 
+          "buckets", 
+          "chemical toilets"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Adult Toilets", 
+        "hint": "Number of toilets for adults", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Childrens Toilets", 
+        "hint": "Number of toilets safe for  use by children", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Toilet quality", 
+        "hint": "Quality of toilets", 
+        "required": false, 
+        "choices": [
+          "good", 
+          "average", 
+          "poor"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Nappy Changing Area", 
+        "hint": "Is there a separate nappy changing area with adequate storage for soiled nappies?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Hand Wash Facilties", 
+        "hint": "Which type of hand wash facilities are provided?", 
+        "required": false, 
+        "choices": [
+          "tap", 
+          "tippy tap", 
+          "bowl or bucket of water", 
+          "none"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Nappy Room Hand wash", 
+        "hint": "Is there a hand washing facility in the nappy changing room?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "N/A"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Road Access", 
+        "hint": "Is site accessible by road ?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Refuse Disposal", 
+        "hint": "How does the ECD Center dispose of their refuse ?", 
+        "required": false, 
+        "choices": [
+          "Municipal collection", 
+          " maintain an on-site refuse trench", 
+          "takes refuse to a transfer station or landfill or skip", 
+          "dumps refuse somewhere", 
+          "no refuse management "
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Outdoor Play Area", 
+        "hint": "Is there an outdoor play area?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Outdoor Play area size", 
+        "hint": "What is the extent of the outdoor space available to children for play in meters squared?(pace it out)", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Safe Play Area", 
+        "hint": "Are the children safe and observable during play to prevent kidnap or attacks from outsiders?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Play Area Equipment", 
+        "hint": "Type of equipment  availalble in outdoor play area : tick one or more", 
+        "required": false, 
+        "choices": [
+          "swings", 
+          "jungle gym", 
+          "sandpit", 
+          "slide", 
+          "none"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Planned Improvements", 
+        "hint": "List the improvements you are planning (3 most important improvements) ", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Other known creches", 
+        "hint": " List all the cr\u00e8ches that you know of in this area", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Other Hubs", 
+        "hint": "Do you know of any playgroups or ECD Hubs or Toy libraries in this area. List up to 5", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Establishment date", 
+        "hint": "When was the center established? Only enter the year. YYYY", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }
+    ], 
+    "user_groups": [
+      "ECD"
+    ], 
+    "is_editable": true, 
+    "inlines": [
+      {
+        "name": "ECD Practitioner Highest Qualification", 
+        "is_creatable": true, 
+        "fields": [
+          {
+            "to": "ECD Initial Survey", 
+            "required": false, 
+            "label_field": false, 
+            "name": "parent", 
+            "type": "foreign-key"
+          }, 
+          {
+            "name": "Qualification", 
+            "required": false, 
+            "choices": [
+              "no school education", 
+              "passed grade 7", 
+              "passed grade 10", 
+              "passed grade 12", 
+              "obtained a diploma or degree"
+            ], 
+            "max_length": "300", 
+            "label_field": false, 
+            "type": "choice"
+          }
+        ], 
+        "is_editable": false, 
+        "inlines": [], 
+        "cache_submissions_offline": false, 
+        "show_on_map": false
+      }, 
+      {
+        "name": "ECD Practisioner NQF Level", 
+        "is_creatable": true, 
+        "fields": [
+          {
+            "to": "ECD Initial Survey", 
+            "required": false, 
+            "label_field": false, 
+            "name": "parent", 
+            "type": "foreign-key"
+          }, 
+          {
+            "name": "NQF Level", 
+            "required": false, 
+            "choices": [
+              "Level 1", 
+              "Level 2", 
+              "Level 3", 
+              "Level 4", 
+              "Level 5", 
+              "Higher", 
+              "Other"
+            ], 
+            "max_length": "300", 
+            "label_field": false, 
+            "type": "choice"
+          }
+        ], 
+        "is_editable": false, 
+        "inlines": [], 
+        "cache_submissions_offline": false, 
+        "show_on_map": false
+      }, 
+      {
+        "name": "Playroom Sizes", 
+        "is_creatable": true, 
+        "fields": [
+          {
+            "to": "ECD Initial Survey", 
+            "required": false, 
+            "label_field": false, 
+            "name": "parent", 
+            "type": "foreign-key"
+          }, 
+          {
+            "name": "Size Of Playroom", 
+            "hint": "What is the size of the playroom in meters squared?", 
+            "default": 0, 
+            "required": false, 
+            "label_field": false, 
+            "type": "number"
+          }
+        ], 
+        "is_editable": false, 
+        "inlines": [], 
+        "cache_submissions_offline": false, 
+        "show_on_map": false
+      }
+    ], 
+    "cache_submissions_offline": true, 
+    "show_on_map": false
+  }, 
+  {
+    "category": "Surveys", 
+    "name": "ECD Detailed Survey", 
+    "is_creatable": true, 
+    "fields": [
+      {
+        "name": "Project reference number", 
+        "required": false, 
+        "choices": [
+          "952 Ilifa", 
+          "944 PSPPD ECD"
+        ], 
+        "max_length": "300", 
+        "label_field": true, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Survey Participation", 
+        "required": false, 
+        "choices": [
+          "full participation", 
+          "partial participation", 
+          "not participating now", 
+          "not participating at all"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "type": "date", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Survey Date"
+      }, 
+      {
+        "name": "Survey Time", 
+        "hint": "What is the time now? Please use the format hh:mm", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Type of Centre", 
+        "required": false, 
+        "choices": [
+          "ECD  Centre", 
+          "Playgroup", 
+          "ECD Hub", 
+          "Toy library"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Interviewer Name and Surname", 
+        "hint": "Enter the name and surname of the person conducting the interview", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Interviewer Cell Number", 
+        "hint": "Enter the number of the person conductin the interview ", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Interviewee name and surname", 
+        "hint": "What is the name of the person being interviewed ", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Interviewee Position", 
+        "hint": "What is your position at the facility", 
+        "required": false, 
+        "choices": [
+          "Owner", 
+          "Principal", 
+          "Supervisor", 
+          "Pracitioner", 
+          "Facilitator for Playgroup", 
+          "ECD Hub", 
+          "Toy library", 
+          "Committee member", 
+          "Other"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Interviewee Cell Number", 
+        "hint": "Enter the cell number of the person being interviewed", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "max_length": "300", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Alternate Contact Name and Surname", 
+        "type": "text"
+      }, 
+      {
+        "name": "Alternate Contact Position", 
+        "hint": "What is the alternate contact's position ath the facitlity? ", 
+        "required": false, 
+        "choices": [
+          "Owner", 
+          "Principal", 
+          "Supervisor", 
+          "Pracitioner", 
+          "Facilitator for Playgroup", 
+          "ECD Hub", 
+          "Toy library", 
+          "Committee member"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "max_length": "300", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Alternate Contact Cell Number", 
+        "type": "text"
+      }, 
+      {
+        "to": "ECD Initial Survey", 
+        "required": false, 
+        "label_field": true, 
+        "name": "Facility Name", 
+        "type": "foreign-key"
+      }, 
+      {
+        "name": "Walking Distance", 
+        "hint": "How far do the children have to walk to get to the ECD Centre, playgroup, toy library or ECD HUB? ", 
+        "required": false, 
+        "choices": [
+          "5 min walk = 0-0.5km", 
+          "15 minute walk =  0.5 -  1km", 
+          "30 min walk = 1- 2.5km", 
+          "45 min walk = 2.5-4 km", 
+          "1 hour = 5km"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Childrens Transport Mode", 
+        "hint": "How do children get to the ECD  Playgroup? ", 
+        "required": false, 
+        "choices": [
+          "by foot", 
+          "by taxi", 
+          "bus or car"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Acompanied By an Adult", 
+        "hint": "Are most children accompanied by an older person", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Sometimes"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Nearest Other ECD Centre", 
+        "hint": "Distance to next nearest (other) ECD centre", 
+        "required": false, 
+        "choices": [
+          "5 min walk = 0-0.5km", 
+          "15 minute walk =  0.5 -  1km", 
+          "30 min walk = 1- 2.5km", 
+          "45 min walk = 2.5-4 km", 
+          "1 hour = 5km"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Nearest Primary School", 
+        "hint": "Distance to nearest primary school ", 
+        "required": false, 
+        "choices": [
+          "5 min walk = 0-0.5km", 
+          "15 minute walk =  0.5 -  1km", 
+          "30 min walk = 1- 2.5km", 
+          "45 min walk = 2.5-4 km", 
+          "1 hour = 5km"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Nearest Secondary School", 
+        "hint": "Distance to nearest secondary school", 
+        "required": false, 
+        "choices": [
+          "5 min walk = 0-0.5km", 
+          "15 minute walk =  0.5 -  1km", 
+          "30 min walk = 1- 2.5km", 
+          "45 min walk = 2.5-4 km", 
+          "1 hour = 5km"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Nearest Public Transport", 
+        "hint": "Distance to nearest public transport i.e. taxi pick up point or bus stop ", 
+        "required": false, 
+        "choices": [
+          "5 min walk = 0-0.5km", 
+          "15 minute walk =  0.5 -  1km", 
+          "30 min walk = 1- 2.5km", 
+          "45 min walk = 2.5-4 km", 
+          "1 hour = 5km"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Nearest Clinic", 
+        "hint": "Distance to nearest clinic", 
+        "required": false, 
+        "choices": [
+          "5 min walk = 0-0.5km", 
+          "15 minute walk =  0.5 -  1km", 
+          "30 min walk = 1- 2.5km", 
+          "45 min walk = 2.5-4 km", 
+          "1 hour = 5km"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Management Committee Members", 
+        "hint": "Number of members on the Management Committee?", 
+        "required": false, 
+        "choices": [
+          "4", 
+          "5", 
+          "6", 
+          "7", 
+          "more"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Practice Bookkeeping", 
+        "hint": "Does the centre keep proper books  (e.g. record of income & expenses, assets and liabilities", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Committee willing to be trained", 
+        "hint": "Is the management Committee willing to undergo training to improve their knowledge and skills ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "default": 0, 
+        "type": "number", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Number of Cleaning Staff"
+      }, 
+      {
+        "default": 0, 
+        "type": "number", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Number of gardeners and handymen"
+      }, 
+      {
+        "default": 0, 
+        "type": "number", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Number of daytime caretaker and security"
+      }, 
+      {
+        "default": 0, 
+        "type": "number", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Number of nighttime caretaker and security"
+      }, 
+      {
+        "name": "Keep Job Descriptions", 
+        "hint": "Does the ECD Centre / Playgroup keep Job descriptions for staff?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Keep staff development plan", 
+        "hint": "Does the ECD Centre / Playgroup keep a staff development plan?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Keep visitors book", 
+        "hint": "Does the ECD Centre / Playgroup keep a visitors book?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Keep petty cash book", 
+        "hint": "Does the ECD Centre / Playgroup keep a petty cash book?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Keep progress reports", 
+        "hint": "Does the ECD Centre / Playgroup keep progress reports?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Keep emergency plan", 
+        "hint": "Does the ECD Centre / Playgroup keep an emergency plan?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Report Outside Abuse", 
+        "hint": "Does thefacility report child abuse that happens outside the centre ? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Nurse Visits", 
+        "hint": "Do the nurses  or Philamntwana care givers  visit the ECD Centreto weigh, deworm the children?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Monitor Immunisation", 
+        "hint": "Does the ECD centre monitor the immunisation of the children (Y/N)  (Evidenced by the copies of the Road to Health Card )", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Talk to parents about immunisation", 
+        "hint": "Does the ECD practitioner meet parents to talk to them about the importance of immunisations", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Practice infection controll", 
+        "hint": "Does the ECD practioner practice infection control e.g. ask parents to fetch their children if they have common  childhood illnesses e.g. diahorrea, measels, chicken pox(Y/N) (Evidenced by Incident book / first aid kit)", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Administer medicine from parents", 
+        "hint": "Does the ECD centre give the medicine that the parents sent with? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Record medicine administered", 
+        "hint": "Does the ECD Centre keep records of medicines given to children", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "First aid kit stocked", 
+        "hint": "Is the First Aid kit stocked with the approved first kit items?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Have emergency plan", 
+        "hint": "Does the ECD Centre have a n emergency plan?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Fire Extinguishers", 
+        "hint": "How many fire extinguishers are provided ?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Clean indoor area", 
+        "hint": "Is the indoor area clean and neat?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Practitioner ensures hygiene", 
+        "hint": "Does the practitioner make an effort to ensure hygiene e.g. wipes children's noses with a tissue?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Total children 0 to 1", 
+        "hint": "How many children 0 to 1 years old?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Boys 0 to 1", 
+        "hint": "How many boys 0 to 1 years old?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Girls 0 to 1", 
+        "hint": "How many girls 0 to 1 years old?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Total children 1 to 2", 
+        "hint": "How many children 1 to 2 years old?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Boys 1 to 2", 
+        "hint": "How many boys 1 to 2 years old?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Girls 1 to 2 ", 
+        "hint": "How many girls 1 to 2 years old?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Total children 2 to 3", 
+        "hint": "How many children 2 to 3 years old?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Boys 2 to 3", 
+        "hint": "How many boys 2 to 3 years old?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Girls 2 to 3", 
+        "hint": "How many girls 2 to 3 years old", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Total children 3 to 4", 
+        "hint": "How many chidren 3 to 4 years old?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Boys 3 to 4", 
+        "hint": "How many boys 3 to 4 years old?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Girls 3 to 4", 
+        "hint": "How many girls 3 to 4 years old?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Total children 4 to 5", 
+        "hint": "How many children 4 to 5 years old?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Boys 4 to 5", 
+        "hint": "How many boys 4 to 5 years old?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Girls 4 to 5 ", 
+        "hint": "How many girls 4 to 5 years old?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Children with disabillities", 
+        "hint": "How many children with disabilities are attending this ECD Centre / playgroup?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Specify Disabillities", 
+        "hint": "Specify disabilities : Tick one or more:", 
+        "required": false, 
+        "choices": [
+          "wheel chair / crutch users", 
+          "blind", 
+          "deaf", 
+          "epileptic", 
+          "fetal alcohol syndrome"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Provisions for disabled children", 
+        "hint": "What provision is made to accommodate these children? ", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Matress per child", 
+        "hint": "Is there  a mattress  for each child?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Regular group gatherings", 
+        "hint": "Are children gathered together routinely for small group activities e.g. a learning 'ring' for story time?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Playroom accommodates different activities", 
+        "hint": "Is the playroom laid out to cater for different activities", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Attractive playroom", 
+        "hint": "Is the play area hygienically clean, neat and attractive to children ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Number of small tabes", 
+        "hint": "How many small tables does the ECD centre have? ", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Number of small chairs", 
+        "hint": "How many small chairs does the ECD centre have? ", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Resources well kept", 
+        "hint": "Are these resources /  toys in a good and  clean condition?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Broken toys in use", 
+        "hint": "Are toys broken and still being used", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "DSD funded food", 
+        "hint": "Does the centre buy food from funding received from DSD?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Have food garden", 
+        "hint": "Does the ECD Centre have a vegetable garden?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Food garden sufficient", 
+        "hint": "Is the vegetable garden providing in the needs of the ECD Centre?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Have food garden": "Yes"
+        }, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Why not", 
+        "hint": "If not, why not : Indicate one or more", 
+        "required": false, 
+        "choices": [
+          "do not provide food for children", 
+          "do not have money for seeds/ seedlings", 
+          "do not have a gardener / cook to look after the garden", 
+          "other"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Food garden sufficient": "No"
+        }, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Proof of tennure", 
+        "required": false, 
+        "choices": [
+          "PTO", 
+          "Title Deed"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Proof of lease", 
+        "hint": "If the space is rented, did you view a copy of the lease?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Stormwater problems", 
+        "hint": "Are there any signs of stormwater problems?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Specify storm water problems", 
+        "hint": "Specify: Tick one or more", 
+        "required": false, 
+        "choices": [
+          "soil washed away under foundations of building", 
+          "water ponding", 
+          "erosion "
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Type of fence", 
+        "hint": "What type of fence is there? Tick one or more if a mix of fencing", 
+        "required": false, 
+        "choices": [
+          "wall ", 
+          "wire mesh ", 
+          "wood", 
+          "metal pallisade", 
+          "barbed wire", 
+          "hedge "
+        ], 
+        "max_length": "200", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Fence height", 
+        "hint": "What is the estimated height of the fence ?", 
+        "required": false, 
+        "choices": [
+          "less than 0.5m", 
+          "0.5m-1.2m", 
+          "1.2m to 1.8m", 
+          "more than 1.8m", 
+          "No Fence"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Gate required", 
+        "hint": "Is a gate required?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Type of gate", 
+        "hint": "Indicate what type of gate is required ?", 
+        "required": false, 
+        "choices": [
+          "vehicles", 
+          "pedestrians"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "Gate required": "Yes"
+        }, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Pedestrian gate present", 
+        "hint": "Is there a lockable gate for pedestrians?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Vehicle gate present", 
+        "hint": "Is there a lockable gate for vehicular access?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Number of buildings", 
+        "hint": "Indicate number of buildings on site", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Building uses", 
+        "hint": "Indicate what the buildings are used for: Tick one or more", 
+        "required": false, 
+        "choices": [
+          " ECD centre", 
+          "outside toilets", 
+          "kitchen", 
+          "office", 
+          "store", 
+          "private home", 
+          "other"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Plastered walls", 
+        "hint": "Are the walls pastered?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Facebrick"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Painted walls", 
+        "hint": "Are the walls painted?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Roof condition", 
+        "hint": "Describe the  condition of the roof", 
+        "required": false, 
+        "choices": [
+          "good condition", 
+          "roof sheets not overlapping properly", 
+          "roof  sheets loose", 
+          "roof needs to be replaced in total"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Extent of roof damage", 
+        "hint": "If a portion or the whole roof needs to be replaced - indicate exent in meters squared", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Ceilings", 
+        "hint": "Are there ceilings in the playroom?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Partial"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Ceiling Condition", 
+        "hint": "What is the  condition of the ceilings ? ", 
+        "required": false, 
+        "choices": [
+          "Good condition", 
+          ", the ceilings show some signs of mould (being wet often)  but otherwise fine", 
+          "some ceiling sheets are missing", 
+          "the ceiling is falling down"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Ceiling repairs required", 
+        "hint": "If the ceiling is to be fixed, Tick  what needs to be done", 
+        "required": false, 
+        "choices": [
+          "water proof and paint the ceiling", 
+          "Replace the ceiling and paint"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Smooth floor", 
+        "hint": "Does the floor have a smooth surface that is easily cleanable?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Floor condition", 
+        "hint": "What is the condition of the floors? ", 
+        "required": false, 
+        "choices": [
+          "Good condition", 
+          "permeates dampness", 
+          "The surface of the concrete floor is rough  and  needs a topping", 
+          "There are some floor tiles missing"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "External doors", 
+        "hint": "How many external doors?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Doors adequate", 
+        "hint": "Are the doors providing enough security / shelter against wind and rain?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Type of door frames", 
+        "required": false, 
+        "choices": [
+          "wood", 
+          "steel", 
+          "no frame"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Door frames condition", 
+        "hint": "Indicate the condition of the door frames", 
+        "required": false, 
+        "choices": [
+          "good", 
+          "broken  but can be repaired", 
+          "frame is in poor condition and needs to be replaced"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Number of doors to replace", 
+        "hint": "If door frames need to be replaced,  How many?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Window frame type", 
+        "hint": "What are the window frames made of?", 
+        "required": false, 
+        "choices": [
+          "wood", 
+          "metal", 
+          "no frame"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Windows good condition", 
+        "hint": "Are the windows in the building in a good state of repair?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Some"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Window frames condition", 
+        "hint": "Indicate the condition of the window frames", 
+        "required": false, 
+        "choices": [
+          "good condition", 
+          "windows are rusted and needs to be sanded down and painted", 
+          "window frames are broken and needs to be replaced"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Glass condition", 
+        "hint": "What is the condition of the glazing (glass)", 
+        "required": false, 
+        "choices": [
+          "no window panes broken", 
+          "a few panes broken", 
+          "most window panes broken"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Window panes to replace", 
+        "hint": "Indicate how many window panes need to be replaced", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Sufficient natural light", 
+        "hint": "Are the rooms light enough for the ECD practitioner to read and the children to undertake their activities without switching on the light?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Stairs present", 
+        "hint": "Are there Stairs?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Stairs condition", 
+        "required": false, 
+        "choices": [
+          "well built and maintained", 
+          "cracked", 
+          "caving in", 
+          "needs to be rebuilt"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Access ramp", 
+        "hint": "Is there a ramp for children with disabilities / wheel chair users?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Ramp condition", 
+        "hint": "Indicate condition of ramp", 
+        "required": false, 
+        "choices": [
+          "well built and maintained", 
+          "cracked", 
+          "caving in", 
+          "needs to be rebuilt"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Require ramp", 
+        "hint": "If no ramp, does the ECD centre require a ramp (only if the centre caters for children in wheel chairs)", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Verandah present", 
+        "hint": "Is there a verandah?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Verandah condition", 
+        "required": false, 
+        "choices": [
+          "well built and maintained", 
+          "structure cracked", 
+          "surface needs filling here and there or requires  a new topping"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Concrete aprons", 
+        "hint": "Are there concrete aprons around the buildings", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          " partial or only for some buildings"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Aprons condition", 
+        "required": false, 
+        "choices": [
+          "Well built and maintained", 
+          " cracked and need minor repairs", 
+          "caving in and needs to be recasted", 
+          "soil washed away from under aprons and need to be rehabilitated"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Security gates present", 
+        "hint": "Are there security gates on external doors", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Burglar bars persent", 
+        "hint": "Are there burglar bars for windows?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Alarm system present", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Gutters present", 
+        "hint": "Are ther gutters?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Gutter prevalence", 
+        "hint": "Indicate if guttering is provided for one side  of the building / both sides of building(s", 
+        "required": false, 
+        "choices": [
+          "one side of the building", 
+          "both sides of the buildin"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Gutter type", 
+        "hint": "What type of guttering is provided", 
+        "required": false, 
+        "choices": [
+          "Half round or square- Fibre cement", 
+          "metal", 
+          "PVC (looks like hard plastic)"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Gutter condition", 
+        "hint": "Describe the condition of the gutters", 
+        "required": false, 
+        "choices": [
+          "good condition", 
+          "portion of the gutter is missing", 
+          "some of the brackets are missing", 
+          "the gutters are broken and leak"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Gutter length required", 
+        "hint": "IF gutters are to be provided or fixed  - how many meters of guttering is required", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Other guttering requirements", 
+        "hint": "What else is required?", 
+        "required": false, 
+        "choices": [
+          "plugging of missing down pipes", 
+          "down pipe", 
+          "swan neck", 
+          "shoe", 
+          "clamps", 
+          "other"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Running water in kitchen", 
+        "hint": "Does the kitchen have running water?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Kitchen clean", 
+        "hint": "Is the kitchen hygienically clean", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "Yes"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Kitchen fittings", 
+        "hint": "Does the  kitchen have  the following? ", 
+        "required": false, 
+        "choices": [
+          "washable walls", 
+          "ceiling", 
+          "easy cleanable floor", 
+          "clean utensils"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Babies present", 
+        "hint": "Are there  babies at the centre?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Seperate baby space", 
+        "hint": "If yes, is there a dedicated and separate space for them? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Seperation method", 
+        "hint": "If yes indicate how the space is seperated", 
+        "required": false, 
+        "choices": [
+          "separated by a curtain", 
+          "low partition", 
+          "n an entirely separate room"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Nursery size", 
+        "hint": "What is the size of the nursery in meters squared?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Equipment storage space", 
+        "hint": "Is there a separate storeroom or  cupboard for the ECD Centre equipment?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Children belongings storage space", 
+        "hint": "Does the children have adequate storage space for their personal belongings?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Cooking area access", 
+        "hint": "Do children have easy access to cooking area?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Storage space size", 
+        "hint": "What is the size of the storage space in meters squared?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "DB Board condition", 
+        "hint": "what is the condition of the electrical Distribution Board (DB)?", 
+        "required": false, 
+        "choices": [
+          "The DB is neat and intact", 
+          "The DB is untidy and wires are not properly secured", 
+          " The DB is open and wires are exposed", 
+          "There is no electricity"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Exposed wires", 
+        "hint": "Are there any open wires internally or externally?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "No electricity"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Distance to nearest electricity", 
+        "hint": "If there is no electricity -  how many minutes will it take you to walk to the closest electrical line/box? ", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Electricity provider", 
+        "hint": "Who provides electricity in this area", 
+        "required": false, 
+        "choices": [
+          "Eskom", 
+          "Municipality"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Nearest water", 
+        "hint": "Where is the closest municipal stand pipe( tap)  in the village/ settlement (estimate distance - ask how long it takes to walk there )", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Water delivered", 
+        "hint": "Does the Municipality deliver water to site?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Water delivery frequency", 
+        "hint": "If the municipality delivers water  to site, indicate frequency ", 
+        "required": false, 
+        "choices": [
+          "once a week", 
+          "once every 2 weeks", 
+          " once a month"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Water tanks", 
+        "hint": "How many water tanks does the ECD Centre have ?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Tanks condition", 
+        "hint": "In what condition are  the  tanks?", 
+        "required": false, 
+        "choices": [
+          "good", 
+          "average", 
+          "broken"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Tanks required", 
+        "hint": "How many water stands are required? ", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Harvesting rainwater", 
+        "hint": "Are water tanks linked to guttering to catch up water from roof?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Toilets condition", 
+        "hint": "Toilets: what is the condition of the toilets? ", 
+        "required": false, 
+        "choices": [
+          "good", 
+          "average", 
+          "need repairs to wall", 
+          "need repairs to window", 
+          "need repairs to door", 
+          "need repairs to toilet seat"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "default": 0, 
+        "type": "number", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Number of toilet roofs needed"
+      }, 
+      {
+        "default": 0, 
+        "type": "number", 
+        "required": false, 
+        "label_field": false, 
+        "name": "number of toilet windows needed"
+      }, 
+      {
+        "default": 0, 
+        "type": "number", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Number of toilet doors needed"
+      }, 
+      {
+        "default": 0, 
+        "type": "number", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Number of toilet seats needed"
+      }, 
+      {
+        "default": 0, 
+        "type": "number", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Number of VIP toilets needed"
+      }, 
+      {
+        "default": 0, 
+        "type": "number", 
+        "required": false, 
+        "label_field": false, 
+        "name": "number of flush toilets needed"
+      }, 
+      {
+        "name": "Septic tank on site", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Septic tank required", 
+        "hint": "Is a septic tank required?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Soakaway present", 
+        "hint": "Is there a soakaway on site?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Number of potties", 
+        "hint": "How many  potties are there? ", 
+        "required": false, 
+        "choices": [
+          "1", 
+          "2", 
+          "3", 
+          "4", 
+          "5", 
+          "more"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Potties emptied", 
+        "hint": "Where are the potties emptied? ", 
+        "required": false, 
+        "choices": [
+          "in pitlatrine", 
+          "bucket", 
+          "flush toilet", 
+          "dry toilet ", 
+          "enviro toilet", 
+          "outside in the bush"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Potties disinfected", 
+        "hint": "Are the potties disinfected on a regular basis?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Bathing space", 
+        "hint": "Is there a space where children can be bathed / washed?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Number of hand washing points", 
+        "hint": "How many tippy taps/ bowls or buckets of water are provided for hand washing? ", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Water change frequency", 
+        "hint": "If a bucket or bowl - how often is this water changed during the day?", 
+        "required": false, 
+        "choices": [
+          "1x", 
+          "2x", 
+          "3x", 
+          "4x", 
+          "more"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Hand wash point location", 
+        "hint": "Indicate where the hand wash facilities are", 
+        "required": false, 
+        "choices": [
+          "inside a building", 
+          "outside in the open"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Hand basins", 
+        "hint": "Are there hand basins ?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Basins condition", 
+        "hint": "What is the condition of the hand basins", 
+        "required": false, 
+        "choices": [
+          "good", 
+          "average", 
+          "poor and needs to be fixed", 
+          " broken and needs to be replaced"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Number of basins to replace", 
+        "hint": "If basins need to be replaced - how many?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Children wash hands", 
+        "hint": "Can and do children wash their hands ?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Sometimes"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Use soap", 
+        "hint": "Can and do children use soap/detergent to wash their hands?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Bins with lids", 
+        "hint": "Does the ECD Centre have waste  disposal bins with tightly closing lids?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Refuse storage space", 
+        "hint": "Is there a secluded/ fenced off area for storage all refuse refuse pending removal? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "refuse removal frequency", 
+        "hint": "If refuse is removed by the municipality , indicate how often ", 
+        "required": false, 
+        "choices": [
+          "1 per week", 
+          "2 per week", 
+          "1 x every 2 weeks", 
+          "ad hoc basis"
+        ], 
+        "max_length": "200", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Refuse management", 
+        "hint": "If refuse is disposed on site indicate how it is managed", 
+        "required": false, 
+        "choices": [
+          "open trench for all rubbish (including organic materials)", 
+          "organic materials used for compost", 
+          "refuse is covered with sand", 
+          "refuse is regularly burnt", 
+          "refuse area  is fenced of", 
+          " refuse area is not fenced off"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Refuse site condition", 
+        "hint": "Indicate the condition of the refuse site", 
+        "required": false, 
+        "choices": [
+          "well kept", 
+          "need improvement", 
+          "poorly kept", 
+          "definite health risk"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Nappis disposed on site", 
+        "hint": "Are any disposable nappies disposed of on site at the centre", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "200", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Nappy disposal method", 
+        "hint": "If yes indicate how nappies are disposed of", 
+        "required": false, 
+        "choices": [
+          "in closed or covered refuse container that the municipality collect", 
+          "in open refuse hole on site", 
+          "other"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "If not disposing nappies on site", 
+        "hint": " If no, indicate :   do not have children with nappies/ send nappies back home with children", 
+        "required": false, 
+        "choices": [
+          " do not have children with nappies", 
+          "send nappies back home with children"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Seperate outdoor play area", 
+        "hint": "Is there a separate play are for children between 0-2 and 3 to 5 years", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Outdoor play equipment condition", 
+        "hint": "Indicate the condition of the outdoor play equipment", 
+        "required": false, 
+        "choices": [
+          "good", 
+          "average", 
+          "need maintenance and minor repair", 
+          " Poor - is dangerous for children to play on and needs to be replaced"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Cover sandpit", 
+        "hint": "Does the ECD Centre cover  the sandpit  overnight?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Sandpit salted", 
+        "hint": "Does the ECD Centre salt the sandpit every 6 weeks", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Animals excluded", 
+        "hint": "Are pets and other animals secluded from partial care area? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Poisonous plants present", 
+        "hint": "Are there posionous plants on the site?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Additional notes", 
+        "hint": "Ad hoc notes and observations", 
+        "required": false, 
+        "max_length": "3000", 
+        "label_field": false, 
+        "type": "text"
+      }
+    ], 
+    "user_groups": [
+      "ECD"
+    ], 
+    "is_editable": true, 
+    "inlines": [], 
+    "cache_submissions_offline": false, 
+    "show_on_map": false
+  }, 
+  {
+    "category": "Surveys", 
+    "name": "ECD Playgroup survey", 
+    "is_creatable": true, 
+    "fields": [
+      {
+        "name": "Project Refference Number", 
+        "required": false, 
+        "choices": [
+          "952 Ilifa", 
+          "944 PSPPD ECD"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Survey Participation", 
+        "required": false, 
+        "choices": [
+          "full participation", 
+          "partial participation", 
+          "not participating now", 
+          "not participating at all"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "type": "date", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Survey date"
+      }, 
+      {
+        "name": "Survey Time", 
+        "hint": "What is the time now? Please use the format hh:mm ", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Type of Center", 
+        "required": false, 
+        "choices": [
+          "ECD  Centre", 
+          "Playgroup", 
+          "ECD Hub", 
+          "Toy Library"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Interviewer Name and Surname", 
+        "hint": "Enter the name and surname of the person conducting the interview ", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Interviewer Cell Number", 
+        "hint": "Enter the number of the person conducting the interview", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Interviewee name and surname", 
+        "hint": "What is the name of the person being interviewed ", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Interviewee Position", 
+        "hint": "What is your position at the facility ", 
+        "required": false, 
+        "choices": [
+          "Owner", 
+          "Principal", 
+          "Supervisor", 
+          "Pracitioner", 
+          "Facilitator for Playgroup", 
+          "ECD Hub", 
+          "Toy library", 
+          "Committee member"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Interviewee Cell Number", 
+        "hint": "Enter the cell number of the person being interviewed", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "max_length": "300", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Alternate Contact Name and Surname", 
+        "type": "text"
+      }, 
+      {
+        "name": "Alternate Contact Position", 
+        "required": false, 
+        "choices": [
+          "Owner", 
+          "Principal", 
+          "Supervisor", 
+          "Pracitioner", 
+          "Facilitator for Playgroup", 
+          "Committee member"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "max_length": "300", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Alternate Contact Cell Number", 
+        "type": "text"
+      }, 
+      {
+        "name": "Facility Name", 
+        "hint": "What is the name of the facility? ", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Municipality", 
+        "required": false, 
+        "choices": [
+          "eThekwini", 
+          "Amaoti", 
+          "Umlazi", 
+          "Umzumbe", 
+          "Vulamehlo", 
+          "Msinga", 
+          "Umvoti"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "default": 0, 
+        "type": "number", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Ward Number"
+      }, 
+      {
+        "name": "Village Name", 
+        "hint": "Name of Area/ Village/ informal settlement ", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Type of Area", 
+        "required": false, 
+        "choices": [
+          "Informal Settlement", 
+          "Township", 
+          "Peri Urban", 
+          "Rural "
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "On Site", 
+        "hint": "Are you currently located on site and wish to capture GPS coordinates? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "GPS", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "visible_when": {
+          "On Site": "Yes"
+        }, 
+        "type": "coordinates"
+      }, 
+      {
+        "name": "Physical address", 
+        "hint": "Enter the physical address of the center ", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Postal Address", 
+        "hint": "Enter the postal address of the centre.", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Operational Base", 
+        "hint": "Operational base of centre ", 
+        "required": false, 
+        "choices": [
+          "private home", 
+          "dedicated ECD centre", 
+          "church", 
+          "school", 
+          "community centre/hal", 
+          "clinic", 
+          "other"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Operating Days", 
+        "hint": "On which days is the center operational? ", 
+        "required": false, 
+        "choices": [
+          "Monday", 
+          "Tuesday", 
+          "Wednesday", 
+          "Thursday", 
+          "Friday", 
+          "Satturday", 
+          "Sunday"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Starting Time", 
+        "hint": "At what time does the center usually start operating? Please use format hh:mm ", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Closing Time", 
+        "hint": "At what time does the center ususaly close? Please use format hh:mm ", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Walking Distance", 
+        "hint": "How far do the children have to walk to get to the ECD Centre, playgroup, toy library or ECD HUB? ", 
+        "required": false, 
+        "choices": [
+          "5 minute walk = 0-0.5km", 
+          "15 minute walk = 0.5 -  1km", 
+          "30 min walk = 1- 2.5km", 
+          "45 min walk = 2.5-4 km", 
+          "1 hour = 5km"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Childrens Transport Mode", 
+        "hint": "How do children get to the ECD Playgroup?", 
+        "required": false, 
+        "choices": [
+          " by foot", 
+          "by taxi", 
+          "bus or car"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Acompanied By an Adult", 
+        "hint": "Are most children accompanied by an older person?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Sometimes"
+        ], 
+        "max_length": "200", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Nearest Other ECD Centre", 
+        "hint": "Distance to next nearest (other) ECD centre ", 
+        "required": false, 
+        "choices": [
+          "5 minute walk =  0-0.5km", 
+          "15 minute walk = 0.5 -  1km", 
+          "30 min walk = 1- 2.5km;", 
+          "45 min walk = 2.5-4 km", 
+          "1 hour = 5km"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Center Ownership", 
+        "hint": "Who owns the ECD Centre? ", 
+        "required": false, 
+        "choices": [
+          "private individual", 
+          "community based organisation", 
+          "faithbased organisation", 
+          "registered NPO", 
+          "other"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "type": "date", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Establishment date", 
+        "hint": "When was the center established? "
+      }, 
+      {
+        "name": "NPO", 
+        "hint": "Is the facility registered as an NPO? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "In progress"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "NPO Number", 
+        "hint": "What is the NPO Number? ", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "DSD Registered", 
+        "hint": "Is the ECD Centre registered with the DSD: Tick one: unregistered, in process, conditional registration, full registration? (evidenced by Form 12) ", 
+        "required": false, 
+        "choices": [
+          "unregistered", 
+          "in  process", 
+          "conditional registration", 
+          "full registration"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "DSD Funded", 
+        "hint": "Does the DSD fund this ECD project? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Number of Subsidies", 
+        "hint": "If so , how many children recieves subsidies?", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "visible_when": {
+          "DSD Funded": "Yes"
+        }, 
+        "type": "number"
+      }, 
+      {
+        "name": "Governance Comittee", 
+        "hint": "Is there a Committee for the facility ? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Under establishment"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Minutes Availlable", 
+        "hint": "If so ,are there minutes available? ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Department and Entity Relationships", 
+        "hint": "With which department / entity does the ECD Centre have contact ? Tick one or more ", 
+        "required": false, 
+        "choices": [
+          "Dept of Social Development", 
+          "Dept of Health", 
+          "Other Department", 
+          "Clinic", 
+          "Municipality", 
+          "None"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "multi-choice"
+      }, 
+      {
+        "name": "Principal Name", 
+        "hint": "Principal / Supervisor/ Owner: Indicate Name and surname ", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "max_length": "300", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Principal cell Number", 
+        "type": "text"
+      }, 
+      {
+        "name": "Principal Highest Qualification", 
+        "required": false, 
+        "choices": [
+          "no school education", 
+          "passed grade 7", 
+          "passed  grade 10", 
+          "passed grade 12", 
+          "obtained a diploma or degree"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Principal Training", 
+        "hint": "Have you attended any skills training ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Highest Formal ECD Qaulification", 
+        "hint": "What is the highest Formal ECD qualification obtained?  (evidenced by Certificate)", 
+        "required": false, 
+        "choices": [
+          "NQF Level 1", 
+          "NQF Level 2", 
+          "NQF Level 3", 
+          "NQF Level 4", 
+          "NQF Level 5", 
+          "Higher"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Number of ECD Practitioners", 
+        "hint": "Number of ECD practitioners / playgroup/ ECD Hub / Toy library facilitators ", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Trained ECD practitioners", 
+        "hint": "Number of ECD practitioners / playgroup facilitators who have received formal ECD training ", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Chidren Attending", 
+        "hint": "How many children are current attending the facility? ", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Number Of Babies", 
+        "hint": "How many babies 0-2years ", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Number Of Todlers", 
+        "hint": "How many children 3-5years ", 
+        "default": 0, 
+        "required": false, 
+        "label_field": false, 
+        "type": "number"
+      }, 
+      {
+        "name": "Programme Registered", 
+        "hint": "Is the ECD Programme registered with the DSD?(evidenced by Form 17 ) ", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No", 
+          "Underway"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Play area clean", 
+        "hint": "s the play area hygienically clean, neat and attractive to children?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Resources Clean", 
+        "hint": "Are these resources /  toys in a good and  clean condition?", 
+        "required": false, 
+        "choices": [
+          "Yes", 
+          "No"
+        ], 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "choice"
+      }, 
+      {
+        "name": "Other known creches", 
+        "hint": "List all the cr\u00e8ches that you know of in this area ", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Other Hubs", 
+        "hint": "Do you know of any playgroups or ECD Hubs or Toy libraries in this area. List up to 5 ", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "name": "Additional notes", 
+        "hint": "type in any additional information and observations - including of a qualitative nature", 
+        "required": false, 
+        "max_length": "3000", 
+        "label_field": false, 
+        "type": "text"
+      }, 
+      {
+        "max_length": "300", 
+        "required": false, 
+        "label_field": false, 
+        "name": "Province", 
+        "type": "id-field"
+      }, 
+      {
+        "name": "Unique ID", 
+        "required": false, 
+        "max_length": "300", 
+        "label_field": false, 
+        "from_fields": [
+          "Province", 
+          "Municipality", 
+          "Facility Name"
+        ], 
+        "type": "id-field"
+      }
+    ], 
+    "user_groups": [
+      "ECD"
+    ], 
+    "is_editable": true, 
+    "inlines": [
+      {
+        "name": " Ecd Practitioners Highest Qualification", 
+        "is_creatable": true, 
+        "fields": [
+          {
+            "to": "ECD Playgroup survey", 
+            "required": false, 
+            "label_field": false, 
+            "name": "parent", 
+            "type": "foreign-key"
+          }, 
+          {
+            "name": "Qualification ", 
+            "required": false, 
+            "choices": [
+              "no school education", 
+              "passed grade 7", 
+              "passed grade 10", 
+              "passed grade 12", 
+              "obtained a diploma or degree"
+            ], 
+            "max_length": "300", 
+            "label_field": false, 
+            "type": "choice"
+          }
+        ], 
+        "is_editable": false, 
+        "inlines": [
+          {
+            "name": "Ecd Practisioners Nqf Level", 
+            "is_creatable": true, 
+            "fields": [
+              {
+                "to": " Ecd Practitioner Highest Qualification", 
+                "required": false, 
+                "label_field": false, 
+                "name": "parent", 
+                "type": "foreign-key"
+              }, 
+              {
+                "name": "NQF Level ", 
+                "hint": "For each Practitioner  indicate ECD Training NQF level 1,2,3,4,5,higher, other  (Evidenced by certificate) ", 
+                "required": false, 
+                "choices": [
+                  "NQF level 1", 
+                  "NQF level 2", 
+                  "NQF level 3", 
+                  "NQF level 4", 
+                  "NQF level 5", 
+                  "Higher", 
+                  "Other"
+                ], 
+                "max_length": "300", 
+                "label_field": false, 
+                "type": "choice"
+              }
+            ], 
+            "is_editable": false, 
+            "inlines": [], 
+            "cache_submissions_offline": false, 
+            "show_on_map": false
+          }
+        ], 
+        "cache_submissions_offline": false, 
+        "show_on_map": false
+      }
+    ], 
+    "cache_submissions_offline": false, 
+    "show_on_map": true
+  }
+]

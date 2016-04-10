@@ -158,7 +158,7 @@ class MapMixin(object):
 					maps.event.addListener(marker, 'mouseout', 'myobj.markerOut')
 					info = maps.InfoWindow({
 						'content': '<a href="{url}">{text}</a>'.format(
-							text = form_object.__unicode__(),
+							text = form_object.__unicode__().encode('utf-8'),
 							url = reverse('web_update', kwargs={'model_name': form_object.model_name(), 'pk': form_object.pk})
 						),
 						'disableAutoPan': True

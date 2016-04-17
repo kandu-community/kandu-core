@@ -1,6 +1,6 @@
 from functions import config_update_wrapper
 try:
-	from django.db.models import Model, ForeignKey, DateTimeField
+	from django.db.models import Model, ForeignKey, DateTimeField, FileField
 	from django.contrib.auth.models import User, Group
 	from django.dispatch import receiver
 	from django.db.models import signals
@@ -37,6 +37,26 @@ try:
 				return None
 			return field_name
 
+		@property
+		def id_field_value(self):
+			try:
+			    id_field_name = next( field.name for field in self._meta.fields if isinstance(field, django_fields.DjangoIdField) )
+			    return getattr(self, id_field_name)
+			except StopIteration:
+				return None
+		
+		@classmethod
+		def file_fields(cls):
+			return [field.name for field in cls._meta.fields if isinstance(field, FileField)]
+
+		@classmethod
+		def allows_bulk_download(cls):
+			return len(cls.file_fields()) > 0
+
+		@property
+		def attached_files(self):
+			return [ (field_name, getattr(self, field_name)) for field_name in self.file_fields() ]
+
 		def save(self, *args, **kwargs):
 			kwargs.pop('force_insert', None)
 
@@ -52,9 +72,16 @@ try:
 		def verbose_name(cls):
 			return cls._meta.verbose_name.title()
 
+		def label_fields_as_str(self):
+			try:
+				fields_str = u', '.join( unicode(getattr(self, field_name)) for field_name in self.label_fields if hasattr(self, field_name) and getattr(self, field_name) != None )
+				return fields_str if fields_str != '' else self.__class__.verbose_name()
+			except AttributeError:
+				return self.__class__.verbose_name()
+
 		def __unicode__(self):
 			try:
-				return u', '.join( unicode(getattr(self, field_name)) for field_name in self.label_fields if hasattr(self, field_name) and getattr(self, field_name) != None )
+				return self.__class__.verbose_name() + ': ' + self.label_fields_as_str()
 			except AttributeError:
 				return self.__class__.verbose_name()
 

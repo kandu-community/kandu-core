@@ -1,7 +1,7 @@
 #coding:utf-8
 
 from django.core.urlresolvers import reverse
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView
+from django.views.generic import ListView, CreateView, DeleteView, FormView, DetailView
 from django.contrib.auth.forms import UserCreationForm
 from django.forms.models import modelform_factory
 from django.forms import Form, FileField, Field, Form
@@ -11,7 +11,7 @@ from django.core.management import call_command
 from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponseNotFound, HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ImproperlyConfigured
 import os
 from gmapi import maps
 from gmapi.forms.widgets import GoogleMap
@@ -22,6 +22,9 @@ from django.contrib.gis.db.models import PointField
 from django.contrib.gis.measure import Distance
 from django.contrib.gis.geos import Point
 from extra_views import InlineFormSet, CreateWithInlinesView, UpdateWithInlinesView
+from itertools import chain
+from zipfile import ZipFile
+from io import BytesIO
 
 import forms.models
 from forms.utils import get_form_models, get_search_fields
@@ -36,6 +39,7 @@ class ModelFromUrlMixin(object):
 
 	model_url_kwarg = 'model_name'
 	inlines_also = False
+	fail_silently_if_no_model_kwarg = False
 
 	def parent_field_for_inline(self, inline_model):
 		try:
@@ -50,8 +54,11 @@ class ModelFromUrlMixin(object):
 	def dispatch(self, *args, **kwargs):
 		try:
 			self.model = getattr(forms.models, self.kwargs[self.model_url_kwarg])
-		except AttributeError:
-			return HttpResponseNotFound("No such form: %s" % self.kwargs[self.model_url_kwarg])
+		except (AttributeError, KeyError):
+			if self.fail_silently_if_no_model_kwarg:
+				return super(ModelFromUrlMixin, self).dispatch(*args, **kwargs)
+			else:
+				return HttpResponseNotFound("No such form: %s" % self.kwargs[self.model_url_kwarg])
 
 		if self.inlines_also and self.model.inlines:
 			self.inlines = []
@@ -120,7 +127,10 @@ class CheckPermissionsMixin(object):
 			return HttpResponseForbidden("You don't have permission to perform this action.")
 
 	def has_permission(self):
-		return self.model in [model for name, model in get_form_models(for_user=self.request.user)]
+		if self.model:
+			return self.model in [model for name, model in get_form_models(for_user=self.request.user)]
+		else:
+			return True
 
 class MapMixin(object):
 	def get_context_data(self, **kwargs):
@@ -144,10 +154,11 @@ class MapMixin(object):
 						'position': maps.LatLng(lat, lng),
 					})
 
-					maps.event.addListener(marker, 'click', 'myobj.markerOver')
+					maps.event.addListener(marker, 'mouseover', 'myobj.markerOver')
+					maps.event.addListener(marker, 'mouseout', 'myobj.markerOut')
 					info = maps.InfoWindow({
 						'content': '<a href="{url}">{text}</a>'.format(
-							text = form_object.__unicode__(),
+							text = form_object.__unicode__().encode('utf-8'),
 							url = reverse('web_update', kwargs={'model_name': form_object.model_name(), 'pk': form_object.pk})
 						),
 						'disableAutoPan': True
@@ -199,12 +210,15 @@ class StaffOmnividenceMixin(object):
 		else:
 			return parent_queryset.filter(user=self.request.user)
 
+def get_all_forms():
+	return BaseFormModel.objects.order_by('-created_at').select_subclasses()
+
 class BaseFormList(StaffOmnividenceMixin, ListView):
 	template_name = 'web/form_list.html'
 	paginate_by = 10
 	
 	def get_queryset(self):
-		return BaseFormModel.objects.order_by('-created_at').select_subclasses()
+		return get_all_forms()
 
 class MapView(MapMixin, ListView):
 	template_name = 'web/map_view.html'
@@ -257,6 +271,39 @@ class FormUpdate(AutocompleteFormMixin, HiddenFieldsMixin, ExcludeFieldsMixin, S
 
 class FormDelete(SuccessRedirectMixin, ModelFromUrlMixin, CheckPermissionsMixin, DeleteView):
 	template_name = 'web/form_delete.html'
+
+class DownloadFormFilesView(FormList):
+	fail_silently_if_no_model_kwarg = True
+
+	def get_queryset(self):
+		try:
+			return super(DownloadFormFilesView, self).get_queryset()
+		except ImproperlyConfigured: # no model_name kwarg
+			return get_all_forms()
+
+	def get(self, request, *args, **kwargs):
+		in_memory = BytesIO()
+		with ZipFile(in_memory, "a") as zip_file:
+			for form_object in self.get_queryset():
+				if not form_object.allows_bulk_download:
+					continue
+
+				for field_name, attached_file in form_object.attached_files:
+					try:
+						zip_file.writestr(
+							' '.join((form_object.model_name(), form_object.id_field_value or form_object.label_fields_as_str(), field_name)),
+							attached_file.read()
+						)
+					except ValueError: # this field is empty, no problem
+						continue
+
+		response = HttpResponse(mimetype="application/zip")
+		response["Content-Disposition"] = "attachment; filename=%s_images.zip" % (self.model.__name__ if self.model else 'all')
+
+		in_memory.seek(0)    
+		response.write(in_memory.read())
+		return response
+
 
 class UserRegistration(SuccessRedirectMixin, CreateView):
 	template_name = 'web/user_registration.html'

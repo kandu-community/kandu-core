@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'autocomplete_light',
     'sorl.thumbnail',
     'raven.contrib.django.raven_compat',
+    'django_extensions',
     'forms',
     'web',
     'api',
@@ -154,7 +155,7 @@ LOGGING = {
 GEOIP_LIBRARY_PATH = os.environ.get('GEOIP_LIBRARY_PATH', '/usr/lib64/libGeoIP.so')
 GMAPI_JQUERY_URL = "None" # workaround for jQuery conflict
 GMAPI_MAPS_URL = '//maps.google.com/maps/api/js?sensor=false' # a protocol-relative url, to support both http and https
-
+POSTGIS_VERSION = (2, 1, 3)
 RAVEN_CONFIG = {
     'dsn': 'https://bdd1868a423340acbfb1a17d557b8312:da41c8aa10b6430587de1f59a16ebe9c@app.getsentry.com/32300',
 }

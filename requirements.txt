@@ -7,7 +7,7 @@ south
 django-model-utils
 django-multiselectfield
 hg+https://bitbucket.org/dbinit/django-gmapi#egg=django-gmapi-new
-django-autocomplete-light
+django-autocomplete-light==2.3.3
 django-extra-views
 sorl-thumbnail
 raven
@@ -15,3 +15,4 @@ fabric
 fabtools
 jinja2
 django-dotenv
+django-extensions
